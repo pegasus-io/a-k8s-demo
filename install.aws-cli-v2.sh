@@ -23,19 +23,23 @@ export OPS_HOME=$(pwd)
 # the installation would fail.
 mkdir -p ~/.a-k8s-demo/aws_cli
 export PROVISIONING_HOME=$(mktemp  --tmpdir=/home/${USER}/.a-k8s-demo/aws_cli -d -t provisioning.${HORODATAGE}.XXX)
-export AWS_CLI_VERSION=${AWS_CLI_VERSION:-'1.17.4'}
-export AWS_CLI_PACKAGE_DWNLD_URI=https://github.com/kubernetes/kubernetes/releases/download/v${AWS_CLI_VERSION}/kubernetes.tar.gz
-export AWS_CLI_PACKAGE_FILENAME=$(echo $AWS_CLI_PACKAGE_DWNLD_URI|awk -F '/' '{print $NF}')
+# unused yet, AWS releases only major versions
+export AWS_CLI_VERSION=${AWS_CLI_VERSION:-'0.0.0'}
+export AWS_CLI_MAJOR_VERSION=${AWS_CLI_MAJOR_VERSION:-'2'}
+export AWS_CLI_PACKAGE_DWNLD_URI=https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+export AWS_CLI_PACKAGE_FILENAME=awscliv2.zip
 
 echo ""
-echo "Downloading [$AWS_CLI_PACKAGE_FILENAME] version [$AWS_CLI_VERSION] ..."
+echo "Downloading [$AWS_CLI_PACKAGE_FILENAME] ..."
 echo ""
 
-# [-c] option to continue / resume downloads on network hiccups
-wget -c $AWS_CLI_PACKAGE_DWNLD_URI
+
+curl "" -o "awscliv2.zip"
+
 
 echo ""
-echo "Installing [$AWS_CLI_PACKAGE_FILENAME] version [$AWS_CLI_VERSION] to [$PROVISIONING_HOME] ..."
+echo "Installing [$AWS_CLI_PACKAGE_FILENAME] major version [$AWS_CLI_MAJOR_VERSION] from [$PROVISIONING_HOME] ..."
 echo ""
-
-tar -xvf $AWS_CLI_PACKAGE_FILENAME -C $PROVISIONING_HOME
+ls -allh $PROVISIONING_HOME/aws
+unzip $AWS_CLI_PACKAGE_FILENAME -d $PROVISIONING_HOME
+sudo $PROVISIONING_HOME/aws/install
