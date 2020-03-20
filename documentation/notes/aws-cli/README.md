@@ -20,3 +20,8 @@ As mentioned [in the official documentation](https://docs.aws.amazon.com/cli/lat
 >
 
 I will first provision the `AWS CLI` in its latest version, because I will use it against AWS Free Tier, which certainly will welcome the latest version of the CLI.
+
+
+# HashiCorp Vault and AWS CLI
+
+TODO : add provisioning hashi credential helper

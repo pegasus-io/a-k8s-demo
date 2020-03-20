@@ -2,7 +2,7 @@
 
 export HORODATAGE=`date +%m-%d-%Y_%Hh-%Mmin-%Ssec`
 export OPS_HOME=$(pwd)
-export PROVISIONING_HOME=$(mktemp -d -t a-k8s-demo.${HORODATAGE}.provisioning-XXXXXXXXXX)
+export PROVISIONING_HOME=$(mktemp --tmpdir=/home/${USER}/.a-k8s-demo/k8s -d -t provisioning.${HORODATAGE}.XXX)
 
 export KUBERNETES_VERSION=${KUBERNETES_VERSION:-'1.17.4'}
 export K8S_PACKAGE_DWNLD_URI=https://github.com/kubernetes/kubernetes/releases/download/v${KUBERNETES_VERSION}/kubernetes.tar.gz
