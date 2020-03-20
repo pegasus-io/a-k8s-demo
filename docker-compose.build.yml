@@ -4,17 +4,48 @@ services:
 
   awscli_v2:
     image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
+    build:
+      context: oci/aws-cli/v2/
+      args:
+        - PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME
     entrypoint: ["aws", "--version"]
     command: ["/bin/sh"]
+    # volumes:
+      # - aws-cli/operatorN:/aws/playground:rw
 
   awscli-v1:
     image: jblass3ll3.world/a-k8s-demo/aws-cli-v1:0.0.1
+    build:
+      context: oci/aws-cli/v1/
+      args:
+        - PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME
     entrypoint: ["aws", "--version"]
     command: ["/bin/sh"]
+    # volumes:
+      # - aws-cli/operatorN:/aws/playground:rw
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   ansible_operator:
-    hostname: 'jblass3ll3.world.resume_example_local_deploy.pokus.io'
-    image: jblass3ll3.world/a-k8s-demo/ansible:0.0.1
     build:
       context: oci/ansible/
       args:

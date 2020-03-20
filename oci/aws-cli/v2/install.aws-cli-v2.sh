@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # ------
 #
@@ -13,6 +13,7 @@
 #
 # ------
 
+set +x
 export HORODATAGE=`date +%m-%d-%Y_%Hh-%Mmin-%Ssec`
 export OPS_HOME=$(pwd)
 
