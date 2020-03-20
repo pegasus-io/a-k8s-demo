@@ -2,6 +2,25 @@ version: '3.2'
 
 services:
 #
+# ----------- HELM OPS to operate the AWS IAAS and the Kubernetes Cluster inside of the AWS tenant
+  kubeone_operator:
+    # image: jblass3ll3.world/a-k8s-demo/kubeone_operator:0.0.1
+    # From docker.io
+    image: pegasusio/creshtest_kubeone_operator:0.0.1
+    environment:
+      - SSH_URI_TO_HELM_CHART=$SSH_URI_TO_HELM_CHART
+
+#
+# ----------- HELM OPS to deploy the NodeJS Express TypeScript App
+  helm_operator_deployer:
+    # image: jblass3ll3.world/a-k8s-demo/helm_operator:0.0.1
+    # From docker.io
+    image: pegasusio/creshtest_helm_operator:0.0.1
+    environment:
+      - SSH_URI_TO_HELM_CHART=$SSH_URI_TO_HELM_CHART
+
+
+#
 # ----------- ANSIBLE OPS
   # -------->>
   # -------->> Playbook ansible permettant de provisionner le cluster K8S sur AWS
