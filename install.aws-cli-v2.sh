@@ -34,12 +34,14 @@ echo "Downloading [$AWS_CLI_PACKAGE_FILENAME] ..."
 echo ""
 
 
-curl "" -o "awscliv2.zip"
+curl "$AWS_CLI_PACKAGE_DWNLD_URI" -o "$AWS_CLI_PACKAGE_FILENAME"
 
 
 echo ""
 echo "Installing [$AWS_CLI_PACKAGE_FILENAME] major version [$AWS_CLI_MAJOR_VERSION] from [$PROVISIONING_HOME] ..."
 echo ""
-ls -allh $PROVISIONING_HOME/aws
 unzip $AWS_CLI_PACKAGE_FILENAME -d $PROVISIONING_HOME
+ls -allh $PROVISIONING_HOME/aws
 sudo $PROVISIONING_HOME/aws/install
+
+aws --version
