@@ -37,7 +37,7 @@ The source code is under the `./source.code/` folder in this git repository.
 * Once meeting requirements, you can use the following cyle, to contirbute to this recipe : 
 
 ```bash
-export WORK_HOME=~/ever-iaac-atom-w
+export WORK_HOME=~/a-k8s-demo-atom-w
 # -- IAAC ENV when I work on the present repo
 export SSH_URI_TO_THIS_REPO=git@github.com:pegasus-io/a-k8s-demo.git
 
