@@ -1,0 +1,43 @@
+version: '3.2'
+
+services:
+
+  awscli_v2:
+    image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
+    entrypoint: ["aws", "--version"]
+    command: ["/bin/sh"]
+
+  awscli-v1:
+    image: jblass3ll3.world/a-k8s-demo/aws-cli-v1:0.0.1
+    entrypoint: ["aws", "--version"]
+    command: ["/bin/sh"]
+
+  ansible_operator:
+    hostname: 'jblass3ll3.world.resume_example_local_deploy.pokus.io'
+    image: jblass3ll3.world/a-k8s-demo/ansible:0.0.1
+    build:
+      context: oci/ansible/
+      args:
+        - PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME
+    entrypoint: ["aws", "--version"]
+    command: ["/bin/bash"]
+    environment:
+      - PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME
+      - BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME=$BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME
+      - BUMBLEBEE_GIT_SSH_COMMAND=$BUMBLEBEE_GIT_SSH_COMMAND
+      # that's the ansible playbook who knows how to deploymyhugo resume to this pipeline's local deployement target.
+      - SSH_URI_TO_ANSIBLE_PLAYBOOK=$SSH_URI_TO_ANSIBLE_PLAYBOOK
+      # + ccc
+    volumes:
+      - $BUMBLEBEE_SECRET_VAULT_OUTSIDE_CONTAINER:/ansiblebee/.secrets:rw
+      - ./ansible/workspace:/ansiblebee/workspace:rw
+    # ---------------------------------------------
+    # in case I want an interactive shell session
+    # --
+    # stdin_open:       true
+    # --
+    # tty:              true
+    # --
+    # restart: always
+    # ---------------------------------------------
+    restart: 'no'

@@ -1,0 +1,27 @@
+version: '3.2'
+
+services:
+
+  awscli-op1:
+    image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+    command: sh -c "aws autoscaling describe-auto-scaling-groups | jq -r '.AutoScalingGroups[] | select(.AutoScalingGroupName | startswith(\"${STACK_NAME}-NodeAsg\")).AutoScalingGroupName'"
+
+  awscli-op2:
+    image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+    command: sh -c "aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names $ASG_NAME | jq '.AutoScalingGroups[0].DesiredCapacity'"
+
+  awscli-op3:
+    image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+    command: sh -c "aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME --desired-capacity $ASG_DESIRED_CAPACITY"

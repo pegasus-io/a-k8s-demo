@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # ------
 #
 # This script instals AWS CLI (major) version '2'
@@ -26,7 +25,7 @@ export PROVISIONING_HOME=$(mktemp  --tmpdir=/home/${USER}/.a-k8s-demo/aws_cli -d
 # unused yet, AWS releases only major versions
 export AWS_CLI_VERSION=${AWS_CLI_VERSION:-'0.0.0'}
 export AWS_CLI_MAJOR_VERSION=${AWS_CLI_MAJOR_VERSION:-'2'}
-export AWS_CLI_PACKAGE_DWNLD_URI=https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+export AWS_CLI_PACKAGE_DWNLD_URI=${AWS_CLI_PACKAGE_DWNLD_URI:-'https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip'}
 export AWS_CLI_PACKAGE_FILENAME=awscliv2.zip
 
 echo ""
@@ -42,6 +41,13 @@ echo "Installing [$AWS_CLI_PACKAGE_FILENAME] major version [$AWS_CLI_MAJOR_VERSI
 echo ""
 unzip $AWS_CLI_PACKAGE_FILENAME -d $PROVISIONING_HOME
 ls -allh $PROVISIONING_HOME/aws
-sudo $PROVISIONING_HOME/aws/install
 
-aws --version
+$PROVISIONING_HOME/aws/install
+
+if [ $? == 0 ]; then
+  aws --version
+else
+  echo "Installing AWS CLI v2 failed, mzybe because you are not executing this as root"
+  exit 1
+fi;
+echo''
