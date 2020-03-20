@@ -46,6 +46,7 @@ services:
 
 
   ansible_operator:
+    image: jblass3ll3.world/a-k8s-demo/ansible_operator:0.0.1
     build:
       context: oci/ansible/
       args:

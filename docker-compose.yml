@@ -3,6 +3,35 @@ version: '3.2'
 services:
 #
 # ----------- ANSIBLE OPS
+  # -------->>
+  # -------->> Playbook ansible permettant de provisionner le cluster K8S sur AWS
+  ansible_k8s_provisioner:
+    hostname: 'ansible_k8s_provisioner.a-k8s-demo.io'
+    container_name: "ansible_k8s_provisioner"
+    image: image: jblass3ll3.world/a-k8s-demo/ansible_operator:0.0.1
+    environment:
+      - PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME
+      - BUMBLEBEE_HOME_INSIDE_CONTAINER=$BUMBLEBEE_HOME_INSIDE_CONTAINER
+      - BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME=$BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME
+      - BUMBLEBEE_GIT_SSH_COMMAND=$BUMBLEBEE_GIT_SSH_COMMAND
+      # that's the ansible playbook who knows how to deploymyhugo resume to this pipeline's local deployment target.
+      - SSH_URI_TO_ANSIBLE_PLAYBOOK=$SSH_URI_TO_ANSIBLE_PLAYBOOK
+    volumes:
+      - $BUMBLEBEE_SECRET_VAULT_OUTSIDE_CONTAINER:$BUMBLEBEE_HOME_INSIDE_CONTAINER/.secrets:rw
+    # ---------------------------------------------
+    # [docker [run|exec] -it ...]
+    # stdinURI_DWNLD_STARTER_EXAMPLE_CONFIG
+    stdin_open:       true
+    # stdout
+    tty:              true
+    # ---------------------------------------------
+    # restart: always
+    restart: 'no'
+        # ---------------------------------------------
+    # restart: always
+    restart: 'no'
+    extra_hosts:
+     - "${LOCAL_DEPLOYMENT_TARGET_HOSTNAME}:${NET_INTERFACE_SSH_DEPLOYMENT_TARGET}"
 
 #
 # ----------- AWS CLI OPS
