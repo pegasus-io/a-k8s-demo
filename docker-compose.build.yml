@@ -3,7 +3,8 @@ version: '3.2'
 services:
 
   awscli_v2:
-    image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
+    # image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
+    image: pegasusio/creshtest_aws-cli-v2:0.0.1
     build:
       context: oci/aws-cli/v2/
       args:
@@ -14,7 +15,9 @@ services:
       # - aws-cli/operatorN:/aws/playground:rw
 
   awscli-v1:
-    image: jblass3ll3.world/a-k8s-demo/aws-cli-v1:0.0.1
+    # image: jblass3ll3.world/a-k8s-demo/aws-cli-v1:0.0.1
+    # From docker.io
+    image: pegasusio/creshtest_aws-cli-v1:0.0.1
     build:
       context: oci/aws-cli/v1/
       args:
@@ -24,29 +27,10 @@ services:
     # volumes:
       # - aws-cli/operatorN:/aws/playground:rw
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   ansible_operator:
-    image: jblass3ll3.world/a-k8s-demo/ansible_operator:0.0.1
+    # image: jblass3ll3.world/a-k8s-demo/ansible_operator:0.0.1
+    # From docker.io
+    image: pegasusio/creshtest_ansible_operator:0.0.1
     build:
       context: oci/ansible/
       args:
@@ -73,3 +57,21 @@ services:
     # restart: always
     # ---------------------------------------------
     restart: 'no'
+
+
+  kubeone_operator:
+    # image: jblass3ll3.world/a-k8s-demo/kubeone_operator:0.0.1
+    # From docker.io
+    image: pegasusio/creshtest_kubeone_operator:0.0.1
+    build:
+      context: oci/kubeone_operator/
+      args:
+        - CCC=$CCC
+  helm_operator:
+    # image: jblass3ll3.world/a-k8s-demo/helm_operator:0.0.1
+    # From docker.io
+    image: pegasusio/creshtest_helm_operator:0.0.1
+    build:
+      context: oci/helm_operator/
+      args:
+        - CCC=$CCC

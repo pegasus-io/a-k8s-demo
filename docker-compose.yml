@@ -8,7 +8,8 @@ services:
   ansible_k8s_provisioner:
     hostname: 'ansible_k8s_provisioner.a-k8s-demo.io'
     container_name: "ansible_k8s_provisioner"
-    image: image: jblass3ll3.world/a-k8s-demo/ansible_operator:0.0.1
+    # image: image: jblass3ll3.world/a-k8s-demo/ansible_operator:0.0.1
+    image: pegasusio/creshtest_ansible_operator:0.0.1
     environment:
       - PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME
       - BUMBLEBEE_HOME_INSIDE_CONTAINER=$BUMBLEBEE_HOME_INSIDE_CONTAINER
@@ -36,7 +37,8 @@ services:
 #
 # ----------- AWS CLI OPS
   awscli-op1:
-    image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
+    # image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
+    image: pegasusio/creshtest_aws-cli-v2:0.0.1
     environment:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
@@ -46,7 +48,8 @@ services:
       - aws-cli/operator1:/aws/playground:rw
 
   awscli-op2:
-    image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
+    # image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
+    image: pegasusio/creshtest_aws-cli-v2:0.0.1
     environment:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
@@ -56,7 +59,8 @@ services:
       - aws-cli/operator2:/aws/playground:rw
 
   awscli-op3:
-    image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
+    # image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
+    image: pegasusio/creshtest_aws-cli-v2:0.0.1
     environment:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
