@@ -25,16 +25,46 @@ export TERRAGRUNT_OS=${TERRAGRUNT_OS:-'linux'}
 #
 export TERRAGRUNT_CPUARCH=${TERRAGRUNT_CPUARCH:-'amd64'}
 
-export TERRAGRUNT_PKG_DWLD_URI="https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT_VERSION}/terragrunt_${TERRAGRUNT_OS}_${TERRAGRUNT_CPUARCH}"
+export TERRAGRUNT_EXE_DWLD_URI="https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT_VERSION}/terragrunt_${TERRAGRUNT_OS}_${TERRAGRUNT_CPUARCH}"
+export TERRAGRUNT_CHECKSUMS_DWLD_URI="https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT_VERSION}/SHA256SUMS"
 
 
 
 # ---
 # That's where we 'll install Kubeone on the nix system' filesystem
-export TERRAGRUNT_INTALLATION_HOME=${TERRAGRUNT_INTALLATION_HOME:-"$BUMBLEBEE_HOME_INSIDE_CONTAINER/"}
+
+export TERRAGRUNT_INSTALLATION_HOME=${TERRAGRUNT_INSTALLATION_HOME:-"$BUMBLEBEE_HOME_INSIDE_CONTAINER/terragrunt/installations/${TERRAGRUNT_VERSION}/"}
+
+mkdir -p $TERRAGRUNT_INSTALLATION_HOME
 # ---
-# Downloading KubeOne executable
+# Downloading Terragrunt executable
+# ./terragrunt_${TERRAGRUNT_OS}_${TERRAGRUNT_CPUARCH}
+curl -LO "$TERRAGRUNT_EXE_DWLD_URI"
 
-curl -LO "$TERRAGRUNT_PKG_DWLD_URI"
 
-unzip ./kubeone_${TERRAGRUNT_VERSION}_${TERRAGRUNT_OS}_${TERRAGRUNT_CPUARCH}.zip -d $TERRAGRUNT_INSTALLATION_HOME
+curl -LO "$TERRAGRUNT_CHECKSUMS_DWLD_URI"
+
+# ----
+# Now Checking integrity of all downloads Ah les sommes de contôle
+cat ./SHA256SUMS | grep ${TERRAGRUNT_OS} | grep ${TERRAGRUNT_CPUARCH} | tee ./terragrunt.v.${TERRAGRUNT_VERSION}.${TERRAGRUNT_OS}.${TERRAGRUNT_CPUARCH}.integrity.checksums
+terraformCheckSumsCompromisedDwnld () {
+  echo "The integrity of the downloaded Terragrunt executable is compromised."
+  echo "The checksums provided in the [$(pwd)/terragrunt.v.${TERRAGRUNT_VERSION}.${TERRAGRUNT_OS}.${TERRAGRUNT_CPUARCH}.integrity.checksums] file containing : "
+  echo ''
+  cat ./terragrunt.v.${TERRAGRUNT_VERSION}.${TERRAGRUNT_OS}.${TERRAGRUNT_CPUARCH}.integrity.checksums
+  echo ''
+  echo "Proved the download to be compromised."
+  echo "You can yourself check this runjing the following command in the [$(pwd)] folder : "
+  echo ''
+  echo "   cat ./terragrunt.v.${TERRAGRUNT_VERSION}.${TERRAGRUNT_OS}.${TERRAGRUNT_CPUARCH}.integrity.checksums "
+  echo ''
+  # The docker build shoudl fail here so we exit with return code different from zero
+  exit 2
+}
+sha256sum -c ./terragrunt.v.${TERRAGRUNT_VERSION}.${TERRAGRUNT_OS}.${TERRAGRUNT_CPUARCH}.integrity.checksums || terraformCheckSumsCompromisedDwnld
+
+cp ./terragrunt_${TERRAGRUNT_OS}_${TERRAGRUNT_CPUARCH} ./terragrunt
+cp ./terragrunt $TERRAGRUNT_INSTALLATION_HOME && rm -f ./terragrunt && rm -f ./terragrunt_${TERRAGRUNT_OS}_${TERRAGRUNT_CPUARCH}
+
+
+ln -s $TERRAFORM_INTALLATION_HOME/terragrunt /usr/local/bin/terragrun

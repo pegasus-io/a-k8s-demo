@@ -10,8 +10,33 @@ Using version `Atlantis` version `x.y.z` : `March 2020`
 
 ```bash
 
-export GH_TOKEN=ea1beefea1beef42553Xf
+export EXPRESS_NODE_APPLICATION_DOCKER_ORG=pegasusio
 
+docker build -t ${EXPRESS_NODE_APPLICATION_DOCKER_ORG}/atlantis-cresh:0.0.1 .
+
+
+export ATLANTIS_GH_TOKEN=ea1beefea1beef42553Xf
+export ATLANTIS_GH_USERNAME='Jean-Baptiste-Lasselle'
+export ATLANTIS_URL="http://pegasusio.io"
+export ATLANTIS_GH_WEBHOOK_SECRET=""
+export ATLANTIS_REPO_WHITELIST="github.com;140.82.118.4"
+
+
+# ----
+# without webhook secret :
+docker run --name jblatlantis -p 34141:4141 ${EXPRESS_NODE_APPLICATION_DOCKER_ORG}/atlantis-cresh:0.0.1 server --gh-user=${ATLANTIS_GH_USERNAME} --gh-token=${ATLANTIS_GH_TOKEN} --repo-whitelist=${ATLANTIS_REPO_WHITELIST} --atlantis-url=${ATLANTIS_URL}
+
+# ----
+# with webhook secret :
+docker run --name jblatlantis -p 34141:4141 ${EXPRESS_NODE_APPLICATION_DOCKER_ORG}/atlantis-cresh:0.0.1 server --gh-user=${ATLANTIS_GH_USERNAME} --gh-token=${ATLANTIS_GH_TOKEN} --repo-whitelist=${ATLANTIS_REPO_WHITELIST} --atlantis-url=${ATLANTIS_URL} --gh-webhook-secret=${ATLANTIS_GH_WEBHOOK_SECRET}
+
+```
+* Output that I get, running atlantis without a github webook secret :
+
+```bash
+jbl@poste-devops-typique:~/atlantis$ docker run --name jblatlantis -p 34141:4141 ${EXPRESS_NODE_APPLICATION_DOCKER_ORG}/atlantis-cresh:0.0.1 server --gh-user=${ATLANTIS_GH_USERNAME} --gh-token=${ATLANTIS_GH_TOKEN} --repo-whitelist=${ATLANTIS_REPO_WHITELIST} --atlantis-url=${ATLANTIS_URL}
+2020/03/21 23:52:21+0000 [WARN] cmd: No GitHub webhook secret set. This could allow attackers to spoof requests from GitHub
+2020/03/21 23:52:22+0000 [INFO] server: Atlantis started - listening on port 4141
 
 
 ```
