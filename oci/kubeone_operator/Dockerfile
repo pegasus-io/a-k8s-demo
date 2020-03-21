@@ -40,9 +40,12 @@ ENV COMMIT_MESSAGE=$TAG_MESSAGE
 # --------------------------------
 #
 
-ARG BUMBLEBEE_HOME_INSIDE_CONTAINER=/ansiblebee
-ENV BUMBLEBEE_HOME_INSIDE_CONTAINER=/ansiblebee
+ARG BUMBLEBEE_HOME_INSIDE_CONTAINER=/kubeonebee
+ENV BUMBLEBEE_HOME_INSIDE_CONTAINER=/kubeonebee
 
+
+# ---
+# Where my robot works for you
 ARG BUMBLEBEE_WORKSPACE_INSIDE_CONTAINER=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace
 ENV BUMBLEBEE_WORKSPACE_INSIDE_CONTAINER=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace
 
@@ -87,9 +90,36 @@ ENV SSH_URI_TO_ATLANTIS_WATCHED_GIT=$SSH_URI_TO_ATLANTIS_WATCHED_GIT
 # il faudra donc faire un 'go install', avant tout 'terraform init' :
 # => Comment configurer Atlantis pour qu'il exécute ce go install ?  Intéressant, masi trop complexe pour arriver à l'objectif
 # => À la pace, avant de faire le git commit and push de mon terraform dans le repo [$SSH_URI_TO_ATLANTIS_WATCHED_GIT], je vais exécuter le go install qui va faire le git clone du module terrraform qu'est devenu mon playbook ansible.
-# 
+#
 #
 ENV SSH_URI_TO_ANSIBLE_HELM_OPERATOR=$SSH_URI_TO_ANSIBLE_HELM_OPERATOR
+# --- --------------------------
+#  -- KUBEONE KUBEONE_VERSION
+# --- --------------------------
+
+# ---
+# Can be a commit hash, a branch name, or a tag (be it a release or not).
+# from this git repo : https://github.com/kubermatic/kubeone
+# I privately mirror it on git@gitlab.com/second-bureau:bellerophon/k8s-aws/kubeone/kubeone.git
+# You should also reference your own private mirror of this repo, in your automation recipes
+# because then you will remove any external service build time and runtime dependency from
+# your CI/CD factory, your pipelines run faster, with more reliability.
+ARG KUBEONE_VERSION=${KUBEONE_VERSION:-'0.11.0'}
+# ---
+# can be :
+# => 'darwin' (mac os)
+# => 'linux' (for any GNU/Linux distrib.)
+# Kubeone does not support Windows
+#
+ARG KUBEONE_OS=${KUBEONE_OS:-'linux'}
+ARG KUBEONE_CPUARCH=${KUBEONE_CPUARCH:-'amd64'}
+
+# ---
+# Where KUBEONE Is isntalled on the system, for
+# all users in the kubeone group, the beeio user
+# that executes the terraform init/plan/apply
+#
+ARG KUBEONE_INSTALLATION_HOME=$BUMBLEBEE_HOME_INSIDE_CONTAINER/installation/$KUBEONE_VERSION
 
 
 USER root
@@ -100,7 +130,7 @@ USER root
 # => [git] : to be able to git clone the git repo versioning the ansible playbook.
 # => [openssh-server openssh-client] : utilities to connect to deployments targets, and execute operations on them, using SSH.
 # => [curl wget] : utilities to download dependencies as raw files,without any [git clone]
-RUN yum update -y && yum install -y git curl wget openssh-server openssh-client
+RUN apk update && apk add bash curl git git-flow curl wget openssh-server openssh-client
 
 
 # RUN mkdir -p $BUMBLEBEE_HOME_INSIDE_CONTAINER/.secrets
@@ -108,17 +138,17 @@ RUN mkdir -p $BUMBLEBEE_WORKSPACE_INSIDE_CONTAINER
 
 # Built-in Pipeline Step operations
 COPY init-iaac.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
-COPY execute.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
+COPY install-kubeone.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
 
 RUN chmod +x $BUMBLEBEE_HOME_INSIDE_CONTAINER/*.sh
 
-VOLUME /ansiblebee/.secrets
+VOLUME /kubeonebee/.secrets
 
-WORKDIR /ansiblebee
+WORKDIR /kubeonebee
 
-# HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "/ansiblebee/pipeline-step.healthcheck.sh" ]
+# HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "/kubeonebee/pipeline-step.healthcheck.sh" ]
 
-ENTRYPOINT ["/ansiblebee/execute.sh"]
+ENTRYPOINT ["/kubeonebee/install-kubeone.sh"]
 
 #
 # I want bash inside, not just /bin/sh, because
