@@ -30,6 +30,10 @@ docker run --name jblatlantis -p 34141:4141 ${EXPRESS_NODE_APPLICATION_DOCKER_OR
 # with webhook secret :
 docker run --name jblatlantis -p 34141:4141 ${EXPRESS_NODE_APPLICATION_DOCKER_ORG}/atlantis-cresh:0.0.1 server --gh-user=${ATLANTIS_GH_USERNAME} --gh-token=${ATLANTIS_GH_TOKEN} --repo-whitelist=${ATLANTIS_REPO_WHITELIST} --atlantis-url=${ATLANTIS_URL} --gh-webhook-secret=${ATLANTIS_GH_WEBHOOK_SECRET}
 
+
+echo " Now give atlantis a visit at [$ATLANTIS_URL:34141] "
+# http://pegasusio.io:34141
+
 ```
 * Output that I get, running atlantis without a github webook secret :
 
