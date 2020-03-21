@@ -123,7 +123,9 @@ ARG KUBEONE_INSTALLATION_HOME=$BUMBLEBEE_HOME_INSIDE_CONTAINER/installation/$KUB
 
 
 # TODO : create BEEIO NON-ROOT USER IN DOCKER IMAGE
-
+# KUBEONE Installation is done byu the root user.
+# KUBEONE, terraform and git commands are executed by
+# beeio non root user, at runtime.
 USER root
 
 # -------------------
