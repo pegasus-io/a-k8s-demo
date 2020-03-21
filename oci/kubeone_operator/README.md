@@ -1,4 +1,4 @@
-# KubeOne iamage defintion
+# KubeOne image defintion
 
 Using version `KubeOne` version `0.11.0` : `March 2020`
 
