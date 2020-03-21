@@ -131,7 +131,7 @@ USER root
 # -------------------
 # Installing :
 #
-# => [git] : to be able to git clone the git repo versioning the ansible playbook.
+# => [git/git flow] : to be able to git flow over the SSH_URI_TO_ATLANTIS_WATCHED_GIT and git clone from the other git repos.
 # => [openssh-server openssh-client] : utilities to connect to deployments targets, and execute operations on them, using SSH.
 # => [curl wget] : utilities to download dependencies as raw files,without any [git clone]
 RUN apk update && apk add bash curl git git-flow curl wget openssh-server openssh-client
@@ -140,16 +140,36 @@ RUN apk update && apk add bash curl git git-flow curl wget openssh-server openss
 # RUN mkdir -p $BUMBLEBEE_HOME_INSIDE_CONTAINER/.secrets
 RUN mkdir -p $BUMBLEBEE_WORKSPACE_INSIDE_CONTAINER
 
+# ---------------------------------------------------------
 # Built-in Pipeline Step operations
+# ---------------------------------------------------------
+
+COPY create-bee-user.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
 COPY init-iaac.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
 COPY install-kubeone.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
 
 RUN chmod +x $BUMBLEBEE_HOME_INSIDE_CONTAINER/*.sh
 
+# ---------------------------------------------------------
+# TODO : create BEEIO NON-ROOT USER IN DOCKER IMAGE
+# KUBEONE Installation is done by the root user.
+# KUBEONE, terraform and git commands are executed by
+# beeio non root user, at runtime.
+# ---------------------------------------------------------
+RUN $BUMBLEBEE_HOME_INSIDE_CONTAINER/create-bee-user.sh
+# create-bee-user.sh creates a user 'beeio' and its group, 'bumblebee' group
+# So we create :
+# --> the kubeone group : only those in this group will be allowed to execute the kubeone executable.
+# --> the terraform group : only those in this group will be allowed to execute the kubeone executable.
+# And we add 'beeio' robot user to both groups.
+RUN chown :bumblebee -R $BUMBLEBEE_HOME_INSIDE_CONTAINER
+RUN chown :kubeone -R $BUMBLEBEE_HOME_INSIDE_CONTAINER
+RUN chown :terraform -R $BUMBLEBEE_HOME_INSIDE_CONTAINER
+
+# ---------------------------------------------------------
 VOLUME /kubeonebee/.secrets
 
 WORKDIR /kubeonebee
-
 # HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "/kubeonebee/pipeline-step.healthcheck.sh" ]
 
 ENTRYPOINT ["/kubeonebee/install-kubeone.sh"]
