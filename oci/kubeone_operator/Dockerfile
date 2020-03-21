@@ -172,8 +172,8 @@ RUN usermod -aG beeio kubeone terraform
 
 RUN chown :bumblebee -R $BUMBLEBEE_HOME_INSIDE_CONTAINER
 
-RUN # NON DANS LE SCRIPT INSTALL KUBEONE # chown :kubeone -R $BUMBLEBEE_HOME_INSIDE_CONTAINER
-RUN # NON DANS LE SCRIPT INSTALL TERRAFORM # chown :terraform -R $BUMBLEBEE_HOME_INSIDE_CONTAINER
+RUN # NON DANS LE SCRIPT INSTALL KUBEONE # chown :kubeone -R $BUMBLEBEE_HOME_INSIDE_CONTAINER/kubeone
+RUN # NON DANS LE SCRIPT INSTALL TERRAFORM # chown :terraform -R $BUMBLEBEE_HOME_INSIDE_CONTAINER/terraform
 
 # ---------------------------------------------------------
 VOLUME /kubeonebee/.secrets
