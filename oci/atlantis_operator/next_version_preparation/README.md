@@ -2,8 +2,6 @@
 
 Using version `Atlantis` version `x.y.z` : `March 2020`
 
-The Git Repo in which the terraform Recipe and state is versioned, is https://github.com/pegasus-io/example-cresh-atlantic-infra
-
 ## Installing `Atlantis` in the base alpine image
 
 * `Atlantis` can be installed on linux and MacOS, but not windows.
@@ -76,21 +74,9 @@ atlantis server --config /path/to/config.yaml --repo-config /path/2/repo-config.
 ```Yaml
 # -- minimal config for atlantis to be able to run on a repo.
 #
-# Donc ici, toutes les options que j'ai déjà passées à la commande 'server', au docker run :
+# DOnc ici, toutes les options que j'ai déjà passées à la commande 'server', au docker run :
 
-# ---
-#
-#
-#  --gh-user=${ATLANTIS_GH_USERNAME}
-gh-user: "Jean-Baptiste-Lasselle"
-#  --gh-token=${ATLANTIS_GH_TOKEN}
-gh-token: "3543435415343"
-#  --repo-whitelist=${ATLANTIS_REPO_WHITELIST}
-repo-whitelist: "ATLANTIS_REPO_WHITELIST_JINJA2_VAR"
-#  --atlantis-url=${ATLANTIS_URL}
-atlantis-url: "ATLANTIS_URL_JINJA2_VAR"
-#  --gh-webhook-secret=${ATLANTIS_GH_WEBHOOK_SECRET}
-gh-webhook-secret: "ATLANTIS_GH_WEBHOOK_SECRET_JINJA2_VAR"
+gh-token:
 ```
 
 * contenu de `/path/2/repo-config.yaml` :
@@ -102,10 +88,3 @@ gh-webhook-secret: "ATLANTIS_GH_WEBHOOK_SECRET_JINJA2_VAR"
 
 gh-token:
 ```
-
-
-# Minimal Permissions I tested
-
-## Github User Token (developer settings)
-
-![tested gh permissions](ccccc)
