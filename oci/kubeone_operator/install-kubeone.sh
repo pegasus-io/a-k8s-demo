@@ -27,8 +27,23 @@ export KUBEONE_PKG_DWLD_URI="https://github.com/kubermatic/kubeone/releases/down
 # That's where we 'll install Kubeone on the nix system' filesystem
 export KUBEONE_INTALLATION_HOME=
 # ---
-# Downloading KubeOne executable
+# Downloading KubeOne officially distributed package : a zip
+#
+curl -LO ${KBONE_PKG_DWNLD_URI}
 
-curl -LO "$KUBEONE_PKG_DWLD_URI"
+curl -LO ${KUBEONE_CHKSUMS_DWNLD_URI}
 
-unzip ./kubeone_${KUBEONE_VERSION}_${KUBEONE_OS}_${KUBEONE_CPUARCH}.zip -d $KUBEONE_INSTALLATION_HOME
+cat kubeone_${KUBEONE_VERSION}_checksums.txt | grep ${KUBEONE_OS} | grep ${KUBEONE_CPU_ARCH} | tee ./kubeone_checksums.txt
+
+sha256sum -c ./kubeone_checksums.txt
+if [ "$?" == "0" ]; then
+  echo "Successfully checked integrity of the downloaded kubeone version ${KUBEONE_VERSION} package for ${KUBEONE_OS} OS on ${KUBEONE_CPU_ARCH} cpu"
+  echo "Proceeding installation"
+  unzip -d kubeone_${KUBEONE_VERSION}_${KUBEONE_OS}_${KUBEONE_CPU_ARCH}.zip ${KUBEONE_INSTALLATION_HOME}/
+  ln -s ${KUBEONE_INSTALLATION_HOME}/kubeone /usr/local/bin/kubeone
+else
+  echo "Integrity check failed for the downloaded kubeone version ${KUBEONE_VERSION} package for ${KUBEONE_OS} OS on ${KUBEONE_CPU_ARCH} cpu"
+  echo "check yourself the integrity breach running the following command : "
+  echo "   cd ${WORKDIR} && sha256sum -c sha256sum -c ./kubeone_checksums.txt"
+  exit 3
+fi;

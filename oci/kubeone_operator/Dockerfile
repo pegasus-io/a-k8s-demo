@@ -1,5 +1,8 @@
-FROM alpine:3.11.3
-
+FROM golang:1.14.1-alpine3.11
+# ----------------------------
+# FROM alpine:3.11.3
+# We need the golang env to gracefully work with terraform modules.
+#
 
 LABEL maintainer="Jean-Baptiste-Lasselle <jean.baptiste.lasselle.pegasus@gmail.com>"
 LABEL author="Jean-Baptiste-Lasselle <jean.baptiste.lasselle.pegasus@gmail.com>"
@@ -119,7 +122,30 @@ ARG KUBEONE_CPUARCH=${KUBEONE_CPUARCH:-'amd64'}
 # all users in the kubeone group, the beeio user
 # that executes the terraform init/plan/apply
 #
-ARG KUBEONE_INSTALLATION_HOME=$BUMBLEBEE_HOME_INSIDE_CONTAINER/installation/$KUBEONE_VERSION
+ARG KUBEONE_INSTALLATION_HOME=$BUMBLEBEE_HOME_INSIDE_CONTAINER/kubeone/installation/$KUBEONE_VERSION
+
+# ---
+# Can be a commit hash, a branch name, or a tag (be it a release or not).
+# from this git repo : https://github.com/hashicorp/terraform
+# I privately mirror it on git@gitlab.com:second-bureau/bellerophon/terraform/terraform.git
+# You should also reference your own private mirror of this repo, in your automation recipes
+# because then you will remove any external service build time and runtime dependency from your CI/CD factory, your pipelines run faster, with more reliability.
+ARG TERRAFORM_VERSION=${TERRAFORM_VERSION:-'0.12.24'}
+# ---
+# can be :
+# => 'darwin' (mac os)
+# => 'linux' (for any GNU/Linux distrib.)
+# Terraform does not support Windows
+#
+ARG TERRAFORM_OS=${TERRAFORM_VERSION:-'linux'}
+# ---
+# can be :
+# => 'amd64' (mac os)
+# Terraform does not support any other CPU ARCH to my knowledge
+#
+ARG TERRAFORM_CPUARCH=${TERRAFORM_CPUARCH:-'amd64'}
+
+ARG TERRAFORM_INTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/installation/${TERRAFORM_VERSION}
 
 
 # TODO : create BEEIO NON-ROOT USER IN DOCKER IMAGE
@@ -137,8 +163,9 @@ USER root
 RUN apk update && apk add bash curl git git-flow curl wget openssh-server openssh-client
 
 
-# RUN mkdir -p $BUMBLEBEE_HOME_INSIDE_CONTAINER/.secrets
-RUN mkdir -p $BUMBLEBEE_WORKSPACE_INSIDE_CONTAINER
+# RUN mkdir -p ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets
+RUN mkdir -p ${BUMBLEBEE_WORKSPACE_INSIDE_CONTAINER}
+
 
 # ---------------------------------------------------------
 # Built-in Pipeline Step operations
@@ -148,6 +175,7 @@ COPY create-bee-user.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
 COPY init-iaac.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
 COPY install-kubeone.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
 COPY install-terraform.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
+COPY atlantis.yml $BUMBLEBEE_HOME_INSIDE_CONTAINER
 
 RUN chmod +x $BUMBLEBEE_HOME_INSIDE_CONTAINER/*.sh
 

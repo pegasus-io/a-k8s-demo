@@ -143,6 +143,9 @@ workflows:
       # --- #
       # this will run the 'my-custom-command' before terraform init
       # - run: my-custom-command arg1 arg2
+      # go get all dependencies inside the atlantis.yaml specoamizing atlantis ' behavior for each repo :
+      - run: go get SSH_URI_TO_ATLANTIS_WATCHED_GIT_JINJA2_VAR && go get ${SSH_URI_TO_ANSIBLE_HELM_OPERATOR_JINJA2_VAR
+
       - init
       # --- #
       # This will tell atlantis to run the
