@@ -44,3 +44,17 @@ jbl@poste-devops-typique:~/atlantis$ docker run --name jblatlantis -p 34141:4141
 
 
 ```
+
+* configuration de Atlantis :
+
+```bash
+# --
+atlantis server --config /path/to/config.yaml
+```
+* contenu de `/path/to/config.yaml` :
+```Yaml
+# -- minimal config for atlantis to be able to run on a repo.
+#
+
+```
+* ccc
