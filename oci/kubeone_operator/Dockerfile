@@ -1,5 +1,5 @@
 FROM golang:1.14.1-alpine3.11
-# ----------------------------
+# -----------------------------------------------
 # FROM alpine:3.11.3
 # We need the golang env to gracefully work with terraform modules.
 #
@@ -13,9 +13,9 @@ LABEL daymood="firefox https://www.youtube.com/watch?v=fBM3nb-3iFs"
 # AUTHOR Jean-Baptiste-lasselle
 
 
-# --------------------------------
+# ---------------------------------------------------
 # ---------- PIPELINE ENV.
-# --------------------------------
+# ---------------------------------------------------
 
 # ---
 # IAAC cycle Parameters
@@ -38,9 +38,9 @@ ENV TAG_MESSAGE=$TAG_MESSAGE
 ENV COMMIT_MESSAGE=$TAG_MESSAGE
 
 
-# --------------------------------
+# ---------------------------------------------------
 # ---------- PIPELINE STEP ENV.
-# --------------------------------
+# ---------------------------------------------------
 #
 
 ARG BUMBLEBEE_HOME_INSIDE_CONTAINER=/kubeonebee
@@ -53,28 +53,28 @@ ARG BUMBLEBEE_WORKSPACE_INSIDE_CONTAINER=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/work
 ENV BUMBLEBEE_WORKSPACE_INSIDE_CONTAINER=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace
 
 
-# --------------------------------
+# ---------------------------------------------------
 # full path to a file that will be
 # created (touched) iff the pipeline step
 # execution completes successfully
-# --------------------------------
+# ---------------------------------------------------
 #
 ARG HEALTH_CHECK_FILE=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/bee.complete.health
 ARG HEALTH_CHECK_FILE=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/bee.complete.health
-# --------------------------------
+# ---------------------------------------------------
 # This file must not exist, and
 # will be created once this workers
 # has checked the step completed
 # successfully
 RUN if [ -f ${HEALTH_CHECK_FILE} ]; then rm -f ${HEALTH_CHECK_FILE}; fi;
-# ------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------------------
 # ---
 # --- Le repo git surveillé par Atlantis, dans lequel on commit les releases
 #     de la recette terraform provenant du repo git KubeOne, pour aws.
 #
 ENV SSH_URI_TO_ATLANTIS_WATCHED_GIT=$SSH_URI_TO_ATLANTIS_WATCHED_GIT
 
-# ------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------------------
 # ---
 # --- Le repo git dans lequel on versionne le playbook ansible :
 #     => Qui sera invoqué par le terraform ansible provider, suite au Terraform Apply Atlantis
@@ -145,8 +145,12 @@ ARG TERRAFORM_OS=${TERRAFORM_VERSION:-'linux'}
 #
 ARG TERRAFORM_CPUARCH=${TERRAFORM_CPUARCH:-'amd64'}
 
-ARG TERRAFORM_INTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/installation/${TERRAFORM_VERSION}
+ARG TERRAFORM_INTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform/installation/${TERRAFORM_VERSION}
 
+
+
+ARG GITFLOW_VERSION=000
+ARG GITFLOW_INTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/git-flow/installation/${GITFLOW_VERSION}
 
 # TODO : create BEEIO NON-ROOT USER IN DOCKER IMAGE
 # KUBEONE Installation is done byu the root user.
@@ -154,24 +158,24 @@ ARG TERRAFORM_INTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/instal
 # beeio non root user, at runtime.
 USER root
 
-# -------------------
+# --------------------------------------
 # Installing :
 #
 # => [git/git flow] : to be able to git flow over the SSH_URI_TO_ATLANTIS_WATCHED_GIT and git clone from the other git repos.
 # => [openssh-server openssh-client] : utilities to connect to deployments targets, and execute operations on them, using SSH.
 # => [curl wget] : utilities to download dependencies as raw files,without any [git clone]
-RUN apk update && apk add bash curl git git-flow curl wget openssh-server openssh-client
-
-
-# RUN mkdir -p ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets
+RUN apk update && apk add bash curl git wget curl wget openssh-server openssh-client
 RUN mkdir -p ${BUMBLEBEE_WORKSPACE_INSIDE_CONTAINER}
 
+# RUN mkdir -p ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets
 
-# ---------------------------------------------------------
+
+# ----------------------------------------------------------------------------
 # Built-in Pipeline Step operations
-# ---------------------------------------------------------
+# ----------------------------------------------------------------------------
 
 COPY create-bee-user.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
+COPY install-git-flow.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER/
 COPY init-iaac.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
 COPY install-kubeone.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
 COPY install-terraform.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
@@ -183,17 +187,30 @@ COPY atlantis.yml $BUMBLEBEE_HOME_INSIDE_CONTAINER
 
 RUN chmod +x $BUMBLEBEE_HOME_INSIDE_CONTAINER/*.sh
 
+# ---------------------------------------------------------
+# Now installing the git-flow
+# ---------------------------------------------------------
+RUN cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER/ && ${BUMBLEBEE_HOME_INSIDE_CONTAINER/install-git-flow.sh
+
+
+
+# ---------------------------------------------------------
+# Now installing KUBEONE
+# ---------------------------------------------------------
 # creates a kubeone linux user group
 RUN $BUMBLEBEE_HOME_INSIDE_CONTAINER/install-kubeone.sh
+# ---------------------------------------------------------
+# Now installing TERRAFORM
+# ---------------------------------------------------------
 # creates a terraform linux user group
 RUN $BUMBLEBEE_HOME_INSIDE_CONTAINER/install-terraform.sh
 
-# ---------------------------------------------------------
+# ----------------------------------------------------------------------------
 # TODO : create BEEIO NON-ROOT USER IN DOCKER IMAGE
 # KUBEONE Installation is done by the root user.
 # KUBEONE, terraform and git commands are executed by
 # beeio non root user, at runtime.
-# ---------------------------------------------------------
+# ----------------------------------------------------------------------------
 RUN $BUMBLEBEE_HOME_INSIDE_CONTAINER/create-bee-user.sh
 # [create-bee-user.sh] creates a user 'beeio' and its group, 'bumblebee' group
 # So we create :
@@ -207,7 +224,7 @@ RUN chown :bumblebee -R $BUMBLEBEE_HOME_INSIDE_CONTAINER
 RUN # NON DANS LE SCRIPT INSTALL KUBEONE # chown :kubeone -R $BUMBLEBEE_HOME_INSIDE_CONTAINER/kubeone
 RUN # NON DANS LE SCRIPT INSTALL TERRAFORM # chown :terraform -R $BUMBLEBEE_HOME_INSIDE_CONTAINER/terraform
 
-# ---------------------------------------------------------
+# ----------------------------------------------------------------------------
 VOLUME /kubeonebee/.secrets
 
 WORKDIR /kubeonebee

@@ -67,11 +67,11 @@ services:
       context: oci/kubeone_operator/
       args:
         - CCC=$CCC
-  helm_operator:
+  # helm_operator:
     # image: jblass3ll3.world/a-k8s-demo/helm_operator:0.0.1
     # From docker.io
-    image: pegasusio/creshtest_helm_operator:0.0.1
-    build:
-      context: oci/helm_operator/
-      args:
-        - CCC=$CCC
+    # image: pegasusio/creshtest_helm_operator:0.0.1
+    # build:
+      # context: oci/helm_operator/
+      # args:
+        # - CCC=$CCC

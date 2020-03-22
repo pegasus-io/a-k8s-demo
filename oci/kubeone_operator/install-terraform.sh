@@ -27,8 +27,8 @@ export TERRAFORM_PKG_DWLD_URI="https://github.com/terraform/terraform/releases/d
 
 # ---
 # That's where we 'll install Terraform on the nix system' filesystem
-# export TERRAFORM_INTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/installation/${TERRAFORM_VERSION}
-echo " ENV CHECK - TERRAFORM_INTALLATION_HOME=[${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/installation/${TERRAFORM_VERSION}]"
+# export TERRAFORM_INTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform/installation/${TERRAFORM_VERSION}
+echo " ENV CHECK - TERRAFORM_INTALLATION_HOME=[${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform/installation/${TERRAFORM_VERSION}]"
 # ---
 # Downloading Terraform executable
 
@@ -37,8 +37,9 @@ curl -LO "$TERRAFORM_PKG_DWLD_URI"
 
 
 curl -LO ${TERRAFORM_CHKSUMS_DWNLD_URI}
-cat terraform_${TERRAFORM_VERSION}_checksums.txt | grep ${TERRAFORM_OS} | grep ${TERRAFORM_CPU_ARCH} | tee ./terraform_checksums.txt
-sha256sum -c ./terraform_checksums.txt
+
+zip -T ./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPUARCH}.zip
+
 if [ "$?" == "0" ]; then
   echo "Successfully checked integrity of the downloaded terraform version ${TERRAFORM_VERSION} package for ${TERRAFORM_OS} OS on ${TERRAFORM_CPU_ARCH} cpu"
   echo "Proceeding installation"
@@ -47,8 +48,6 @@ if [ "$?" == "0" ]; then
 else
   echo "Integrity check failed for the downloaded terraform version ${TERRAFORM_VERSION} package for ${TERRAFORM_OS} OS on ${TERRAFORM_CPU_ARCH} cpu"
   echo "check yourself the integrity breach running the following command : "
-  echo "   cd ${WORKDIR} && sha256sum -c sha256sum -c ./terraform_checksums.txt"
+  echo "   zip -T $(pwd)/./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPUARCH}.zip"
   exit 3
 fi;
-
-unzip ./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPUARCH}.zip -d $TERRAFORM_INSTALLATION_HOME
