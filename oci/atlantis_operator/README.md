@@ -45,7 +45,24 @@ jbl@poste-devops-typique:~/atlantis$ docker run --name jblatlantis -p 34141:4141
 
 ```
 
-* configuration de Atlantis :
+# Configuration d' `Atlantis`
+
+Je cite la documentation :
+
+>
+> The config file you pass to `--config` is
+> different from the `--repo-config` file.
+> The `--config` config file is only used as
+> an alternate way of setting `atlantis server` flags.
+>
+> _Source_ : https://www.runatlantis.io/docs/server-configuration.html#config-file
+>
+
+En clair, Atlantis se configure à l'aide de deux fichiers :
+* un premier fichier, permet de configurer des paramètres d'exécution qui peuvent être passés :
+  * soit par des options GNU "flags" de la commande  `server`. Exemple  `atlantis server --gh-token=$VALEUR_DE_MON_TOKEN`
+  * soit par un fichier de configuration dont le chemin est prciésé par l'option GNU `--config`. Exemple `atlantis server --config`:  des options GNU "flags" de la commande  `server`. Exemple  `atlantis server --gh-token=$VALEUR_DE_MON_TOKEN`
+
 
 ```bash
 # --
