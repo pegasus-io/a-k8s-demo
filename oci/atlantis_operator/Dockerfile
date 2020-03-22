@@ -10,11 +10,20 @@ ARG SSH_URI_TO_ANSIBLE_PLAYBOOK_DEPLOY_APP=$SSH_URI_TO_ANSIBLE_PLAYBOOK_DEPLOY_A
 
 #
 # install terragrunt
-# install terraform ansible provider
 # install git && git-flow
 # install ansible / ansible-playbook
-# install terraform-inventory https://github.com/adammck/terraform-inventory
+# install terraform-inventory https://github.com/adammck/terraform-inventory and ina later release, https://github.com/nbering/terraform-provider-ansible instead
 #
+
+# Ansible playbooks are executed using the Terraform local-exec provisioner
+#
+# provisioner "local-exec" {
+#     command = "ansible-playbook -i '${self.public_ip},' --private-key ${var.ssh_key_private} provision.yml"
+# }
+#
+
+
+
 
 #
 # git clone the ansible playbooks as terraform modules, using go get <module>
