@@ -31,9 +31,25 @@ export KUBEONE_INTALLATION_HOME=
 #
 curl -LO ${KBONE_PKG_DWNLD_URI}
 
+
+export KUBEONE_CHKSUMS_DWNLD_URI="https://github.com/kubermatic/kubeone/releases/download/v${KUBEONE_VERSION}/kubeone_${KUBEONE_VERSION}_checksums.txt"
+
 curl -LO ${KUBEONE_CHKSUMS_DWNLD_URI}
 
+echo "------------------------------------------------------------"
+echo "content of [cat ./kubeone_${KUBEONE_VERSION}_checksums.txt] : "
+echo "------------------------------------------------------------"
+cat kubeone_${KUBEONE_VERSION}_checksums.txt
+echo "------------------------------------------------------------"
+
 cat kubeone_${KUBEONE_VERSION}_checksums.txt | grep ${KUBEONE_OS} | grep ${KUBEONE_CPU_ARCH} | tee ./kubeone_checksums.txt
+
+echo "------------------------------------------------------------"
+echo "content of [cat ./kubeone_checksums.txt] : "
+echo "------------------------------------------------------------"
+cat ./kubeone_checksums.txt
+echo "------------------------------------------------------------"
+
 
 sha256sum -c ./kubeone_checksums.txt
 if [ "$?" == "0" ]; then
