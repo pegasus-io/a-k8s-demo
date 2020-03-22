@@ -72,6 +72,8 @@ En clair, Atlantis se configure à l'aide de deux fichiers :
   * soit par un fichier de configuration dont le chemin est prciésé par l'option GNU `--config`. Exemple `atlantis server --config`:  des options GNU "flags" de la commande  `server`. Exemple  `atlantis server --gh-token=$VALEUR_DE_MON_TOKEN`
 
 
+
+
 ```bash
 # --
 atlantis server --config /path/to/config.yaml --repo-config /path/2/repo-config.yaml
@@ -99,14 +101,69 @@ atlantis-url: "ATLANTIS_URL_JINJA2_VAR"
 gh-webhook-secret: "ATLANTIS_GH_WEBHOOK_SECRET_JINJA2_VAR"
 ```
 
-* contenu de `/path/2/repo-config.yaml` :
+* Contenu de exemple de `/path/2/repo-config.yaml` :
 
 ```Yaml
-# -- minimal config for atlantis to be able to run on a repo.
-#
-# DOnc ici, toutes les options que j'ai déjà passées à la commande 'server', au docker run :
+# repos lists the config for specific repos.
+repos:
+  # id can either be an exact repo ID or a regex.
+  # If using a regex, it must start and end with a slash.
+  # Repo ID's are of the form {VCS hostname}/{org}/{repo name}, ex.
+  # github.com/runatlantis/atlantis.
+  #
+  # JBL : for all of the repos of the Git Service Provider user, I can use this regular experession (without the simple quotes) : '/.*/'
+- id: /.*/
 
-gh-token:
+
+  # apply_requirements sets the Apply Requirements for all repos that match.
+  apply_requirements: [approved, mergeable]
+
+  # workflow sets the workflow for all repos that match.
+  # This workflow must be defined in the workflows section.
+  workflow: custom
+
+  # allowed_overrides specifies which keys can be overridden by this repo in
+  # its atlantis.yaml file.
+  allowed_overrides: [apply_requirements, workflow]
+
+  # allow_custom_workflows defines whether this repo can define its own
+  # workflows. If false (default), the repo can only use server-side defined
+  # workflows.
+  allow_custom_workflows: true
+
+  # id can also be an exact match.
+# - id: github.com/myorg/specific-repo
+- id: github.com/pegasus-io/example-cresh-atlantic-infra
+
+# workflows lists server-side custom workflows
+workflows:
+  custom:
+    plan:
+      steps:
+      # --- #
+      # this will run the 'my-custom-command' before terraform init
+      # - run: my-custom-command arg1 arg2
+      - init
+      # --- #
+      # This will tell atlantis to run the
+      # 'terraform plan' command with desired args
+      #
+      - plan:
+          extra_args: ["-lock", "false"]
+      # --- #
+      # this would run the 'my-other-command' after terraform plan.
+      # - run: my-other-command arg1 arg2
+      # this will generate the run the 'my-other-command' after terraform plan.
+      - run: echo 'okay atlantis plan completed jbl'
+
+    apply:
+      steps:
+      # this will... well just run me.
+      - run: echo hi
+      - apply
+      # --- #
+      # This will run the echo command after terraform apply command has completed.
+      - run: echo 'okay atlantis apply completed jbl'
 ```
 
 
