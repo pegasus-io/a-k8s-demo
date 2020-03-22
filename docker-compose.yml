@@ -33,6 +33,17 @@ services:
     environment:
       - SSH_URI_TO_HELM_CHART=$SSH_URI_TO_HELM_CHART
       - SSH_URI_TO_ATLANTIS_WATCHED_GIT=$SSH_URI_TO_ATLANTIS_WATCHED_GIT
+      # Also need beeio robot secrets :
+      # => SSH private key to git push over ssh.
+      # => AWS credentials
+      # Both being
+      # where inside the container, the bot will find the private key to
+      # git push
+      - BUMBLEBEE_GIT_SSH_PRIVATE_KEY_FILE=/kubeonebee/.secrets/ssh/git.key
+      - BUMBLEBEE_AWS_PRIVATE_KEY_FILE=/kubeonebee/.secrets/aws/aws.private.key
+      - BUMBLEBEE_AWS_PUBLIC_KEY_FILE=/kubeonebee/.secrets/aws/aws.public.key
+    volumes:
+      - ./.robots/.secrets/:/kubeonebee/.secrets:rw
 
 #
 # ----------- HELM OPS to test Helm Chart deployment of
