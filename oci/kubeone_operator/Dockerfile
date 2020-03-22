@@ -175,7 +175,7 @@ RUN mkdir -p ${BUMBLEBEE_WORKSPACE_INSIDE_CONTAINER}
 # ----------------------------------------------------------------------------
 
 COPY create-bee-user.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
-COPY install-git-flow.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER/
+COPY install-git-flow.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/
 COPY init-iaac.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
 COPY install-kubeone.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
 COPY install-terraform.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
@@ -190,7 +190,7 @@ RUN chmod +x $BUMBLEBEE_HOME_INSIDE_CONTAINER/*.sh
 # ---------------------------------------------------------
 # Now installing the git-flow
 # ---------------------------------------------------------
-RUN cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER/ && ${BUMBLEBEE_HOME_INSIDE_CONTAINER/install-git-flow.sh
+RUN cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/ && ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-git-flow.sh
 
 
 
