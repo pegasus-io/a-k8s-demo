@@ -26,9 +26,13 @@ services:
     # image: jblass3ll3.world/a-k8s-demo/kubeone_operator:0.0.1
     # From docker.io
     image: pegasusio/creshtest_kubeone_operator:0.0.1
+    container_name: 'kubeone_gitops_operator'
+    restart: always
+    stdin: open
+    tty: true
     environment:
       - SSH_URI_TO_HELM_CHART=$SSH_URI_TO_HELM_CHART
-
+      - SSH_URI_TO_ATLANTIS_WATCHED_GIT=$SSH_URI_TO_ATLANTIS_WATCHED_GIT
 
 #
 # ----------- HELM OPS to test Helm Chart deployment of
