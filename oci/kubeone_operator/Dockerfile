@@ -177,6 +177,7 @@ COPY install-kubeone.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
 COPY install-terraform.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
 COPY kubeone-prepare.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
 COPY kubeone-boot-atlantis.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
+COPY run.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
 
 COPY atlantis.yml $BUMBLEBEE_HOME_INSIDE_CONTAINER
 
@@ -212,7 +213,7 @@ VOLUME /kubeonebee/.secrets
 WORKDIR /kubeonebee
 # HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "/kubeonebee/pipeline-step.healthcheck.sh" ]
 
-ENTRYPOINT ["/kubeonebee/install-kubeone.sh"]
+ENTRYPOINT ["/kubeonebee/run.sh"]
 
 #
 # I want bash inside, not just /bin/sh, because
