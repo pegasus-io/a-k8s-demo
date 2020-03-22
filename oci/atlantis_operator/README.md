@@ -110,6 +110,8 @@ gh-token:
 
 ![tested gh permissions](https://github.com/pegasus-io/a-k8s-demo/raw/feature/k8s-provisioning/documentation/images/atlantis/ATLANTIS_GH_TOKEN_PERMISSIONS_TEST1.png)
 
+<!--
 ![tested gh permissions](https://github.com/pegasus-io/a-k8s-demo/raw/develop/documentation/images/atlantis/ATLANTIS_GH_TOKEN_PERMISSIONS_TEST1.png)
 
 ![tested gh permissions](https://github.com/pegasus-io/a-k8s-demo/raw/master/documentation/images/atlantis/ATLANTIS_GH_TOKEN_PERMISSIONS_TEST1.png)
+-->
