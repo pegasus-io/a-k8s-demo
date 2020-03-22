@@ -3,14 +3,21 @@ FROM runatlantis/atlantis:v0.11.1
 ARG SSH_URI_TO_ANSIBLE_PLAYBOOK_BOOT_K8S=$SSH_URI_TO_ANSIBLE_PLAYBOOK_BOOT_K8S
 ARG SSH_URI_TO_ANSIBLE_PLAYBOOK_DEPLOY_APP=$SSH_URI_TO_ANSIBLE_PLAYBOOK_DEPLOY_APP
 
-# copy a terraform binary of the version you need
+#
+# # copy a terraform binary of the version you need
 # COPY terragrunt /usr/local/bin/terragrunt
+#
 
+#
 # install terragrunt
 # install terraform ansible provider
 # install git && git-flow
 # install ansible / ansible-playbook
-# git clone the ansible playbook using go get as a terraform module
+# install terraform-inventory https://github.com/adammck/terraform-inventory
+#
+
+#
+# git clone the ansible playbooks as terraform modules, using go get <module>
 # --- #
 # go get all dependencies inside the atlantis.yaml
 # Not to actually use them, but to test dependency
