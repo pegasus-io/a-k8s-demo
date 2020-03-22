@@ -7,9 +7,9 @@
 # go
 goBootAtlantis () {
 
-  git clone https://github.com/kubermatic/kubeone ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source
+  # git clone https://github.com/kubermatic/kubeone ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source
   cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source
-  git checkout v${KUBEONE_VERSION}
+  # git checkout v${KUBEONE_VERSION}
   cp -fR ./examples/terraform/aws/* ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/
   # customizing atlantis behavior for the [SSH_URI_TO_ATLANTIS_WATCHED_GIT] repo
   if [ -f ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/atlantis.yml ]; then rm -f ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/atlantis.yml; fi;
