@@ -1,5 +1,6 @@
 #/bin/bash
-
+#
+# https://dzone.com/articles/running-ha-kubernetes-clusters-on-aws-using-kubeon
 # ------------------------------------------------
 # this script does not execute :
 # => the terraform and

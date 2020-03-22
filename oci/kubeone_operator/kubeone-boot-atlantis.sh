@@ -1,5 +1,8 @@
 #/bin/bash
 
+#
+# https://dzone.com/articles/running-ha-kubernetes-clusters-on-aws-using-kubeon
+# ------------------------------------------------
 # this script boots up the Atlantis Workflow :
 # => it initializes the git flow on the git repo watched by Atlantis
 # => it ends with sending a pull request on the repo, which will trigger Atlantis to run the Terraform init plan and apply
