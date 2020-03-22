@@ -21,6 +21,8 @@ export TERRAFORM_OS=linux
 #
 export TERRAFORM_CPUARCH=amd64
 
+echo "implémentation non terminée" && exit 1
+
 export TERRAFORM_PKG_DWLD_URI="https://github.com/terraform/terraform/releases/download/v${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPUARCH}.zip"
 
 # ---

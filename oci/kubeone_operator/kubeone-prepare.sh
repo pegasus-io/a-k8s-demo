@@ -16,11 +16,13 @@
 # Now we'll retrieve from KubeOne github repo the
 # aws example terraform: fully operational, and how
 # any kubeone run should start
-
-git clone https://github.com/kubermatic/kubeone ./kubeone/source
-cd ./kubeone/source
+git clone https://github.com/kubermatic/kubeone ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source
+cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source
 git checkout v${KUBEONE_VERSION}
-cp -Rf examples/terraform/aws/ ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace
+cp -fR ./examples/terraform/aws/* ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/
+# customizing atlantis behavior for the [SSH_URI_TO_ATLANTIS_WATCHED_GIT] repo
+if [ -f ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/atlantis.yml ]; then rm -f ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/atlantis.yml; fi;
+cp $BUMBLEBEE_HOME_INSIDE_CONTAINER/atlantis.yml ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace
 
 cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workpsace
 
@@ -30,6 +32,10 @@ cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workpsace
 # resolution works both reliably and as expected :
 go get ${SSH_URI_TO_ATLANTIS_WATCHED_GIT}
 go get ${SSH_URI_TO_ANSIBLE_HELM_OPERATOR}
-terraform init | tee ./kubeone.terraform.init.logs
+
+
+echo " # --- running in [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace] " | tee -a ./kubeone.prepare.terraform.init.logs
+terraform init | tee -a ./kubeone.prepare.terraform.init.logs
 # and to test them in the dry run :
-terraform plan | tee ./kubeone.terraform.plan.logs
+echo " # --- running in [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace] " | tee -a ./kubeone.prepare.terraform.plan.logs
+terraform plan | tee -a ./kubeone.prepare.terraform.plan.logs
