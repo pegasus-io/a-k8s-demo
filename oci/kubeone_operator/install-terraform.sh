@@ -42,8 +42,17 @@ ls -allh .
 ls -allh ./${HASHICORP_PGP_SIGNING_KEY}
 echo '---------------------------------------------------------------'
 
+# TODO : générer une clef ?
+echo '---------------------------------------------------------------'
+echo '--- GPG FULL GENERATE KEY :  '
+echo '---------------------------------------------------------------'
+# gpg --full-generate-key
+gpg --list-keys
+echo '---------------------------------------------------------------'
+
 # curl https://keybase.io/hashicorp/pgp_keys.asc | gpg --import
-gpg import ./${HASHICORP_PGP_SIGNING_KEY}
+gpg --batch --import ./${HASHICORP_PGP_SIGNING_KEY}
+cat ./${HASHICORP_PGP_SIGNING_KEY}
 # I need a PGP Key for this container, to
 # sign HashiCorp's Key and make it a "trusted" key in
 # the eyes of [gpg]
@@ -57,10 +66,9 @@ gpg import ./${HASHICORP_PGP_SIGNING_KEY}
 for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u); do  echo -e "5\ny\n" |  gpg --command-fd 0 --expert --edit-key $fpr trust; done
 
 gpg --list-keys
+exit 99
 # Non, il faut générer une seule et unique fois une seule clef GPG
 
-# TODO : générer une clef ?
-# gpg --full-generate-key
 
 
 
