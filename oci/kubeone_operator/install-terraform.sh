@@ -25,7 +25,33 @@ export TERRAFORM_CPU_ARCH=amd64
 export TERRAFORM_PKG_DWLD_URI="https://github.com/hashicorp/terraform/archive/terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip"
 export TERRAFORM_PKG_DWLD_URI="https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip"
 
+export TERRAFORM_CHECKSUMS_FILE_DWLD_URI="https://releases.hashicorp.com/terraform/0.12.24/terraform_${TERRAFORM_VERSION}_SHA256SUMS"
+# Signature of the TERRAFORM_CHECKSUMS_FILE_DWLD_URI, to verify the signature of the checksum file.
+export TERRAFORM_CHECKSUMS_FILE_SIGATURE_DWLD_URI="https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_SHA256SUMS.sig"
+# HASHICORP_GPG_SIGNING_KEY => to verify [TERRAFORM_CHECKSUMS_FILE_SIGATURE_DWLD_URI]
+# see https://www.hashicorp.com/security.html to find again the key its fingerprint and doc on how to automate retreiving key.
+export HASHICORP_GPG_SIGNING_KEY=https://hashicorp.com/security.html
 
+
+checkIntegrityUsingTerraformChecksums () {
+  curl -LO "${TERRAFORM_CHECKSUMS_FILE_DWLD_URI}"
+  cat terraform_${TERRAFORM_VERSION}_SHA256SUMS | grep ${TERRAFORM_OS} | grep ${TERRAFORM_CPU_ARCH} | tee ./terraform.integrity.checksum
+  echo "------------------------------------------------------------------------"
+  echo " [$0#checkIntegrityUsingTerraformChecksums ()] Contenu de [./terraform_${TERRAFORM_VERSION}_SHA256SUMS]   "
+  echo "------------------------------------------------------------------------"
+  cat ./terraform_${TERRAFORM_VERSION}_SHA256SUMS
+  echo "------------------------------------------------------------------------"
+  sha256sum -c ./terraform.integrity.checksum
+  if [ "$?" == "0" ]; then
+    echo "Successfully checked integrity of the downloaded terraform version ${TERRAFORM_VERSION} package for ${TERRAFORM_OS} OS on ${TERRAFORM_CPU_ARCH} cpu"
+    echo "Proceeding installation"
+  else
+    echo "Integrity check failed for the downloaded terraform version ${TERRAFORM_VERSION} package for ${TERRAFORM_OS} OS on ${TERRAFORM_CPU_ARCH} cpu"
+    echo "check yourself the integrity breach running the following command : "
+    echo "   zip -T $(pwd)/terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip"
+    exit 3
+  fi;
+}
 
 # ---
 # That's where we 'll install Terraform on the nix system' filesystem
