@@ -149,7 +149,7 @@ ARG TERRAFORM_VERSION=${TERRAFORM_VERSION:-'0.12.24'}
 # => 'linux' (for any GNU/Linux distrib.)
 # Terraform does not support Windows
 #
-ARG TERRAFORM_OS=${TERRAFORM_VERSION:-'linux'}
+ARG TERRAFORM_OS=${TERRAFORM_OS:-'linux'}
 # ---
 # can be :
 # => 'amd64' (mac os)
