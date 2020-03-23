@@ -44,6 +44,7 @@ installTerraform () {
   ln -s ${TERRAFORM_INSTALLATION_HOME}/terraform /usr/local/bin/terraform
 }
 
+chmod a+rwx ./v${TERRAFORM_VERSION}.zip
 echo ''
 echo " Je suis ici [$(pwd)] et les fichiers présents sont : "
 echo '------------------------------------------------------------'
@@ -51,7 +52,11 @@ ls -allh .
 echo '------------------------------------------------------------'
 echo " y a til [./v${TERRAFORM_VERSION}.zip] ?"
 echo '------------------------------------------------------------'
-echo " execution de [zip -T ./v${TERRAFORM_VERSION}.zip]?"
+echo " test d'existence de [./v${TERRAFORM_VERSION}.zip] : "
+echo '------------------------------------------------------------'
+ls -allh ./v${TERRAFORM_VERSION}.zip
+echo '------------------------------------------------------------'
+echo " execution de [zip -T ./v${TERRAFORM_VERSION}.zip] : "
 echo '------------------------------------------------------------'
 echo ''
 zip -T ./v${TERRAFORM_VERSION}.zip
