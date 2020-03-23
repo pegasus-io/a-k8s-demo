@@ -65,7 +65,7 @@ services:
     # ---------------------------------------------
     restart: 'no'
 
-
+  # user mgmt https://gitlab.com/second-bureau/pegasus/pegasus/-/issues/117
   kubeone_operator:
     # image: jblass3ll3.world/a-k8s-demo/kubeone_operator:0.0.1
     # From docker.io
