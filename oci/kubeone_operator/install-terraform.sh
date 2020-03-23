@@ -173,5 +173,3 @@ else
 fi;
 
 terraform --version
-
-echo "implémentation non terminée" && exit 99

@@ -72,3 +72,8 @@ else
   exit 3
 fi;
 kubeone version
+# TODO create terraform user group, and give ownership
+groupadd kubeone
+# Adding
+usermod -aG kubeone ${BUMBLEBEE_LX_USERNAME}
+chown -R :kubeone ${KUBEONE_INSTALLATION_HOME}
