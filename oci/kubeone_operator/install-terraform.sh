@@ -67,7 +67,7 @@ cat ./${HASHICORP_PGP_SIGNING_KEY}
 for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u); do  echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key $fpr trust; done
 
 gpg --list-keys
-exit 99
+# exit 99
 # Non, il faut générer une seule et unique fois une seule clef GPG
 
 
@@ -125,7 +125,7 @@ installTerraform () {
   # TODO create terraform user group, and give ownership
   groupadd terraform
   # Adding
-  userdmod -aG terraform ${BUMBLEBEE_LX_USERNAME}
+  usermod -aG terraform ${BUMBLEBEE_LX_USERNAME}
   mkdir -p ${TERRAFORM_INSTALLATION_HOME}/
   unzip ./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip -d ${TERRAFORM_INSTALLATION_HOME}/
   echo '-----------------------------------------------------------------------'
