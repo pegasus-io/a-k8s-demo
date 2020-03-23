@@ -120,6 +120,8 @@ ENV SSH_URI_TO_ANSIBLE_HELM_OPERATOR=$SSH_URI_TO_ANSIBLE_HELM_OPERATOR
 # because then you will remove any external service build time and runtime dependency from
 # your CI/CD factory, your pipelines run faster, with more reliability.
 ARG KUBEONE_VERSION=${KUBEONE_VERSION:-'0.11.0'}
+ENV KUBEONE_VERSION=${KUBEONE_VERSION:-'0.11.0'}
+
 # ---
 # can be :
 # => 'darwin' (mac os)
@@ -243,8 +245,9 @@ VOLUME /kubeonebee/.secrets
 WORKDIR /kubeonebee
 # HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "/kubeonebee/pipeline-step.healthcheck.sh" ]
 
+RUN chmod a+x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/run.sh
+RUN chmod a+rwx -R /kubeonebee/
 USER ${BUMBLEBEE_LX_USERNAME}
-RUN chmod +x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/run.sh
 ENTRYPOINT ["/kubeonebee/run.sh"]
 
 #

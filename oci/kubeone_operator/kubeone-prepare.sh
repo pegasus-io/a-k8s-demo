@@ -13,14 +13,16 @@
 # => it initializes the git flow on the git repo watched by Atlantis
 # => it ends with sending a pull request on the repo, which will trigger Atlantis to run the Terraform init plan and apply
 # -----
-./init-iaac.sh
 # -----
 # Now we'll retrieve from KubeOne github repo the
 # aws example terraform: fully operational, and how
 # any kubeone run should start
+mkdir -p ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source
 git clone https://github.com/kubermatic/kubeone ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source
 cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source
+echo " DITES DONC KUBEONE_VERSION=[$KUBEONE_VERSION]"
 git checkout v${KUBEONE_VERSION}
+mkdir -p ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workpsace
 cp -fR ./examples/terraform/aws/* ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/
 # customizing atlantis behavior for the [SSH_URI_TO_ATLANTIS_WATCHED_GIT] repo
 if [ -f ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/atlantis.yml ]; then rm -f ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/atlantis.yml; fi;
@@ -35,6 +37,7 @@ cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workpsace
 go get ${SSH_URI_TO_ATLANTIS_WATCHED_GIT}
 go get ${SSH_URI_TO_ANSIBLE_HELM_OPERATOR}
 
+ls -allh .
 
 echo " # --- running in [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace] " | tee -a ./kubeone.prepare.terraform.init.logs
 terraform init | tee -a ./kubeone.prepare.terraform.init.logs
