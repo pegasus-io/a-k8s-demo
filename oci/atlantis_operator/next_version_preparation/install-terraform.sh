@@ -19,9 +19,9 @@ export TERRAFORM_OS=linux
 # => 'amd64' (mac os)
 # Kubeone does not support any other CPU ARCH to my knowledge
 #
-export TERRAFORM_CPUARCH=amd64
+export TERRAFORM_CPU_ARCH=amd64
 
-export TERRAFORM_PKG_DWLD_URI="https://github.com/kubermatic/kubeone/releases/download/v${TERRAFORM_VERSION}/kubeone_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPUARCH}.zip"
+export TERRAFORM_PKG_DWLD_URI="https://github.com/kubermatic/kubeone/releases/download/v${TERRAFORM_VERSION}/kubeone_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip"
 
 # ---
 # That's where we 'll install Kubeone on the nix system' filesystem
@@ -31,4 +31,4 @@ export TERRAFORM_INTALLATION_HOME=
 
 curl -LO "$TERRAFORM_PKG_DWLD_URI"
 
-unzip ./kubeone_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPUARCH}.zip -d $TERRAFORM_INSTALLATION_HOME
+unzip ./kubeone_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip -d $TERRAFORM_INSTALLATION_HOME

@@ -19,10 +19,14 @@ export TERRAFORM_OS=linux
 # => 'amd64' (mac os)
 # Terraform does not support any other CPU ARCH to my knowledge
 #
-export TERRAFORM_CPUARCH=amd64
+export TERRAFORM_CPU_ARCH=amd64
 
 
-export TERRAFORM_PKG_DWLD_URI="https://github.com/hashicorp/terraform/archive/v${TERRAFORM_VERSION}.zip"
+export TERRAFORM_PKG_DWLD_URI="https://github.com/hashicorp/terraform/archive/terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip"
+export TERRAFORM_PKG_DWLD_URI="https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip"
+
+
+
 # ---
 # That's where we 'll install Terraform on the nix system' filesystem
 # export TERRAFORM_INTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform/installation/${TERRAFORM_VERSION}
@@ -40,9 +44,10 @@ installTerraform () {
   # Adding
   userdmod -aG terraform ${BUMBLEBEE_LX_USERNAME}
   mkdir -p ${TERRAFORM_INSTALLATION_HOME}/
-  unzip ./v${TERRAFORM_VERSION}.zip -d ${TERRAFORM_INSTALLATION_HOME}/
+  unzip ./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip -d ${TERRAFORM_INSTALLATION_HOME}/
   echo '-----------------------------------------------------------------------'
-  echo "Le contenu de [TERRAFORM_INSTALLATION_HOME] juste après le dezippe : "
+  echo "Le contenu de [TERRAFORM_INSTALLATION_HOME=[${TERRAFORM_INSTALLATION_HOME}]]"
+  echo " juste après le dezippe : "
   echo '-----------------------------------------------------------------------'
   ls -allh ${TERRAFORM_INSTALLATION_HOME}/
   echo '-----------------------------------------------------------------------'
@@ -52,22 +57,22 @@ installTerraform () {
 installTerraform
 terraform --version
 
-chmod a+rwx ./v${TERRAFORM_VERSION}.zip
+# chmod a+rwx ./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip
 echo ''
 echo " Je suis ici [$(pwd)] et les fichiers présents sont : "
 echo '------------------------------------------------------------'
 ls -allh .
 echo '------------------------------------------------------------'
-echo " y a til [./v${TERRAFORM_VERSION}.zip] ?"
+echo " y a til [./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip] ?"
 echo '------------------------------------------------------------'
-echo " test d'existence de [./v${TERRAFORM_VERSION}.zip] : "
+echo " test d'existence de [./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip] : "
 echo '------------------------------------------------------------'
-ls -allh ./v${TERRAFORM_VERSION}.zip
+ls -allh ./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip
 echo '------------------------------------------------------------'
-echo " execution de [zip -T ./v${TERRAFORM_VERSION}.zip] : "
+echo " execution de [zip -T ./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip] : "
 echo '------------------------------------------------------------'
 echo ''
-zip -T ./v${TERRAFORM_VERSION}.zip
+zip -T ./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip
 
 if [ "$?" == "0" ]; then
   echo "Successfully checked integrity of the downloaded terraform version ${TERRAFORM_VERSION} package for ${TERRAFORM_OS} OS on ${TERRAFORM_CPU_ARCH} cpu"
@@ -76,7 +81,7 @@ if [ "$?" == "0" ]; then
 else
   echo "Integrity check failed for the downloaded terraform version ${TERRAFORM_VERSION} package for ${TERRAFORM_OS} OS on ${TERRAFORM_CPU_ARCH} cpu"
   echo "check yourself the integrity breach running the following command : "
-  echo "   zip -T $(pwd)/v${TERRAFORM_VERSION}.zip"
+  echo "   zip -T $(pwd)/terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip"
   exit 3
 fi;
 
