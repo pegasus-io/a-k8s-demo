@@ -231,7 +231,8 @@ RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-terraform.sh
 # --> the kubeone group : only those in this group will be allowed to execute the kubeone executable.
 # --> the terraform group : only those in this group will be allowed to execute the kubeone executable.
 # And we add 'beeio' robot user to both groups.
-RUN usermod -aG kubeone terraform ${BUMBLEBEE_LX_USERNAME}
+RUN usermod -aG kubeone ${BUMBLEBEE_LX_USERNAME}
+RUN usermod -aG terraform ${BUMBLEBEE_LX_USERNAME}
 
 # RUN # NON DANS LE SCRIPT INSTALL KUBEONE # chown :kubeone -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone
 # RUN # NON DANS LE SCRIPT INSTALL TERRAFORM # chown :terraform -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform
