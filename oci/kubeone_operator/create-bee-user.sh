@@ -48,29 +48,19 @@ echo ''
 echo "Checking newly created user [${BUMBLEBEE_LX_USERNAME}] : "
 echo ''
 echo '----------------------------------------'
-su ${BUMBLEBEE_LX_USERNAME}
-whoami
-su beeio && whoami
-id -u
-id -g
-echo '----------------------------------------'
 # https://github.com/sudo-project/sudo/issues/42#issuecomment-599142606
 # So I should force install 'sudo' package with version above '1.8.31p1'
 # To avoid 'Set disable_coredump false' in [/etc/sudo.conf]
 echo 'Set disable_coredump false' >> /etc/sudo.conf
 sudo -u ${BUMBLEBEE_LX_USERNAME} whoami
 
-exec su-exec ${BUMBLEBEE_LX_USERNAME} whoami
-exec su-exec ${BUMBLEBEE_LX_USERNAME} id -u
-exec su-exec ${BUMBLEBEE_LX_USERNAME} id -g
-
-
-echo '----------------------------------------'
-echo " I am $(whoami) and my linux id is [$(id -g)] "
-echo " I am $(whoami) and my main linux user group has id [$(id -g)] "
-echo " I am $(whoami) and my home folder is [${HOME}] "
-echo " I am $(whoami) I belong to linux groups [$(groups)] "
-
+echo '#!/bin/bash' >> ./test.operator.user.sh
+echo 'echo " I am \$(whoami) and my linux id is [\$(id -g)] "' >> ./test.operator.user.sh
+echo 'echo " I am \$(whoami) and my main linux user group has id [\$(id -g)] "' >> ./test.operator.user.sh
+echo 'echo " I am \$(whoami) and my home folder is [\${HOME}] "' >> ./test.operator.user.sh
+echo 'echo " I am \$(whoami) I belong to linux groups [\$(groups)] "' >> ./test.operator.user.sh
+chmod +x ./test.operator.user.sh
+sudo -u ${BUMBLEBEE_LX_USERNAME} ./test.operator.user.sh
 echo '----------------------------------------'
 
 echo ''
