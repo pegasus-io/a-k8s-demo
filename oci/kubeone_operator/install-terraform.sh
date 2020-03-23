@@ -37,20 +37,21 @@ gpg import ${HASHICORP_PGP_SIGNING_KEY}
 # I need a PGP Key for this container, to
 # sign HashiCorp's Key and make it a "trusted" key in
 # the eyes of [gpg]
-gpg --list-keys
-# Non, il faut générer une seule et unique fois une seule clef GPG
-
-# TODO : générer une clef ?
-gpg --full-generate-key
-
 # ---
 # To Sign an imported key with an utltimately
 # trusted key :
 #
 # https://raymii.org/s/articles/GPG_noninteractive_batch_sign_trust_and_send_gnupg_keys.html
 # ---
-# Now silently ultimately trusting all PGP Keys
+# Now silently ultimately trusting the newly added HashiCorp PGP Keys
 for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u); do  echo -e "5\ny\n" |  gpg --command-fd 0 --expert --edit-key $fpr trust; done
+
+gpg --list-keys
+# Non, il faut générer une seule et unique fois une seule clef GPG
+
+# TODO : générer une clef ?
+# gpg --full-generate-key
+
 
 gpg --verify ./terraform_${TERRAFORM_VERSION}_SHA256SUMS.sig ./terraform_${TERRAFORM_VERSION}_SHA256SUMS
 

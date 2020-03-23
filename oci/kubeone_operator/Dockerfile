@@ -176,7 +176,7 @@ USER root
 # => [git/git flow] : to be able to git flow over the SSH_URI_TO_ATLANTIS_WATCHED_GIT and git clone from the other git repos.
 # => [openssh-server openssh-client] : utilities to connect to deployments targets, and execute operations on them, using SSH.
 # => [curl wget] : utilities to download dependencies as raw files,without any [git clone]
-RUN apk update && apk add bash curl git wget curl wget openssh-server openssh-client
+RUN apk update && apk add gnupg bash curl git wget curl wget openssh-server openssh-client
 RUN mkdir -p ${BUMBLEBEE_WORKSPACE_INSIDE_CONTAINER}
 
 # RUN mkdir -p ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets
