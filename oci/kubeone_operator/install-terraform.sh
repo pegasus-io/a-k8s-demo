@@ -49,10 +49,10 @@ echo " Je suis ici [$(pwd)] et les fichiers présents sont : "
 echo '------------------------------------------------------------'
 ls -allh .
 echo '------------------------------------------------------------'
-echo " y a til [terraform_0.11.0_linux_amd64.zip] ?"
+echo " y a til [./${TERRAFORM_VERSION}.zip] ?"
 echo '------------------------------------------------------------'
 echo ''
-zip -T ./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPUARCH}.zip
+zip -T ./${TERRAFORM_VERSION}.zip
 
 if [ "$?" == "0" ]; then
   echo "Successfully checked integrity of the downloaded terraform version ${TERRAFORM_VERSION} package for ${TERRAFORM_OS} OS on ${TERRAFORM_CPU_ARCH} cpu"
