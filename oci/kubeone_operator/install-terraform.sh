@@ -66,7 +66,7 @@ gpg --list-keys
 
 checkIntegrityUsingTerraformChecksums () {
   curl -LO "${TERRAFORM_CHECKSUMS_FILE_DWLD_URI}"
-
+  curl -LO "${TERRAFORM_CHECKSUMS_FILE_SIGNATURE_DWLD_URI}"
   gpg --verify ./terraform_${TERRAFORM_VERSION}_SHA256SUMS.sig ./terraform_${TERRAFORM_VERSION}_SHA256SUMS
   if [ "$?" == "0" ]; then
     echo "Successfully checked trusted HashiCorp signature of the downloaded checksum file [./terraform_${TERRAFORM_VERSION}_SHA256SUMS]"
@@ -140,7 +140,8 @@ echo '------------------------------------------------------------'
 echo " execution de [zip -T ./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip] : "
 echo '------------------------------------------------------------'
 echo ''
-zip -T ./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip
+# zip -T /go/terraform_0.12.24_linux_amd64.zip
+# zip -T ./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip
 
 
 if [ "$?" == "0" ]; then
