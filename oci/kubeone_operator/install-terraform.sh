@@ -51,6 +51,8 @@ ls -allh .
 echo '------------------------------------------------------------'
 echo " y a til [./v${TERRAFORM_VERSION}.zip] ?"
 echo '------------------------------------------------------------'
+echo " execution de [zip -T ./v${TERRAFORM_VERSION}.zip]?"
+echo '------------------------------------------------------------'
 echo ''
 zip -T ./v${TERRAFORM_VERSION}.zip
 
