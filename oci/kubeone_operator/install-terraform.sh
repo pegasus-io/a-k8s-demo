@@ -32,6 +32,14 @@ export TERRAFORM_CHECKSUMS_FILE_SIGNATURE_DWLD_URI="https://releases.hashicorp.c
 # see https://www.hashicorp.com/security.html#secure-communications to find again the key its fingerprint and doc on how to automate retreiving key.
 export HASHICORP_PGP_SIGNING_KEY=./hashicorp.pgp.key
 curl -LO curl https://keybase.io/hashicorp/pgp_keys.asc -o ${HASHICORP_PGP_SIGNING_KEY}
+
+
+echo '---------------------------------------------------------------'
+echo 'GPG dans le coteneur'
+echo '---------------------------------------------------------------'
+ls -allh .
+echo '---------------------------------------------------------------'
+
 # curl https://keybase.io/hashicorp/pgp_keys.asc | gpg --import
 gpg import ${HASHICORP_PGP_SIGNING_KEY}
 # I need a PGP Key for this container, to
