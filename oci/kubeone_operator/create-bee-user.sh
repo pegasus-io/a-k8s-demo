@@ -55,11 +55,12 @@ echo 'Set disable_coredump false' >> /etc/sudo.conf
 sudo -u ${BUMBLEBEE_LX_USERNAME} whoami
 
 echo '#!/bin/bash' >> ./test.operator.user.sh
-echo 'echo " I am \$(whoami) and my linux id is [\$(id -g)] "' >> ./test.operator.user.sh
-echo 'echo " I am \$(whoami) and my main linux user group has id [\$(id -g)] "' >> ./test.operator.user.sh
-echo 'echo " I am \$(whoami) and my home folder is [\${HOME}] "' >> ./test.operator.user.sh
-echo 'echo " I am \$(whoami) I belong to linux groups [\$(groups)] "' >> ./test.operator.user.sh
+echo 'echo " I am $(whoami) and my linux id is [$(id -g)] "' >> ./test.operator.user.sh
+echo 'echo " I am $(whoami) and my main linux user group has id [$(id -g)] "' >> ./test.operator.user.sh
+echo 'echo " I am $(whoami) and my home folder is [${HOME}] "' >> ./test.operator.user.sh
+echo 'echo " I am $(whoami) I belong to linux groups [$(groups)] "' >> ./test.operator.user.sh
 chmod +x ./test.operator.user.sh
+cat ./test.operator.user.sh
 sudo -u ${BUMBLEBEE_LX_USERNAME} ./test.operator.user.sh
 echo '----------------------------------------'
 
