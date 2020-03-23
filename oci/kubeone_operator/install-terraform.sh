@@ -35,7 +35,7 @@ curl https://keybase.io/hashicorp/pgp_keys.asc -o ${HASHICORP_PGP_SIGNING_KEY}
 
 
 echo '---------------------------------------------------------------'
-echo 'GPG dans le coteneur'
+echo ' Commandes GPG dans le conteneur kubeone#./install-terraform.sh'
 echo "----------------------- [$(pwd)] "
 echo '---------------------------------------------------------------'
 ls -allh .
