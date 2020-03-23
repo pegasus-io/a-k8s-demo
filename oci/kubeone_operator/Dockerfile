@@ -122,7 +122,7 @@ ARG KUBEONE_CPUARCH=${KUBEONE_CPUARCH:-'amd64'}
 # all users in the kubeone group, the beeio user
 # that executes the terraform init/plan/apply
 #
-ARG KUBEONE_INSTALLATION_HOME=$BUMBLEBEE_HOME_INSIDE_CONTAINER/kubeone/installation/$KUBEONE_VERSION
+ARG KUBEONE_INSTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/installation/${KUBEONE_VERSION}
 
 # ---
 # Can be a commit hash, a branch name, or a tag (be it a release or not).

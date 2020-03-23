@@ -19,18 +19,24 @@ export KUBEONE_OS=linux
 # => 'amd64' (mac os)
 # Kubeone does not support any other CPU ARCH to my knowledge
 #
-export KUBEONE_CPUARCH=amd64
+export KUBEONE_CPU_ARCH=amd64
 
-export KUBEONE_PKG_DWLD_URI="https://github.com/kubermatic/kubeone/releases/download/v${KUBEONE_VERSION}/kubeone_${KUBEONE_VERSION}_${KUBEONE_OS}_${KUBEONE_CPUARCH}.zip"
+export KUBEONE_PKG_DWLD_URI="https://github.com/kubermatic/kubeone/releases/download/v${KUBEONE_VERSION}/kubeone_${KUBEONE_VERSION}_${KUBEONE_OS}_${KUBEONE_CPU_ARCH}.zip"
 
 # ---
 # That's where we 'll install Kubeone on the nix system' filesystem
-export KUBEONE_INTALLATION_HOME=
+export KUBEONE_INSTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/installation/${KUBEONE_VERSION}
+
 # ---
 # Downloading KubeOne officially distributed package : a zip
 #
 curl -LO ${KBONE_PKG_DWNLD_URI}
 
+echo "------------------------------------------------------------"
+echo "presence of [./kubeone_${KUBEONE_VERSION}_${KUBEONE_OS}_${KUBEONE_CPU_ARCH}.zip] : "
+echo "------------------------------------------------------------"
+ls -allh kubeone_${KUBEONE_VERSION}_${KUBEONE_OS}_${KUBEONE_CPU_ARCH}.zip
+echo "------------------------------------------------------------"
 
 export KUBEONE_CHKSUMS_DWNLD_URI="https://github.com/kubermatic/kubeone/releases/download/v${KUBEONE_VERSION}/kubeone_${KUBEONE_VERSION}_checksums.txt"
 
