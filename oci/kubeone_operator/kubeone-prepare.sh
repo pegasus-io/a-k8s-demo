@@ -12,7 +12,8 @@
 # going to be terraformed on your AWS tenant
 # => it initializes the git flow on the git repo watched by Atlantis
 # => it ends with sending a pull request on the repo, which will trigger Atlantis to run the Terraform init plan and apply
-
+# -----
+./init-iaac.sh
 # -----
 # Now we'll retrieve from KubeOne github repo the
 # aws example terraform: fully operational, and how
