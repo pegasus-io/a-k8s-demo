@@ -45,11 +45,12 @@ chmod g+rw -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 # Then we will have to make executable any file. By default, no file is executable.
 
 echo ''
-echo "Checking newly created user : "
+echo "Checking newly created user [${BUMBLEBEE_LX_USERNAME}] : "
 echo ''
 echo '----------------------------------------'
-su beeio
+su ${BUMBLEBEE_LX_USERNAME}
 whoami
+su beeio && whoami
 id -u
 id -g
 echo " I am $(whoami) and my linux id is [$(id -g)] "
