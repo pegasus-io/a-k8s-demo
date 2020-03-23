@@ -62,20 +62,21 @@ gpg --list-keys
 # gpg --full-generate-key
 
 
-gpg --verify ./terraform_${TERRAFORM_VERSION}_SHA256SUMS.sig ./terraform_${TERRAFORM_VERSION}_SHA256SUMS
 
-if [ "$?" == "0" ]; then
-  echo "Successfully checked trusted HashiCorp signature of the downloaded checksum file [./terraform_${TERRAFORM_VERSION}_SHA256SUMS]"
-  echo "Proceeding installation"
-else
-  echo "HashiCorp signature check  of the downloaded checksum file [./terraform_${TERRAFORM_VERSION}_SHA256SUMS] failed."
-  echo "check yourself the Hashicorp signature running the following command : "
-  echo "   gpg --verify $(pwd)/terraform_${TERRAFORM_VERSION}_SHA256SUMS.sig $(pwd)/terraform_${TERRAFORM_VERSION}_SHA256SUMS"
-  exit 3
-fi;
 
 checkIntegrityUsingTerraformChecksums () {
   curl -LO "${TERRAFORM_CHECKSUMS_FILE_DWLD_URI}"
+
+  gpg --verify ./terraform_${TERRAFORM_VERSION}_SHA256SUMS.sig ./terraform_${TERRAFORM_VERSION}_SHA256SUMS
+  if [ "$?" == "0" ]; then
+    echo "Successfully checked trusted HashiCorp signature of the downloaded checksum file [./terraform_${TERRAFORM_VERSION}_SHA256SUMS]"
+    echo "Proceeding installation"
+  else
+    echo "HashiCorp signature check  of the downloaded checksum file [./terraform_${TERRAFORM_VERSION}_SHA256SUMS] failed."
+    echo "check yourself the Hashicorp signature running the following command : "
+    echo "   gpg --verify $(pwd)/terraform_${TERRAFORM_VERSION}_SHA256SUMS.sig $(pwd)/terraform_${TERRAFORM_VERSION}_SHA256SUMS"
+    exit 3
+  fi;
   cat terraform_${TERRAFORM_VERSION}_SHA256SUMS | grep ${TERRAFORM_OS} | grep ${TERRAFORM_CPU_ARCH} | tee ./terraform.integrity.checksum
   echo "------------------------------------------------------------------------"
   echo " [$0#checkIntegrityUsingTerraformChecksums ()] Contenu de [./terraform_${TERRAFORM_VERSION}_SHA256SUMS]   "
