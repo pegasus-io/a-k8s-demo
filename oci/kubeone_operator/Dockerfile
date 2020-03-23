@@ -186,18 +186,18 @@ RUN mkdir -p ${BUMBLEBEE_WORKSPACE_INSIDE_CONTAINER}
 # Built-in Pipeline Step operations
 # ----------------------------------------------------------------------------
 
-COPY create-bee-user.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
+COPY create-bee-user.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 COPY install-git-flow.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/
-COPY init-iaac.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
-COPY install-kubeone.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
-COPY install-terraform.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
-COPY kubeone-prepare.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
-COPY kubeone-boot-atlantis.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
-COPY run.sh $BUMBLEBEE_HOME_INSIDE_CONTAINER
+COPY init-iaac.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
+COPY install-kubeone.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
+COPY install-terraform.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
+COPY kubeone-prepare.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
+COPY kubeone-boot-atlantis.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
+COPY run.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 
-COPY atlantis.yml $BUMBLEBEE_HOME_INSIDE_CONTAINER
+COPY atlantis.yml ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 
-RUN chmod +x $BUMBLEBEE_HOME_INSIDE_CONTAINER/*.sh
+RUN chmod +x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/*.sh
 
 # ----------------------------------------------------------------------------
 # TODO : create BEEIO NON-ROOT USER IN DOCKER IMAGE
@@ -205,7 +205,7 @@ RUN chmod +x $BUMBLEBEE_HOME_INSIDE_CONTAINER/*.sh
 # KUBEONE, terraform and git commands are executed by
 # beeio non root user, at runtime.
 # ----------------------------------------------------------------------------
-RUN $BUMBLEBEE_HOME_INSIDE_CONTAINER/create-bee-user.sh
+RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/create-bee-user.sh
 
 
 # ---------------------------------------------------------
@@ -219,12 +219,12 @@ RUN cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/ && ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 # Now installing KUBEONE
 # ---------------------------------------------------------
 # creates a kubeone linux user group
-RUN $BUMBLEBEE_HOME_INSIDE_CONTAINER/install-kubeone.sh
+RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-kubeone.sh
 # ---------------------------------------------------------
 # Now installing TERRAFORM
 # ---------------------------------------------------------
 # creates a terraform linux user group
-RUN $BUMBLEBEE_HOME_INSIDE_CONTAINER/install-terraform.sh
+RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-terraform.sh
 
 # [create-bee-user.sh] creates a user 'beeio' and its group, 'bumblebee' group
 # So we create :
@@ -233,10 +233,10 @@ RUN $BUMBLEBEE_HOME_INSIDE_CONTAINER/install-terraform.sh
 # And we add 'beeio' robot user to both groups.
 RUN usermod -aG beeio kubeone terraform
 
-RUN chown :bumblebee -R $BUMBLEBEE_HOME_INSIDE_CONTAINER
+RUN chown :bumblebee -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 
-RUN # NON DANS LE SCRIPT INSTALL KUBEONE # chown :kubeone -R $BUMBLEBEE_HOME_INSIDE_CONTAINER/kubeone
-RUN # NON DANS LE SCRIPT INSTALL TERRAFORM # chown :terraform -R $BUMBLEBEE_HOME_INSIDE_CONTAINER/terraform
+RUN # NON DANS LE SCRIPT INSTALL KUBEONE # chown :kubeone -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone
+RUN # NON DANS LE SCRIPT INSTALL TERRAFORM # chown :terraform -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform
 
 # ----------------------------------------------------------------------------
 VOLUME /kubeonebee/.secrets
