@@ -53,6 +53,16 @@ whoami
 su beeio && whoami
 id -u
 id -g
+echo '----------------------------------------'
+
+sudo -u ${BUMBLEBEE_LX_USERNAME} whoami
+
+exec su-exec ${BUMBLEBEE_LX_USERNAME} whoami
+exec su-exec ${BUMBLEBEE_LX_USERNAME} id -u
+exec su-exec ${BUMBLEBEE_LX_USERNAME} id -g
+
+
+echo '----------------------------------------'
 echo " I am $(whoami) and my linux id is [$(id -g)] "
 echo " I am $(whoami) and my main linux user group has id [$(id -g)] "
 echo " I am $(whoami) and my home folder is [${HOME}] "
