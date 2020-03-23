@@ -44,8 +44,9 @@ chmod a-rwx -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 chmod g+rw -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 # Then we will have to make executable any file. By default, no file is executable.
 
+echo '----------------------------------------'
 echo ''
-echo "Checking newly created user [${BUMBLEBEE_LX_USERNAME}] : "
+echo " [+++ >>] Checking newly created user [${BUMBLEBEE_LX_USERNAME}] : "
 echo ''
 echo '----------------------------------------'
 # https://github.com/sudo-project/sudo/issues/42#issuecomment-599142606
@@ -53,13 +54,15 @@ echo '----------------------------------------'
 # To avoid 'Set disable_coredump false' in [/etc/sudo.conf]
 echo 'Set disable_coredump false' >> /etc/sudo.conf
 sudo -u ${BUMBLEBEE_LX_USERNAME} whoami
+echo '----------------------------------------'
 echo '#!/bin/bash' >> ./test.operator.user.sh
 echo 'echo " I am $(whoami) and my linux id is [$(id -g)] "' >> ./test.operator.user.sh
 echo 'echo " I am $(whoami) and my main linux user group has id [$(id -g)] "' >> ./test.operator.user.sh
 echo 'echo " I am $(whoami) and my home folder is [${HOME}] "' >> ./test.operator.user.sh
 echo 'echo " I am $(whoami) I belong to linux groups [$(groups)] "' >> ./test.operator.user.sh
 chmod +x ./test.operator.user.sh
-echo "test scriot [./test.operator.user.sh] : "
+echo '----------------------------------------'
+echo " [+++ >>] Newly created linux user test script [./test.operator.user.sh] content : "
 echo '----------------------------------------'
 cat ./test.operator.user.sh
 echo '----------------------------------------'
@@ -67,9 +70,9 @@ sudo -u ${BUMBLEBEE_LX_USERNAME} ./test.operator.user.sh
 rm -f ./test.operator.user.sh
 echo '----------------------------------------'
 
-echo ''
-echo "implementing that, still running on dev mode "
-echo ''
+# echo ''
+# echo "implementing that, still running on dev mode "
+# echo ''
 # https://github.com/mhart/alpine-node/issues/48#issuecomment-370171836
 # https://gitlab.com/second-bureau/pegasus/pegasus/-/issues/117
-exit 99
+# exit 99
