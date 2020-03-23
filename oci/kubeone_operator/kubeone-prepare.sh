@@ -20,12 +20,12 @@
 mkdir -p ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source
 git clone https://github.com/kubermatic/kubeone ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source
 cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source
-echo " DITES DONC KUBEONE_VERSION=[$KUBEONE_VERSION]"
+echo "  KUBEONE_VERSION=[$KUBEONE_VERSION]"
 
 git checkout v${KUBEONE_VERSION}
 
 echo '------------------------------------------------------------------------------------------------------------------------'
-echo " DITES DONC contenu du répertoire [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source/examples/terraform/aws/]"
+echo "  contenu du répertoire [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source/examples/terraform/aws/]"
 echo '------------------------------------------------------------------------------------------------------------------------'
 ls -allh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source/examples/terraform/aws/
 echo '------------------------------------------------------------------------------------------------------------------------'
@@ -40,7 +40,7 @@ cp -f ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source/examples/terraform/aws/*
 cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source/examples/terraform/aws/*.* ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/
 
 echo '------------------------------------------------------------------------------------------------------------------------'
-echo " DITES DONC contenu du répertoire [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workpsace]"
+echo "  contenu du répertoire [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workpsace]"
 echo '------------------------------------------------------------------------------------------------------------------------'
 ls -allh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workpsace
 echo '------------------------------------------------------------------------------------------------------------------------'
