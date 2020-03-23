@@ -41,8 +41,16 @@ installTerraform () {
   userdmod -aG terraform ${BUMBLEBEE_LX_USERNAME}
   mkdir -p ${TERRAFORM_INSTALLATION_HOME}/
   unzip ./v${TERRAFORM_VERSION}.zip -d ${TERRAFORM_INSTALLATION_HOME}/
+  echo '-----------------------------------------------------------------------'
+  echo "Le contenu de [TERRAFORM_INSTALLATION_HOME] juste après le dezippe : "
+  echo '-----------------------------------------------------------------------'
+  ls -allh ${TERRAFORM_INSTALLATION_HOME}/
+  echo '-----------------------------------------------------------------------'
   ln -s ${TERRAFORM_INSTALLATION_HOME}/terraform /usr/local/bin/terraform
 }
+
+installTerraform
+terraform --version
 
 chmod a+rwx ./v${TERRAFORM_VERSION}.zip
 echo ''
