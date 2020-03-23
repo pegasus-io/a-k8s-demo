@@ -28,9 +28,15 @@ export TERRAFORM_PKG_DWLD_URI="https://releases.hashicorp.com/terraform/${TERRAF
 export TERRAFORM_CHECKSUMS_FILE_DWLD_URI="https://releases.hashicorp.com/terraform/0.12.24/terraform_${TERRAFORM_VERSION}_SHA256SUMS"
 # Signature of the TERRAFORM_CHECKSUMS_FILE_DWLD_URI, to verify the signature of the checksum file.
 export TERRAFORM_CHECKSUMS_FILE_SIGATURE_DWLD_URI="https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_SHA256SUMS.sig"
-# HASHICORP_GPG_SIGNING_KEY => to verify [TERRAFORM_CHECKSUMS_FILE_SIGATURE_DWLD_URI]
+# HASHICORP_PGP_SIGNING_KEY => to verify [TERRAFORM_CHECKSUMS_FILE_SIGATURE_DWLD_URI]
 # see https://www.hashicorp.com/security.html#secure-communications to find again the key its fingerprint and doc on how to automate retreiving key.
-export HASHICORP_GPG_SIGNING_KEY=https://hashicorp.com/security.html
+export HASHICORP_PGP_SIGNING_KEY=./hashicorp.pgp.key
+curl -LO curl https://keybase.io/hashicorp/pgp_keys.asc -o $HASHICORP_PGP_SIGNING_KEY
+# curl https://keybase.io/hashicorp/pgp_keys.asc | gpg --import
+gpg --with-fingerprint ${HASHICORP_PGP_SIGNING_KEY}
+
+curl -L0 https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_SHA256SUMS.sig
+
 
 
 checkIntegrityUsingTerraformChecksums () {
