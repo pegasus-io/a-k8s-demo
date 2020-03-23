@@ -55,6 +55,8 @@ cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source/examples/terraform/aws/
 # go get all dependencies inside the atlantis.yaml
 # Not to actually use them, but to test dependency
 # resolution works both reliably and as expected :
+echo " test pwd=$(pwd)"
+export export GOPATH=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source/examples/terraform/aws/
 go get ${SSH_URI_TO_ATLANTIS_WATCHED_GIT}
 go get ${SSH_URI_TO_ANSIBLE_HELM_OPERATOR}
 
