@@ -30,7 +30,7 @@ export TERRAFORM_CHECKSUMS_FILE_DWLD_URI="https://releases.hashicorp.com/terrafo
 export TERRAFORM_CHECKSUMS_FILE_SIGNATURE_DWLD_URI="https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_SHA256SUMS.sig"
 # HASHICORP_PGP_SIGNING_KEY => to verify [TERRAFORM_CHECKSUMS_FILE_SIGNATURE_DWLD_URI]
 # see https://www.hashicorp.com/security.html#secure-communications to find again the key its fingerprint and doc on how to automate retreiving key.
-export HASHICORP_PGP_SIGNING_KEY=./hashicorp.pgp.key
+export HASHICORP_PGP_SIGNING_KEY=hashicorp.pgp.key
 curl https://keybase.io/hashicorp/pgp_keys.asc -o ${HASHICORP_PGP_SIGNING_KEY}
 
 
@@ -39,10 +39,11 @@ echo ' Commandes GPG dans le conteneur kubeone#./install-terraform.sh'
 echo "----------------------- [$(pwd)] "
 echo '---------------------------------------------------------------'
 ls -allh .
+ls -allh ./${HASHICORP_PGP_SIGNING_KEY}
 echo '---------------------------------------------------------------'
 
 # curl https://keybase.io/hashicorp/pgp_keys.asc | gpg --import
-gpg import ${HASHICORP_PGP_SIGNING_KEY}
+gpg import ./${HASHICORP_PGP_SIGNING_KEY}
 # I need a PGP Key for this container, to
 # sign HashiCorp's Key and make it a "trusted" key in
 # the eyes of [gpg]
@@ -145,7 +146,8 @@ echo ''
 
 
 if [ "$?" == "0" ]; then
-  echo "Successfully checked integrity of the downloaded terraform version ${TERRAFORM_VERSION} package for ${TERRAFORM_OS} OS on ${TERRAFORM_CPU_ARCH} cpu"
+  # echo "Successfully checked integrity of the downloaded terraform version ${TERRAFORM_VERSION} package for ${TERRAFORM_OS} OS on ${TERRAFORM_CPU_ARCH} cpu"
+  echo "Skipped checking integrity of the downloaded terraform version ${TERRAFORM_VERSION} package for ${TERRAFORM_OS} OS on ${TERRAFORM_CPU_ARCH} cpu"
   echo "Proceeding installation"
   checkIntegrityUsingTerraformChecksums
   installTerraform
