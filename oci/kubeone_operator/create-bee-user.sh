@@ -54,7 +54,10 @@ su beeio && whoami
 id -u
 id -g
 echo '----------------------------------------'
-
+# https://github.com/sudo-project/sudo/issues/42#issuecomment-599142606
+# So I should force install 'sudo' package with version above '1.8.31p1'
+# To avoid 'Set disable_coredump false' in [/etc/sudo.conf]
+echo 'Set disable_coredump false' >> /etc/sudo.conf
 sudo -u ${BUMBLEBEE_LX_USERNAME} whoami
 
 exec su-exec ${BUMBLEBEE_LX_USERNAME} whoami
