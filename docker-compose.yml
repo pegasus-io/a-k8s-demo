@@ -28,7 +28,7 @@ services:
     image: pegasusio/creshtest_kubeone_operator:0.0.1
     container_name: 'kubeone_gitops_operator'
     restart: always
-    stdin: open
+    stdin_open: true
     tty: true
     environment:
       - SSH_URI_TO_HELM_CHART=$SSH_URI_TO_HELM_CHART
@@ -39,7 +39,7 @@ services:
       # Both being
       # where inside the container, the bot will find the private key to
       # git push to github.com / gitlab.com
-      # also see volume [/kubeonebee/.secrets] mounted from outside the container 
+      # also see volume [/kubeonebee/.secrets] mounted from outside the container
       - BUMBLEBEE_GIT_SSH_PRIVATE_KEY_FILE=/kubeonebee/.secrets/ssh/git.key
       - BUMBLEBEE_AWS_PRIVATE_KEY_FILE=/kubeonebee/.secrets/aws/aws.private.key
       - BUMBLEBEE_AWS_PUBLIC_KEY_FILE=/kubeonebee/.secrets/aws/aws.public.key
