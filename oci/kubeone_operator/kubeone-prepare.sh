@@ -21,9 +21,22 @@ mkdir -p ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source
 git clone https://github.com/kubermatic/kubeone ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source
 cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source
 echo " DITES DONC KUBEONE_VERSION=[$KUBEONE_VERSION]"
+
 git checkout v${KUBEONE_VERSION}
+
+echo '------------------------------------------------------------------------------------------------------------------------'
+echo " DITES DONC contenu du répertoire [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source/examples/terraform/aws/]"
+echo '------------------------------------------------------------------------------------------------------------------------'
+ls -allh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source/examples/terraform/aws/
+echo '------------------------------------------------------------------------------------------------------------------------'
 mkdir -p ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workpsace
-cp -fR ./examples/terraform/aws/* ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/
+cp -fR ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source/examples/terraform/aws/* ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/
+echo '------------------------------------------------------------------------------------------------------------------------'
+echo " DITES DONC contenu du répertoire [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workpsace]"
+echo '------------------------------------------------------------------------------------------------------------------------'
+ls -allh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workpsace
+echo '------------------------------------------------------------------------------------------------------------------------'
+
 # customizing atlantis behavior for the [SSH_URI_TO_ATLANTIS_WATCHED_GIT] repo
 if [ -f ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/atlantis.yml ]; then rm -f ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/atlantis.yml; fi;
 cp $BUMBLEBEE_HOME_INSIDE_CONTAINER/atlantis.yml ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace
