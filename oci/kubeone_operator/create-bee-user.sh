@@ -16,14 +16,12 @@ fi;
 
 
 
-echo ''
-echo "implementing that, still running on dev mode "
-echo ''
 
-# https://github.com/mhart/alpine-node/issues/48#issuecomment-370171836
-# https://gitlab.com/second-bureau/pegasus/pegasus/-/issues/117
-exit 99
 
+echo "VERIF OPERATOR_UID=[${OPERATOR_UID}] "
+echo "VERIF OPERATOR_GID=[${OPERATOR_GID}] "
+echo "VERIF BUMBLEBEE_LX_USERNAME=[${BUMBLEBEE_LX_USERNAME}] "
+echo "VERIF BUMBLEBEE_LX_GROUPNAME=[${BUMBLEBEE_LX_GROUPNAME}] "
 
 apk add --no-cache shadow sudo && \
     if [ -z "`getent group $OPERATOR_GID`" ]; then \
@@ -44,3 +42,11 @@ chown :${BUMBLEBEE_LX_GROUPNAME} -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 chmod a-rwx -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 chmod g+rw -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 # Then we will have to make executable any file. By default, no file is executable.
+
+echo ''
+echo "implementing that, still running on dev mode "
+echo ''
+
+# https://github.com/mhart/alpine-node/issues/48#issuecomment-370171836
+# https://gitlab.com/second-bureau/pegasus/pegasus/-/issues/117
+exit 99
