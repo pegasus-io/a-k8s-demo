@@ -31,6 +31,11 @@ ls -allh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source/examples/terraform/aw
 echo '------------------------------------------------------------------------------------------------------------------------'
 mkdir -p ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workpsace
 cp -fR ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source/examples/terraform/aws/* ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/
+echo ""
+echo " execution de : "
+echo ""
+echo " cp -f ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source/examples/terraform/aws/*.* ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/ "
+echo ""
 cp -f ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source/examples/terraform/aws/*.* ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/
 cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source/examples/terraform/aws/*.* ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/
 

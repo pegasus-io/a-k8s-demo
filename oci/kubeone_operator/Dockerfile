@@ -248,6 +248,7 @@ WORKDIR /kubeonebee
 RUN chmod a+x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/run.sh
 RUN chmod a+rwx -R /kubeonebee/
 USER ${BUMBLEBEE_LX_USERNAME}
+
 ENTRYPOINT ["/kubeonebee/run.sh"]
 
 #
