@@ -30,6 +30,7 @@ apk add --no-cache shadow sudo && \
       groupmod -n ${BUMBLEBEE_LX_GROUPNAME} `getent group $OPERATOR_GID | cut -d: -f1`; \
     fi && \
     if [ -z "`getent passwd $OPERATOR_UID`" ]; then \
+      # users default shell will be bash, because I previously installed it in my alpine image
       adduser -S -u $OPERATOR_UID -G ${BUMBLEBEE_LX_GROUPNAME} -s /bin/bash ${BUMBLEBEE_LX_USERNAME}; \
     else \
       usermod -l ${BUMBLEBEE_LX_USERNAME} -g $OPERATOR_GID -d /home/${BUMBLEBEE_LX_USERNAME} -m `getent passwd $OPERATOR_UID | cut -d: -f1`; \
@@ -44,9 +45,23 @@ chmod g+rw -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 # Then we will have to make executable any file. By default, no file is executable.
 
 echo ''
+echo "Checking newly created user : "
+echo ''
+echo '----------------------------------------'
+su beeio
+whoami
+id -u
+id -g
+echo " I am $(whoami) and my linux id is [$(id -g)] "
+echo " I am $(whoami) and my main linux user group has id [$(id -g)] "
+echo " I am $(whoami) and my home folder is [${HOME}] "
+echo " I am $(whoami) I belong to linux groups [$(groups)] "
+
+echo '----------------------------------------'
+
+echo ''
 echo "implementing that, still running on dev mode "
 echo ''
-
 # https://github.com/mhart/alpine-node/issues/48#issuecomment-370171836
 # https://gitlab.com/second-bureau/pegasus/pegasus/-/issues/117
 exit 99
