@@ -83,7 +83,6 @@ checkIntegrityUsingTerraformChecksums () {
   echo "------------------------------------------------------------------------"
   cat ./terraform_${TERRAFORM_VERSION}_SHA256SUMS
   echo "------------------------------------------------------------------------"
-  curl -LO "$TERRAFORM_PKG_DWLD_URI"
   sha256sum -c ./terraform.integrity.checksum
   if [ "$?" == "0" ]; then
     echo "Successfully checked integrity of the downloaded terraform version ${TERRAFORM_VERSION} package for ${TERRAFORM_OS} OS on ${TERRAFORM_CPU_ARCH} cpu"
@@ -103,7 +102,7 @@ echo " ENV CHECK - TERRAFORM_INTALLATION_HOME=[${BUMBLEBEE_HOME_INSIDE_CONTAINER
 # ---
 # Downloading Terraform executable
 
-curl -LO "$TERRAFORM_PKG_DWLD_URI"
+curl -LO "${TERRAFORM_PKG_DWLD_URI}"
 
 ls -allh
 
@@ -142,6 +141,7 @@ echo " execution de [zip -T ./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${T
 echo '------------------------------------------------------------'
 echo ''
 zip -T ./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip
+
 
 if [ "$?" == "0" ]; then
   echo "Successfully checked integrity of the downloaded terraform version ${TERRAFORM_VERSION} package for ${TERRAFORM_OS} OS on ${TERRAFORM_CPU_ARCH} cpu"
