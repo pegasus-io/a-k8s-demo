@@ -83,6 +83,7 @@ checkIntegrityUsingTerraformChecksums () {
   echo "------------------------------------------------------------------------"
   cat ./terraform_${TERRAFORM_VERSION}_SHA256SUMS
   echo "------------------------------------------------------------------------"
+  curl -LO "$TERRAFORM_PKG_DWLD_URI"
   sha256sum -c ./terraform.integrity.checksum
   if [ "$?" == "0" ]; then
     echo "Successfully checked integrity of the downloaded terraform version ${TERRAFORM_VERSION} package for ${TERRAFORM_OS} OS on ${TERRAFORM_CPU_ARCH} cpu"
