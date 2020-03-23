@@ -22,8 +22,7 @@ export TERRAFORM_OS=linux
 export TERRAFORM_CPUARCH=amd64
 
 
-export TERRAFORM_PKG_DWLD_URI="https://github.com/hashicorp/terraform/releases/download/v${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPUARCH}.zip"
-
+export TERRAFORM_PKG_DWLD_URI="https://github.com/hashicorp/terraform/archive/v${TERRAFORM_VERSION}.zip"
 # ---
 # That's where we 'll install Terraform on the nix system' filesystem
 # export TERRAFORM_INTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform/installation/${TERRAFORM_VERSION}
