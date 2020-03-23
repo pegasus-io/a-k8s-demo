@@ -63,7 +63,8 @@ cat ./${HASHICORP_PGP_SIGNING_KEY}
 # https://raymii.org/s/articles/GPG_noninteractive_batch_sign_trust_and_send_gnupg_keys.html
 # ---
 # Now silently ultimately trusting the newly added HashiCorp PGP Keys
-for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u); do  echo -e "5\ny\n" |  gpg --command-fd 0 --expert --edit-key $fpr trust; done
+# https://www.rzegocki.pl/blog/how-to-make-gnupg2-to-fall-in-love-with-docker/
+for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u); do  echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key $fpr trust; done
 
 gpg --list-keys
 exit 99
