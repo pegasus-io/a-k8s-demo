@@ -38,13 +38,21 @@ ls -allh
 installTerraform () {
   # TODO create terraform user group, and give ownership
   groupadd terraform
-  # Adding 
+  # Adding
   userdmod -aG terraform ${BUMBLEBEE_LX_USERNAME}
   mkdir -p ${TERRAFORM_INSTALLATION_HOME}/
   unzip -d terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPUARCH}.zip ${TERRAFORM_INSTALLATION_HOME}/
   ln -s ${TERRAFORM_INSTALLATION_HOME}/terraform /usr/local/bin/terraform
 }
 
+echo ''
+echo " Je suis ici [$(pwd)] et les fichiers présents sont : "
+echo '------------------------------------------------------------'
+ls -allh .
+echo '------------------------------------------------------------'
+echo " y a til [terraform_0.11.0_linux_amd64.zip] ?"
+echo '------------------------------------------------------------'
+echo ''
 zip -T ./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPUARCH}.zip
 
 if [ "$?" == "0" ]; then
