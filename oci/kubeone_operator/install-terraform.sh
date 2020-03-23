@@ -66,6 +66,11 @@ gpg --list-keys
 
 
 checkIntegrityUsingTerraformChecksums () {
+  echo '--------------------------------------------------------'
+  echo '---- VERIF CLEF TRUST ULTIMATE HASHICORP : '
+  echo '--------------------------------------------------------'
+  gpg --list-keys
+  echo '--------------------------------------------------------'
   curl -LO "${TERRAFORM_CHECKSUMS_FILE_DWLD_URI}"
   curl -LO "${TERRAFORM_CHECKSUMS_FILE_SIGNATURE_DWLD_URI}"
   gpg --verify ./terraform_${TERRAFORM_VERSION}_SHA256SUMS.sig ./terraform_${TERRAFORM_VERSION}_SHA256SUMS
