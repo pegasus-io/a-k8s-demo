@@ -49,8 +49,8 @@ echo '--------------------------------------------------------------------------
 if [ -f ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/atlantis.yml ]; then rm -f ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace/atlantis.yml; fi;
 cp $BUMBLEBEE_HOME_INSIDE_CONTAINER/atlantis.yml ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace
 
-cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workpsace
-
+cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workpsace/
+cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source/examples/terraform/aws/
 # --- #
 # go get all dependencies inside the atlantis.yaml
 # Not to actually use them, but to test dependency
