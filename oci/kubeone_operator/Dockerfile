@@ -29,6 +29,9 @@ ENV PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNA
 ARG BUMBLEBEE_LX_USERNAME=beeio
 ENV BUMBLEBEE_LX_USERNAME=$BUMBLEBEE_LX_USERNAME
 
+ARG BUMBLEBEE_LX_GROUPNAME=bumblebee
+ENV BUMBLEBEE_LX_GROUPNAME=$BUMBLEBEE_LX_GROUPNAME
+
 ARG OPERATOR_UID=${OPERATOR_UID}
 
 ARG OPERATOR_GID=${OPERATOR_GID}
@@ -196,6 +199,15 @@ COPY atlantis.yml $BUMBLEBEE_HOME_INSIDE_CONTAINER
 
 RUN chmod +x $BUMBLEBEE_HOME_INSIDE_CONTAINER/*.sh
 
+# ----------------------------------------------------------------------------
+# TODO : create BEEIO NON-ROOT USER IN DOCKER IMAGE
+# Installation is done by the root user.
+# KUBEONE, terraform and git commands are executed by
+# beeio non root user, at runtime.
+# ----------------------------------------------------------------------------
+RUN $BUMBLEBEE_HOME_INSIDE_CONTAINER/create-bee-user.sh
+
+
 # ---------------------------------------------------------
 # Now installing the git-flow
 # ---------------------------------------------------------
@@ -214,13 +226,6 @@ RUN $BUMBLEBEE_HOME_INSIDE_CONTAINER/install-kubeone.sh
 # creates a terraform linux user group
 RUN $BUMBLEBEE_HOME_INSIDE_CONTAINER/install-terraform.sh
 
-# ----------------------------------------------------------------------------
-# TODO : create BEEIO NON-ROOT USER IN DOCKER IMAGE
-# KUBEONE Installation is done by the root user.
-# KUBEONE, terraform and git commands are executed by
-# beeio non root user, at runtime.
-# ----------------------------------------------------------------------------
-RUN $BUMBLEBEE_HOME_INSIDE_CONTAINER/create-bee-user.sh
 # [create-bee-user.sh] creates a user 'beeio' and its group, 'bumblebee' group
 # So we create :
 # --> the kubeone group : only those in this group will be allowed to execute the kubeone executable.
@@ -238,6 +243,8 @@ VOLUME /kubeonebee/.secrets
 
 WORKDIR /kubeonebee
 # HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "/kubeonebee/pipeline-step.healthcheck.sh" ]
+
+USER ${BUMBLEBEE_LX_USERNAME}
 
 ENTRYPOINT ["/kubeonebee/run.sh"]
 
