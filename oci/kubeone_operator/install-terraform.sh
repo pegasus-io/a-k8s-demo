@@ -46,7 +46,7 @@ gpg --full-generate-key
 # ---
 # To Sign an imported key with an utltimately
 # trusted key :
-# 
+#
 # https://raymii.org/s/articles/GPG_noninteractive_batch_sign_trust_and_send_gnupg_keys.html
 # ---
 # Now silently ultimately trusting all PGP Keys
@@ -111,8 +111,8 @@ installTerraform () {
   ln -s ${TERRAFORM_INSTALLATION_HOME}/terraform /usr/local/bin/terraform
 }
 
-installTerraform
-terraform --version
+# installTerraform
+# terraform --version
 
 # chmod a+rwx ./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zip
 echo ''
@@ -134,6 +134,7 @@ zip -T ./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPU_ARCH}.zi
 if [ "$?" == "0" ]; then
   echo "Successfully checked integrity of the downloaded terraform version ${TERRAFORM_VERSION} package for ${TERRAFORM_OS} OS on ${TERRAFORM_CPU_ARCH} cpu"
   echo "Proceeding installation"
+  checkIntegrityUsingTerraformChecksums
   installTerraform
 else
   echo "Integrity check failed for the downloaded terraform version ${TERRAFORM_VERSION} package for ${TERRAFORM_OS} OS on ${TERRAFORM_CPU_ARCH} cpu"
@@ -144,4 +145,4 @@ fi;
 
 terraform --version
 
-echo "implémentation non terminée" && exit 1
+echo "implémentation non terminée" && exit 99
