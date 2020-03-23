@@ -40,7 +40,7 @@ installTerraform () {
   # Adding
   userdmod -aG terraform ${BUMBLEBEE_LX_USERNAME}
   mkdir -p ${TERRAFORM_INSTALLATION_HOME}/
-  unzip -d terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPUARCH}.zip ${TERRAFORM_INSTALLATION_HOME}/
+  unzip ./v${TERRAFORM_VERSION}.zip -d ${TERRAFORM_INSTALLATION_HOME}/
   ln -s ${TERRAFORM_INSTALLATION_HOME}/terraform /usr/local/bin/terraform
 }
 
@@ -61,7 +61,7 @@ if [ "$?" == "0" ]; then
 else
   echo "Integrity check failed for the downloaded terraform version ${TERRAFORM_VERSION} package for ${TERRAFORM_OS} OS on ${TERRAFORM_CPU_ARCH} cpu"
   echo "check yourself the integrity breach running the following command : "
-  echo "   zip -T $(pwd)/./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPUARCH}.zip"
+  echo "   zip -T $(pwd)/v${TERRAFORM_VERSION}.zip"
   exit 3
 fi;
 
