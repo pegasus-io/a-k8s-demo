@@ -42,6 +42,7 @@ apk add --no-cache shadow sudo && \
 chown :${BUMBLEBEE_LX_GROUPNAME} -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 chmod a-rwx -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 chmod g+rw -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
+chmod g+x -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/*.sh
 # Then we will have to make executable any file. By default, no file is executable.
 
 echo '----------------------------------------'

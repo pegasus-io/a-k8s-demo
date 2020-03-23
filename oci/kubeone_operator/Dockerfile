@@ -211,7 +211,7 @@ RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/create-bee-user.sh
 # ---------------------------------------------------------
 # Now installing the git-flow
 # ---------------------------------------------------------
-RUN cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/ && ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-git-flow.sh
+RUN echo "Je suis [$(whoami)]" && cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/ && ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-git-flow.sh
 
 
 
