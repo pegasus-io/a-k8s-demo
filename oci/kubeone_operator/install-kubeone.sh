@@ -1,5 +1,5 @@
 #/bin/bash
-
+set -x
 # ---
 # Can be a commit hash, a branch name, or a tag (be it a release or not).
 # from this git repo : https://github.com/kubermatic/kubeone
@@ -30,7 +30,8 @@ export KUBEONE_INSTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/inst
 # ---
 # Downloading KubeOne officially distributed package : a zip
 #
-curl -LO ${KBONE_PKG_DWNLD_URI}
+echo " VERIF KUBEONE_PKG_DWLD_URI=[${KUBEONE_PKG_DWLD_URI}]"
+curl -LO ${KUBEONE_PKG_DWLD_URI}
 
 echo "------------------------------------------------------------"
 echo "presence of [./kubeone_${KUBEONE_VERSION}_${KUBEONE_OS}_${KUBEONE_CPU_ARCH}.zip] : "
@@ -61,7 +62,8 @@ sha256sum -c ./kubeone_checksums.txt
 if [ "$?" == "0" ]; then
   echo "Successfully checked integrity of the downloaded kubeone version ${KUBEONE_VERSION} package for ${KUBEONE_OS} OS on ${KUBEONE_CPU_ARCH} cpu"
   echo "Proceeding installation"
-  unzip -d kubeone_${KUBEONE_VERSION}_${KUBEONE_OS}_${KUBEONE_CPU_ARCH}.zip ${KUBEONE_INSTALLATION_HOME}/
+  mkdir -p ${KUBEONE_INSTALLATION_HOME}
+  unzip kubeone_${KUBEONE_VERSION}_${KUBEONE_OS}_${KUBEONE_CPU_ARCH}.zip -d ${KUBEONE_INSTALLATION_HOME}/
   ln -s ${KUBEONE_INSTALLATION_HOME}/kubeone /usr/local/bin/kubeone
 else
   echo "Integrity check failed for the downloaded kubeone version ${KUBEONE_VERSION} package for ${KUBEONE_OS} OS on ${KUBEONE_CPU_ARCH} cpu"
@@ -69,3 +71,4 @@ else
   echo "   cd ${WORKDIR} && sha256sum -c sha256sum -c ./kubeone_checksums.txt"
   exit 3
 fi;
+kubeone version
