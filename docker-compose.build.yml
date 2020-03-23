@@ -9,6 +9,9 @@ services:
       context: oci/aws-cli/v2/
       args:
         - PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME
+        - OPERATOR_UID=${BUMBLEBEE_LX_USER_UID}
+        - OPERATOR_GID=${BUMBLEBEE_LX_USER_UID}
+
     entrypoint: ["aws", "--version"]
     command: ["/bin/sh"]
     # volumes:
@@ -22,6 +25,8 @@ services:
       context: oci/aws-cli/v1/
       args:
         - PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME
+        - OPERATOR_UID=${BUMBLEBEE_LX_USER_UID}
+        - OPERATOR_GID=${BUMBLEBEE_LX_USER_UID}
     entrypoint: ["aws", "--version"]
     command: ["/bin/sh"]
     # volumes:
@@ -35,6 +40,8 @@ services:
       context: oci/ansible/
       args:
         - PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME
+        - OPERATOR_UID=${BUMBLEBEE_LX_USER_UID}
+        - OPERATOR_GID=${BUMBLEBEE_LX_USER_UID}
     entrypoint: ["aws", "--version"]
     command: ["/bin/bash"]
     environment:
@@ -66,7 +73,9 @@ services:
     build:
       context: oci/kubeone_operator/
       args:
-        - CCC=$CCC
+        - PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME
+        - OPERATOR_UID=${BUMBLEBEE_LX_USER_UID}
+        - OPERATOR_GID=${BUMBLEBEE_LX_USER_UID}
   # helm_operator:
     # image: jblass3ll3.world/a-k8s-demo/helm_operator:0.0.1
     # From docker.io

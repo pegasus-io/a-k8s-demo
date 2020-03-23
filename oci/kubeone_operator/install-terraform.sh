@@ -34,17 +34,23 @@ echo " ENV CHECK - TERRAFORM_INTALLATION_HOME=[${BUMBLEBEE_HOME_INSIDE_CONTAINER
 curl -LO "$TERRAFORM_PKG_DWLD_URI"
 
 ls -allh
-echo "implémentation non terminée" && exit 1
 
-curl -LO ${TERRAFORM_CHKSUMS_DWNLD_URI}
+installTerraform () {
+  # TODO create terraform user group, and give ownership
+  groupadd terraform
+  # Adding 
+  userdmod -aG terraform ${BUMBLEBEE_LX_USERNAME}
+  mkdir -p ${TERRAFORM_INSTALLATION_HOME}/
+  unzip -d terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPUARCH}.zip ${TERRAFORM_INSTALLATION_HOME}/
+  ln -s ${TERRAFORM_INSTALLATION_HOME}/terraform /usr/local/bin/terraform
+}
 
 zip -T ./terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPUARCH}.zip
 
 if [ "$?" == "0" ]; then
   echo "Successfully checked integrity of the downloaded terraform version ${TERRAFORM_VERSION} package for ${TERRAFORM_OS} OS on ${TERRAFORM_CPU_ARCH} cpu"
   echo "Proceeding installation"
-  unzip -d terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_CPUARCH}.zip ${TERRAFORM_INSTALLATION_HOME}/
-  ln -s ${TERRAFORM_INSTALLATION_HOME}/terraform /usr/local/bin/terraform
+  installTerraform
 else
   echo "Integrity check failed for the downloaded terraform version ${TERRAFORM_VERSION} package for ${TERRAFORM_OS} OS on ${TERRAFORM_CPU_ARCH} cpu"
   echo "check yourself the integrity breach running the following command : "
@@ -52,5 +58,6 @@ else
   exit 3
 fi;
 
+terraform --version
 
 echo "implémentation non terminée" && exit 1
