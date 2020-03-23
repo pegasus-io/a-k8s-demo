@@ -244,7 +244,7 @@ WORKDIR /kubeonebee
 # HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "/kubeonebee/pipeline-step.healthcheck.sh" ]
 
 USER ${BUMBLEBEE_LX_USERNAME}
-
+RUN chmod +x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/run.sh
 ENTRYPOINT ["/kubeonebee/run.sh"]
 
 #

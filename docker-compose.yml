@@ -44,7 +44,7 @@ services:
       - BUMBLEBEE_AWS_PRIVATE_KEY_FILE=/kubeonebee/.secrets/aws/aws.private.key
       - BUMBLEBEE_AWS_PUBLIC_KEY_FILE=/kubeonebee/.secrets/aws/aws.public.key
     volumes:
-      - ./.robots/.secrets/:/kubeonebee/.secrets:rw
+      - $PWD/.robots/.secrets/:/kubeonebee/.secrets:rw
 #
 # ----------- HELM OPS to test Helm Chart deployment of
 #             the NodeJS Express TypeScript App to the
@@ -83,7 +83,7 @@ services:
       - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
     command: sh -c "aws autoscaling describe-auto-scaling-groups | jq -r '.AutoScalingGroups[] | select(.AutoScalingGroupName | startswith(\"${STACK_NAME}-NodeAsg\")).AutoScalingGroupName'"
     volumes:
-      - aws-cli/operator1:/aws/playground:rw
+      - $PWD/aws-cli/operator1:/aws/playground:rw
 
   awscli-op2:
     # image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
@@ -94,7 +94,7 @@ services:
       - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
     command: sh -c "aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names $ASG_NAME | jq '.AutoScalingGroups[0].DesiredCapacity'"
     volumes:
-      - aws-cli/operator2:/aws/playground:rw
+      - $PWD/aws-cli/operator2:/aws/playground:rw
 
   awscli-op3:
     # image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
@@ -105,4 +105,4 @@ services:
       - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
     command: sh -c "aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME --desired-capacity $ASG_DESIRED_CAPACITY"
     volumes:
-      - aws-cli/operator3:/aws/playground:rw
+      - $PWD/aws-cli/operator3:/aws/playground:rw
