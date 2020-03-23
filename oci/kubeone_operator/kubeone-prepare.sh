@@ -57,13 +57,19 @@ cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source/examples/terraform/aws/
 # resolution works both reliably and as expected :
 echo " test pwd=$(pwd)"
 export export GOPATH=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/source/examples/terraform/aws/
-go get ${SSH_URI_TO_ATLANTIS_WATCHED_GIT}
-go get ${SSH_URI_TO_ANSIBLE_HELM_OPERATOR}
+echo '+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+'
+echo '+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+'
+echo "I have a left TODO here : [TODO : package the \${SSH_URI_TO_ATLANTIS_WATCHED_GIT} and \${SSH_URI_TO_ANSIBLE_HELM_OPERATOR} as terraform modules.]"
+echo '+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+'
+echo '+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+'
+# TODO : package the ${SSH_URI_TO_ATLANTIS_WATCHED_GIT} and ${SSH_URI_TO_ANSIBLE_HELM_OPERATOR} as terraform modules.
+# go get ${SSH_URI_TO_ATLANTIS_WATCHED_GIT}
+# go get ${SSH_URI_TO_ANSIBLE_HELM_OPERATOR}
 
 ls -allh .
 
-echo " # --- running in [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace] " | tee -a ./kubeone.prepare.terraform.init.logs
+echo " # --- running init in [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace] " | tee -a ./kubeone.prepare.terraform.init.logs
 terraform init | tee -a ./kubeone.prepare.terraform.init.logs
 # and to test them in the dry run :
-echo " # --- running in [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace] " | tee -a ./kubeone.prepare.terraform.plan.logs
+echo " # --- running plan in [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace] " | tee -a ./kubeone.prepare.terraform.plan.logs
 terraform plan | tee -a ./kubeone.prepare.terraform.plan.logs
