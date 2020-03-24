@@ -9,7 +9,7 @@ Pour monter cette démo, j'ai comparé les caractéristiques de mon prototype, �
 * https://medium.com/@saidur2/setup-a-kubernetes-cluster-in-aws-under-20-minutes-ecab147c4d89 : beaucoup trop ancien, ne serait-ce que pour la partie `Kubernetes`, je comparerai la partie Architecture globale.
 * https://kubernetes.io/docs/setup/production-environment/turnkey/aws/ : officviel et actuel.
 * https://medium.com/containermind/how-to-create-a-kubernetes-cluster-on-aws-in-few-minutes-89dda10354f4 :  me semble un bon compromis, quant aux dates de `2018`.
-
+* la documentation `aws` de `kubeone` : https://github.com/kubermatic/kubeone/blob/master/docs/quickstart-aws.md
 ### Le plus direct
 
 Et permet au passage d'avoir une recette prête pour l'autoscale `AWS`
@@ -35,6 +35,6 @@ export KBONE_CHKSUMS_DWNLD_URI=https://github.com/kubermatic/kubeone/releases/do
 
 # Déploiement de l'applciation dans le Cluster : `Gitlab CI + Helm`
 
-Implémenter la solution suivante : 
+Implémenter la solution suivante :
 
 https://about.gitlab.com/blog/2017/09/21/how-to-create-ci-cd-pipeline-with-autodeploy-to-kubernetes-using-gitlab-and-helm/
