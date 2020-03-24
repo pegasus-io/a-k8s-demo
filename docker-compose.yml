@@ -30,6 +30,7 @@ services:
     restart: always
     stdin_open: true
     tty: true
+    entrypoint: ["/bin/bash"]
     environment:
       - SSH_URI_TO_HELM_CHART=$SSH_URI_TO_HELM_CHART
       - SSH_URI_TO_ATLANTIS_WATCHED_GIT=$SSH_URI_TO_ATLANTIS_WATCHED_GIT
