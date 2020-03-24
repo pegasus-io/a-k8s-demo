@@ -1,7 +1,6 @@
 variable "aws_region" {}
 variable "cluster_name" {}
 variable "aws_instance_type" {}
-
 # ------------------------------------------------------
 # This recipe provisions a single VM on AWS Free Tier
 # ------------------------------------------------------
