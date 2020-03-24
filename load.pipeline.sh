@@ -8,7 +8,8 @@ export OPS_HOME=$(pwd)
 source .little.pipeline.env
 
 ./create-bumblebee.sh
-
+echo ''
+echo 'POINT DEBUG'
 exit 0
 source .little.pipeline.env
 # clean
