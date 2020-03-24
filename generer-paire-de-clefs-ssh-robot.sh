@@ -104,12 +104,14 @@ export THATS_THE_PUB_KEY=$(cat $BUMBLEBEE_SSH_PUBLIC_KEY_FULLPATH)
 
 echo "$PEGASUS_PSONE $PEGASUS_OPS_ALIAS Ajout de la clef SSH au compte GITLAB de  : "
 export PAYLOAD="{ \"title\": \"clef_SSH_PEGASUS${RANDOM}\", \"key\": \"${THATS_THE_PUB_KEY}\" }"
-curl -H "Content-Type: application/json" -H "PRIVATE-TOKEN: ${ACCESS_TOKEN}" -X POST --data $PAYLOAD "https://${PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME}/api/v4/user" | jq .
+curl -H "Content-Type: application/json" -H "PRIVATE-TOKEN: ${ACCESS_TOKEN}" -X POST --data "$PAYLOAD" "https://${PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME}/api/v4/user" | jq .
 
 echo ''
 echo "POINT DEBUG dans [$0]"
+echo "payload : "
+echo "$PAYLOAD"
 echo 'requête "GITLAB.COM API v4" : '
-echo "curl -H "Content-Type: application/json" -H \"PRIVATE-TOKEN: ${ACCESS_TOKEN}\" -X POST --data \"$PAYLOAD\" \"https://${PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME}/api/v4/user\" "
+echo "curl -H \"Content-Type: application/json\" -H \"PRIVATE-TOKEN: ${ACCESS_TOKEN}\" -X POST --data \"$PAYLOAD\" \"https://${PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME}/api/v4/user\" "
 exit 0
 
 
