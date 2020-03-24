@@ -92,7 +92,7 @@ export ACCESS_TOKEN=$GITLAB_ACCESS_TOKEN
 
 # export ACCESS_TOKEN=qPb4xYwfiExRu-uGk9Bv
 
-echo "$PEGASUS_PSONE $PEGASUS_OPS_ALIAS Liste des clefs SSH avant ajout de la clef pegasus : "
+echo "$PEGASUS_PSONE $PEGASUS_OPS_ALIAS Liste des clefs SSH avant ajout de la clef ssh : "
 ls -allh $WHERE_TO_CREATE_RSA_KEY_PAIR
 
 curl --header "PRIVATE-TOKEN: ${ACCESS_TOKEN}" -X GET "https://$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME/api/v4/user/keys" | jq .
@@ -102,8 +102,8 @@ curl --header "PRIVATE-TOKEN: ${ACCESS_TOKEN}" -X GET "https://$PIPELINE_GIT_SER
 
 export THATS_THE_PUB_KEY=$(cat $BUMBLEBEE_SSH_PUBLIC_KEY_FULLPATH)
 
-echo "$PEGASUS_PSONE $PEGASUS_OPS_ALIAS Ajout de la clef SSH au compte GITLAB de  : "
-export PAYLOAD="{ \"title\": \"clef_SSH_PEGASUS${RANDOM}\", \"key\": \"${THATS_THE_PUB_KEY}\" }"
+echo "[${HORODATAGE}] - Ajout de la clef SSH au compte GITLAB de  : "
+export PAYLOAD="{ \"title\": \"clef_SSH_bot_${ROBOTS_ID}_${RANDOM}\", \"key\": \"${THATS_THE_PUB_KEY}\" }"
 curl -H "Content-Type: application/json" -H "PRIVATE-TOKEN: ${ACCESS_TOKEN}" -X POST --data "$PAYLOAD" "https://${PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME}/api/v4/user/keys" | jq .
 
 echo ''
@@ -115,7 +115,7 @@ echo "curl -H \"Content-Type: application/json\" -H \"PRIVATE-TOKEN: ${ACCESS_TO
 exit 0
 
 
-echo "$PEGASUS_PSONE $PEGASUS_OPS_ALIAS Liste des clefs SSH APRES ajout de la clef pegasus : "
+echo "$PEGASUS_PSONE $PEGASUS_OPS_ALIAS Liste des clefs SSH APRES ajout de la clef ssh : "
 curl --header "PRIVATE-TOKEN: $ACCESS_TOKEN" -X GET "https://$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME/api/v4/user/keys" | jq .
 
 
