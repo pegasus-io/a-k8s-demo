@@ -10,9 +10,9 @@ This AWS Quickstart Terraform recipe creates the single node onfrastructure mini
 
 
 
-| -                    | **Caractéristiques**   | Type   | Default       | Required | Default | Required |
+| -                    | **Caractéristiques**   | XXX    | XXX           | XXX      | XXX     | XXX      |
 |----------------------|------------------------|:------:|:-------------:|:--------:|:-------:|:--------:|
-| **AMI**              | AWS region to speak to | string | `"eu-west-3"` | no       | `"cc3"` | no       |
+| **AMI**              | Ubuntu Server 18.04 LTS (HVM), SSD Volume Type | ccccc | `"eu-west-3"` | no       | `"cc3"` | no       |
 | **Instance Type**    | AWS region to speak to | string | `"eu-west-3"` | no       | `"cc3"` | no       |
 | **Storage**          | AWS region to speak to | string | `"eu-west-3"` | no       | `"cc3"` | no       |
 | **Tags**             | AWS region to speak to | string | `"eu-west-3"` | no       | `"cc3"` | no       |
