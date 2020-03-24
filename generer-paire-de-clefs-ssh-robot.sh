@@ -51,7 +51,6 @@ export BUMBLEBEE_SSH_PUBLIC_KEY_FULLPATH="${BUMBLEBEE_SSH_PRIVATE_KEY_FULLPATH}.
 sed -i "s#BUMBLEBEE_SSH_PRIVATE_KEY_FULLPATH_JINJA2_VAR#${BUMBLEBEE_SSH_PRIVATE_KEY_FULLPATH}#g" ./.env
 sed -i "s#BUMBLEBEE_SSH_PUBLIC_KEY_FULLPATH_JINJA2_VAR#${BUMBLEBEE_SSH_PUBLIC_KEY_FULLPATH}#g" ./.env
 
-
 export PEGASUS_DEFAULT_PRIVATE_KEY_PASSPHRASE=""
 # Une [passphrase] non-vide fait échouer l'auth. [gitlab.com]
 # parce que l'ajout d'unbe passphrase , implique que le fichier clef "id_rsa" est crypté
