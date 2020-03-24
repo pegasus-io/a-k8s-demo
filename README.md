@@ -22,6 +22,7 @@ git clone "$URI_DE_CE_REPO" .
 git checkout $THIS_RECIPES_RELEASE
 chmod +x ./load.pipeline.sh
 ./load.pipeline.sh
+
 ```
 
 Why have I named my shell script `load.pipeline.sh`, instead of `setup-k8s.sh` ?
@@ -42,6 +43,7 @@ cd ~/a-k8s-demo
 git checkout feature/k8s-provisioning
 chmod +x ./load.pipeline.sh
 ./load.pipeline.sh
+
 ```
 
 ## The `NodeJS` / `TypeScript` App Source Code
