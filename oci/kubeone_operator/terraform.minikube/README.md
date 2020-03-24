@@ -5,9 +5,7 @@ This AWS Quickstart Terraform recipe creates the single node infrastructure mini
 [minikube official]: https://kubernetes.io/docs/setup/learning-environment/minikube/
 
 
-
 ## The Single VM properties
-
 
 
 | -                    | **Caractéristiques**   | XXX    | XXX           | XXX      | XXX     | XXX      |
