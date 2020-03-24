@@ -62,4 +62,48 @@ ssh-keygen -C $LE_COMMENTAIRE_DE_CLEF -t rsa -b 4096 -f $BUMBLEBEE_SSH_PRIVATE_K
 
 ls -allh $WHERE_TO_CREATE_RSA_KEY_PAIR
 
-sleep 1s
+sleep 3s
+
+
+
+
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+# $$$$$$$$$$  AJOUT DE LA CLEF SSH AUX CLEFS SSH
+# $$$$$$$$$$  DU COMPTE UTILISATEUR ROBOT SUR GITLAB.COM
+# $$$$$$$$$$  SE FAIT AVEC L'USAGE DE
+# $$$$$$$$$$  l'ACCESS TOKEN [GITLAB API v4]
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+
+# --- #
+# export PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=gitlab.com
+# TODO security : access to ${BUMBLEBEE_GITLAB_SECRET_FILE}  is restricted to aws linux user group, to which belongs beeio
+# --- #
+export GITLAB_ACCESS_TOKEN=$(cat ${BUMBLEBEE_GITLAB_SECRET_FILE})
+
+export ACCESS_TOKEN=$GITLAB_ACCESS_TOKEN
+
+# export ACCESS_TOKEN=qPb4xYwfiExRu-uGk9Bv
+
+echo "$PEGASUS_PSONE $PEGASUS_OPS_ALIAS Liste des clefs SSH avant ajout de la clef ssh : "
+ls -allh $WHERE_TO_CREATE_RSA_KEY_PAIR
+
+curl --header "PRIVATE-TOKEN: ${ACCESS_TOKEN}" -X GET "https://$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME/api/v4/user/keys" | jq .
+
+# -----------------------------------------------------------------------------------------
+# -- Now Adding public SSH Key to the Gitlab User Account, using the Gitlab API TOKEN
+
+export THATS_THE_PUB_KEY=$(cat $BUMBLEBEE_SSH_PUBLIC_KEY_FULLPATH)
+
+echo "[${HORODATAGE}] - Ajout de la clef SSH au compte GITLAB de  : "
+export PAYLOAD="{ \"title\": \"clef_SSH_bot_${ROBOTS_ID}_${RANDOM}\", \"key\": \"${THATS_THE_PUB_KEY}\" }"
+curl -H "Content-Type: application/json" -H "PRIVATE-TOKEN: ${ACCESS_TOKEN}" -X POST --data "$PAYLOAD" "https://${PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME}/api/v4/user/keys" | jq .
+
+
+
+echo "$PEGASUS_PSONE $PEGASUS_OPS_ALIAS Liste des clefs SSH APRES ajout de la clef ssh : "
+curl --header "PRIVATE-TOKEN: $ACCESS_TOKEN" -X GET "https://$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME/api/v4/user/keys" | jq .
