@@ -58,8 +58,8 @@ export PEGASUS_DEFAULT_PRIVATE_KEY_PASSPHRASE=""
 # -> décrypter la clef SSH publique
 # -> l'ajouter ddecryptée au compte gitlab.
 #
-export LE_COMMENTAIRE_DE_CLEF="[$ROBOTS_ID]-bumblebee@[workstation]-$(hostname)"
-export LE_COMMENTAIRE_DE_CLEF="[$ROBOTS_ID]-bumblebee@[$PIPELINE_EXECUTION_ID]"
+
+export LE_COMMENTAIRE_DE_CLEF="[$ROBOTS_ID]-bot@[workstation]-$(hostname)"
 
 ssh-keygen -C $LE_COMMENTAIRE_DE_CLEF -t rsa -b 4096 -f $BUMBLEBEE_SSH_PRIVATE_KEY_FULLPATH -q -P "$PEGASUS_DEFAULT_PRIVATE_KEY_PASSPHRASE"
 
@@ -111,7 +111,7 @@ curl -H "Content-Type: application/json" -H "PRIVATE-TOKEN: ${ACCESS_TOKEN}" -X 
 echo "$PEGASUS_PSONE $PEGASUS_OPS_ALIAS Liste des clefs SSH APRES ajout de la clef ssh : "
 curl --header "PRIVATE-TOKEN: $ACCESS_TOKEN" -X GET "https://$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME/api/v4/user/keys" | jq .
 
-
+exit 0
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$

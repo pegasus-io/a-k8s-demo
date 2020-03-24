@@ -52,4 +52,4 @@ mkdir -p ${CHEMIN_GITLAB_SECRETS}
 
 ./prepare-gitlab-secret.sh ${CHEMIN_GITLAB_SECRETS} ${BUMBLEBEE_ID}
 
-./generer-paire-de-clefs-ssh-robot.sh $BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS/.ssh $BUMBLEBEE_ID
+./generer-paire-de-clefs-ssh-robot.sh $BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS/.ssh ${BUMBLEBEE_ID}
