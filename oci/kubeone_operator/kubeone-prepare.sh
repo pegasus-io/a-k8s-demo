@@ -71,6 +71,9 @@ ls -allh .
 
 rm -f ./main.tf
 cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/main.tf .
+rm -f ./variables.tf
+cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/variables.tf .
+
 echo '+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+'
 echo '+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+'
 echo " Content of [$(pwd)] and [$(pwd)/main.tf] : "

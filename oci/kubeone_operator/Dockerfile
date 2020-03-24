@@ -199,6 +199,7 @@ COPY run.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 
 RUN mkdir -p ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation
 COPY terraform/main.tf ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation
+COPY terraform/variables.tf ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation
 COPY atlantis.yml ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 
 RUN chmod +x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/*.sh
