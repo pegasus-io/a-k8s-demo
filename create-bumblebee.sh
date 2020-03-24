@@ -31,6 +31,24 @@ echo " --------------------------------------- "
 
 ./generer-paire-de-clefs-robot.sh $BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS/.ssh $BUMBLEBEE_ID
 
+mkdir -p $BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS/.aws
 ./prepare-aws.secrets.sh $BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS/.aws ${BUMBLEBEE_ID}
 
-./prepare-gitlab-secret.sh $BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS/.gitlab ${BUMBLEBEE_ID}
+
+echo ${BUMBLEBEE_GITLAB_SECRET_FILE} | awk -F '/' '{for ( i= 1; i < NF; i++) { printf $i"/"}}' > ./gitlab.secrets.path
+export CHEMIN_GITLAB_SECRETS=$(cat ./gitlab.secrets.path)
+rm ./gitlab.secrets.path
+
+echo " --------------------------------------- "
+echo " POINT DEBUG - Les deux valeurs suivantes devraient être égales : "
+echo " POINT DEBUG - valeur de [CHEMIN_GITLAB_SECRETS=[${CHEMIN_GITLAB_SECRETS}]] "
+echo " POINT DEBUG - et [$BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS/.gitlab/]] "
+echo " --------------------------------------- "
+echo " POINT DEBUG - contenu de [pwd=[$(pwd)]] : "
+echo " --------------------------------------- "
+ls -allh .
+echo " --------------------------------------- "
+
+mkdir -p ${CHEMIN_GITLAB_SECRETS}
+
+./prepare-gitlab-secret.sh ${CHEMIN_GITLAB_SECRETS} ${BUMBLEBEE_ID}
