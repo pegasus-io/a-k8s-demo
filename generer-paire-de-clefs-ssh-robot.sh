@@ -42,6 +42,7 @@ if [ "x$ROBOTS_ID" == "x" ]; then
 fi;
 
 export PRIVATE_KEY_FULLPATH=$WHERE_TO_CREATE_RSA_KEY_PAIR/cresh-bot-${ROBOTS_ID}-id_rsa
+export BUMBLEBEE_SSH_PUBLIC_KEY_FULLPATH="${PRIVATE_KEY_FULLPATH}.pub"
 
 export PEGASUS_DEFAULT_PRIVATE_KEY_PASSPHRASE=""
 # Une [passphrase] non-vide fait échouer l'auth. [gitlab.com]
@@ -87,15 +88,15 @@ export ACCESS_TOKEN=$GITLAB_ACCESS_TOKEN
 echo "$PEGASUS_PSONE $PEGASUS_OPS_ALIAS Liste des clefs SSH avant ajout de la clef pegasus : "
 ls -allh $WHERE_TO_CREATE_RSA_KEY_PAIR
 
-curl --header "PRIVATE-TOKEN: $ACCESS_TOKEN" -X GET "https://$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME/api/v4/user/keys" | jq .
+curl --header "PRIVATE-TOKEN: ${ACCESS_TOKEN}" -X GET "https://$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME/api/v4/user/keys" | jq .
 
+# -----------------------------------------------------------------------------------------
+# -- Now Adding public SSH Key to the Gitlab User Account, using the Gitlab API TOKEN
 
-# -- Now Adding Pegasus SSH Key to the User, using the TOKEN
-# export THAS_THE_PUB_KEY=$(cat ~/.ssh/id_rsa.pub)
-export THAS_THE_PUB_KEY=$(cat "$PRIVATE_KEY_FULLPATH".pub )
+export THATS_THE_PUB_KEY=$(cat $BUMBLEBEE_SSH_PUBLIC_KEY_FULLPATH)
 
 echo "$PEGASUS_PSONE $PEGASUS_OPS_ALIAS Ajout de la clef SSH avant ajout de la clef pegasus : "
-export PAYLOAD="{ \"title\": \"clef_SSH_PEGASUS${RANDOM}\", \"key\": \"$THAS_THE_PUB_KEY\" }"
+export PAYLOAD="{ \"title\": \"clef_SSH_PEGASUS${RANDOM}\", \"key\": \"${THATS_THE_PUB_KEY}\" }"
 curl -H "Content-Type: application/json" -H "PRIVATE-TOKEN: $ACCESS_TOKEN" -X POST --data "$PAYLOAD" "https://$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME/api/v4/user" | jq .
 
 
@@ -142,7 +143,7 @@ curl -H "Authorization: token $GITHUB_PERSONAL_ACCESS_TOKEN" https://api.github.
 
 # - Now adding desired public key to my Github user account for my bumblebee robot
 
-export PUBLIC_SSH_KEY_VALUE_TO_ADD=$(cat $BUMBLEBEE_SSH_PUBLIC_KEY_FULLPATH)
+export PUBLIC_SSH_KEY_VALUE_TO_ADD=$(cat ${BUMBLEBEE_SSH_PUBLIC_KEY_FULLPATH})
 
 echo " "
 echo " ------------------------------------------------------------------------------------ "
