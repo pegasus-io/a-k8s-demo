@@ -92,17 +92,15 @@ echo ''
 curl --header "PRIVATE-TOKEN: ${GITLAB_ACCESS_TOKEN}" -X GET "https://$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME/api/v4/user" | jq '.username' > ./bot.${BUMBLEBEE_ID}.gitlab.username
 echo ''
 if [ "$?" == "0" ]; then
-  echo "The Gilab Token you provided is invalid"
-else
   export BUMBLEBEE_GITLAB_USERNAME=$(cat ./bot.${BUMBLEBEE_ID}.gitlab.username)
   rm ./bot.${BUMBLEBEE_ID}.gitlab.username
   echo "Hello \@{$BUMBLEBEE_GITLAB_USERNAME}"
+else
+  echo "The Gilab Token you provided is invalid"
 fi;
 
 
-echo "POINT DEBUG"
-echo ''
-exit 0
+
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # $$$$$$$$$$  Now generating ${GITLAB_SECRET_FILE}
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
