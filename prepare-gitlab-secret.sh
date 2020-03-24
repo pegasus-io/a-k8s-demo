@@ -122,4 +122,4 @@ ls -allh ${GITLAB_SECRET_FILE}
 cat ${GITLAB_SECRET_FILE}
 echo '------------------------------------------------'
 
-sleep 7s
+sleep 2s
