@@ -16,7 +16,6 @@ limitations under the License.
 
 variable "cluster_name" {
   description = "The cresh app k8s Cluster Name"
-  value = "creshk8s"
 }
 
 variable "worker_os" {
