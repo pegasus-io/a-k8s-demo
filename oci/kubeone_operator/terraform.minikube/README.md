@@ -1,6 +1,6 @@
 # AWS Quickstart Terraform scripts
 
-This AWS Quickstart Terraform recipe creates the single node onfrastructure minimal needed for `minikube`.
+This AWS Quickstart Terraform recipe creates the single node infrastructure minimal needed for `minikube`.
 
 
 [aws-quickstart]: https://github.com/kubermatic/kubeone/blob/master/docs/quickstart-aws.md
@@ -19,7 +19,9 @@ This AWS Quickstart Terraform recipe creates the single node onfrastructure mini
 | **Security Group**   | AWS region to speak to | string | `"eu-west-3"` | no       | `"cc3"` | no       |
 | **SSH Key Pair**     | AWS region to speak to | string | `"eu-west-3"` | no       | `"cc3"` | no       |
 
-
+* D'après les prix d'`AWS / EC2`, si je prenais une VM `t3.medium`, au prix à la demande, plein pot, sans réduction, et au prix à la demande, j'aurai `0.05 x 750 heures = 37.5 US dollars`, donc moins de `35 euros`.
+* Donc si je prends cette limite comme référence objectif, et que je fais un checkup complet de mon compte AWS toutes les semaines, avec un terraform destroy obligatoire, alores  je devrais m'en sortir.
+* Je peux monter jusqu'à 37 dollars par mois, c'est raisonnable, ok, et le coût du POC proposé est dans cette limite :
 ## AWS Pricing (`march 2020`)
 
 <table cellspacing="0" cellpadding="1">

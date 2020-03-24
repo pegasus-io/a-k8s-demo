@@ -10,6 +10,7 @@ Pour monter cette démo, j'ai comparé les caractéristiques de mon prototype, �
 * https://kubernetes.io/docs/setup/production-environment/turnkey/aws/ : officviel et actuel.
 * https://medium.com/containermind/how-to-create-a-kubernetes-cluster-on-aws-in-few-minutes-89dda10354f4 :  me semble un bon compromis, quant aux dates de `2018`.
 * la documentation `aws` de `kubeone` : https://github.com/kubermatic/kubeone/blob/master/docs/quickstart-aws.md
+
 ### Le plus direct
 
 Et permet au passage d'avoir une recette prête pour l'autoscale `AWS`

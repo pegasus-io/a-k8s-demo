@@ -69,4 +69,5 @@ Okay, the minimal terraform setup for kubeone involves 3 machines, which is :
 ## The minkube fall back
 
 see `oci/kubeone_operator/terraform.minikube` :
-* cccc :
+* Le petit article : https://www.radishlogic.com/kubernetes/running-minikube-in-aws-ec2-ubuntu/
+* cccc : 
