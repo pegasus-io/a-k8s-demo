@@ -3,12 +3,21 @@
 This AWS Quickstart Terraform recipe creates the single node onfrastructure minimal needed for `minikube`.
 
 
-
-The AWS Quickstart Terraform scripts can be used to create the needed infrastructure for a Kubernetes HA cluster.
-Check out the following [AWS getting started walkthrough][aws-quickstart] to learn more about how to use the
-scripts and how to provision a Kubernetes cluster using KubeOne.
-
 [aws-quickstart]: https://github.com/kubermatic/kubeone/blob/master/docs/quickstart-aws.md
+
+
+## The Single VM properties
+
+
+
+| -                    | **Caractéristiques**   | Type   | Default       | Required | Default | Required |
+|----------------------|------------------------|:------:|:-------------:|:--------:|:-------:|:--------:|
+| **AMI**              | AWS region to speak to | string | `"eu-west-3"` | no       | `"cc3"` | no       |
+| **Instance Type**    | AWS region to speak to | string | `"eu-west-3"` | no       | `"cc3"` | no       |
+| **Storage**          | AWS region to speak to | string | `"eu-west-3"` | no       | `"cc3"` | no       |
+| **Tags**             | AWS region to speak to | string | `"eu-west-3"` | no       | `"cc3"` | no       |
+| **Security Group**   | AWS region to speak to | string | `"eu-west-3"` | no       | `"cc3"` | no       |
+| **SSH Key Pair**     | AWS region to speak to | string | `"eu-west-3"` | no       | `"cc3"` | no       |
 
 ## Inputs
 
