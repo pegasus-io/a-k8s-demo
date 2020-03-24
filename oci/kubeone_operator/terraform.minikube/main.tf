@@ -10,17 +10,17 @@ provider "aws" {
 }
 
 resource "aws_instance" "creshVM" {
-  ami             = "ami-221ea342" #id of desired AMI
-  instance_type   = "m3.medium"
+  ami             = var.aws_instance_desired_ami #id of desired AMI
+  instance_type   = var.aws_instance_type
   security_groups = ["${aws_security_group.allow_all.name}"]
   tags = {
-    Env = "test"
+    Env = "creshdemo"
   }
 }
 resource "aws_eip" "eip" {
   vpc = true
   tags = {
-    Env = "test"
+    Env = "creshdemo"
   }
 }
 resource "aws_eip_association" "eip_assoc" {
