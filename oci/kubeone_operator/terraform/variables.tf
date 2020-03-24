@@ -100,6 +100,13 @@ variable "control_plane_instance_count" {
   description = "Number of VMs"
 }
 
+aws_subnet_public_count
+
+variable "aws_subnet_public_count" {
+  default     = 1
+  description = "Number of Subnets"
+}
+
 variable "subnets_cidr" {
   default     = 24
   description = "CIDR mask bits per subnet"

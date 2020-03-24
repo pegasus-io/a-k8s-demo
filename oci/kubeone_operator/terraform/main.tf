@@ -37,6 +37,7 @@ locals {
 
 ################################# DATA SOURCES #################################
 
+# JBL DEFINITION
 data "aws_availability_zones" "available" {
   state = "available"
 }
@@ -77,7 +78,7 @@ resource "random_integer" "cidr_block" {
 ############################### NETWORKING SETUP ###############################
 
 resource "aws_subnet" "public" {
-  count                   = 3
+  count                   = var.aws_subnet_public_count
   availability_zone       = data.aws_availability_zones.available.names[count.index]
   map_public_ip_on_launch = true
   vpc_id                  = data.aws_vpc.selected.id
