@@ -106,13 +106,6 @@ echo "[${HORODATAGE}] - Ajout de la clef SSH au compte GITLAB de  : "
 export PAYLOAD="{ \"title\": \"clef_SSH_bot_${ROBOTS_ID}_${RANDOM}\", \"key\": \"${THATS_THE_PUB_KEY}\" }"
 curl -H "Content-Type: application/json" -H "PRIVATE-TOKEN: ${ACCESS_TOKEN}" -X POST --data "$PAYLOAD" "https://${PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME}/api/v4/user/keys" | jq .
 
-echo ''
-echo "POINT DEBUG dans [$0]"
-echo "payload : "
-echo "$PAYLOAD"
-echo 'requête "GITLAB.COM API v4" : '
-echo "curl -H \"Content-Type: application/json\" -H \"PRIVATE-TOKEN: ${ACCESS_TOKEN}\" -X POST --data \"$PAYLOAD\" \"https://${PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME}/api/v4/user\" "
-exit 0
 
 
 echo "$PEGASUS_PSONE $PEGASUS_OPS_ALIAS Liste des clefs SSH APRES ajout de la clef ssh : "
