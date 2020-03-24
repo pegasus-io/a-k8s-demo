@@ -13,7 +13,7 @@ Steps to build the image :
   * then run `/kubeonebee/kubeone-prepare.sh` for the first time,
   * and when you will run terraform plan into the `/kubeonebee/kubeone/source/examples/terraform/aws` folder, you will get the following error :
 
-```bash
+<pre>
 bash-5.0$ ls -allh
 total 56K
 drwxr-xr-x    3 beeio    bumblebe    4.0K Mar 24 11:10 .
@@ -54,5 +54,8 @@ bash-5.0$ pwd
 /kubeonebee/kubeone/source/examples/terraform/aws
 bash-5.0$
 
-```
-  * SO okay, we need to do something about availabitlity zones on `AWS` : 
+</pre>
+
+  * So okay, we need to do something about availabitlity zones on `AWS` :
+    * region we use is the one for Paris, France, aka `eu-west-3`.
+    * one `AWS` availability zone is defined in a region
