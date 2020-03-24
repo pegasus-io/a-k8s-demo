@@ -95,6 +95,7 @@ if [ "$?" == "0" ]; then
   export BUMBLEBEE_GITLAB_USERNAME=$(cat ./bot.${BUMBLEBEE_ID}.gitlab.username)
   rm ./bot.${BUMBLEBEE_ID}.gitlab.username
   echo "Hello \@{$BUMBLEBEE_GITLAB_USERNAME}"
+  sed -i "s#BUMBLEBEE_GITLAB_USERNAME_JINJA2_VAR#${BUMBLEBEE_GITLAB_USERNAME}#g" ./.env
 else
   echo "The Gilab Token you provided is invalid"
 fi;
