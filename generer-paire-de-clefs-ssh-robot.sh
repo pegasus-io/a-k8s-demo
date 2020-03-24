@@ -49,7 +49,7 @@ export PEGASUS_DEFAULT_PRIVATE_KEY_PASSPHRASE=""
 # Il faudrait donc :
 # -> décrypter la clef SSH publique
 # -> l'ajouter ddecryptée au compte gitlab.
-# 
+#
 export LE_COMMENTAIRE_DE_CLEF="[$ROBOTS_ID]-bumblebee@[workstation]-$(hostname)"
 export LE_COMMENTAIRE_DE_CLEF="[$ROBOTS_ID]-bumblebee@[$PIPELINE_EXECUTION_ID]"
 
@@ -73,7 +73,7 @@ sleep 3s
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-sudo apt-get install -y dialog
+sudo apt-get install -y dialog jq
 
 export QUESTION="Connect to your gitlab [$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME] account, \n In the Settings Menu for your gitlab [$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME] user, Search for the \"Personal Access Token\" Menu, \n from which you will be able to create a new token for your pegasus. What's the valueof yoru token? \n (Copy / paste the token value and press Enter Key) "
 

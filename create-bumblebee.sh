@@ -30,3 +30,7 @@ ls -allh .
 echo " --------------------------------------- "
 
 ./generer-paire-de-clefs-robot.sh $BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS/.ssh $BUMBLEBEE_ID
+
+./prepare-aws.secrets.sh $BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS/.aws ${BUMBLEBEE_ID}
+
+./prepare-gitlab-secret.sh $BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS/.gitlab ${BUMBLEBEE_ID}
