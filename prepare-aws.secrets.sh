@@ -83,7 +83,7 @@ rm ./aws_access_key_id.${BUMBLEBEE_ID}.reponses
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-export QUESTION=" What is his AWS ACCESS KEY ID ? \n (Copy / paste the token value and press Enter Key) "
+export QUESTION=" What is his AWS SECRET ACCESS KEY   ? \n (Copy / paste the token value and press Enter Key) "
 
 #
 # Pas de valeur par défaut,le [2>] estlà pour faire la redirection de canal de sortie du processs (synchrone) de la commande [dialog]
