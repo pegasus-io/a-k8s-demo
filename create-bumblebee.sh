@@ -42,7 +42,7 @@ rm ./gitlab.secrets.path
 echo " --------------------------------------- "
 echo " POINT DEBUG - Les deux valeurs suivantes devraient être égales : "
 echo " POINT DEBUG - valeur de [CHEMIN_GITLAB_SECRETS=[${CHEMIN_GITLAB_SECRETS}]] "
-echo " POINT DEBUG - et [$BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS/.gitlab/]] "
+echo " POINT DEBUG - et [BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS=[$BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS/.gitlab/]] "
 echo " --------------------------------------- "
 echo " POINT DEBUG - contenu de [pwd=[$(pwd)]] : "
 echo " --------------------------------------- "
