@@ -44,9 +44,12 @@ services:
       # where inside the container, the bot will find the private key to
       # git push to github.com / gitlab.com
       # also see volume [/kubeonebee/.secrets] mounted from outside the container
+      # --
+      # Bumblebee knows where its SSH secrets are, bumblebee just needs the private key filename
       - BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME=${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}
-      - BUMBLEBEE_AWS_PRIVATE_KEY_FILE=/kubeonebee/.secrets/aws/aws.private.key
-      - BUMBLEBEE_AWS_PUBLIC_KEY_FILE=/kubeonebee/.secrets/aws/aws.public.key
+      - BUMBLEBEE_GIT_SSH_COMMAND=${BUMBLEBEE_GIT_SSH_COMMAND}
+      # Where Bumblebee will find its aws credentials inside container
+      - BUMBLEBEE_AWS_CREDENTIALS_FILE=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/credentials
     volumes:
       - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}:/kubeonebee/.secrets:rw
 #
