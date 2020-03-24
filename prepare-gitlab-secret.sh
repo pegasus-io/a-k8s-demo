@@ -86,10 +86,11 @@ echo " [${HORODATAGE}] Test de votre token gitlab.com : "
 echo "------------------------------------------------------------"
 echo "Valeur du token GITLAB = [${GITLAB_ACCESS_TOKEN}]"
 curl --header "PRIVATE-TOKEN: ${GITLAB_ACCESS_TOKEN}" -X GET "https://$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME/api/v4/user" | jq .
-echo "POINT DEBUG"
-exit 0
+echo ''
+echo ''
+echo ''
 curl --header "PRIVATE-TOKEN: ${GITLAB_ACCESS_TOKEN}" -X GET "https://$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME/api/v4/user" | jq '.username' > ./bot.${BUMBLEBEE_ID}.gitlab.username
-
+echo ''
 if [ "$?" == "0" ]; then
   echo "The Gilab Token you provided is invalid"
 else
@@ -99,6 +100,9 @@ else
 fi;
 
 
+echo "POINT DEBUG"
+echo ''
+exit 0
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # $$$$$$$$$$  Now generating ${GITLAB_SECRET_FILE}
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
