@@ -29,7 +29,6 @@ echo " --------------------------------------- "
 ls -allh .
 echo " --------------------------------------- "
 
-./generer-paire-de-clefs-robot.sh $BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS/.ssh $BUMBLEBEE_ID
 
 mkdir -p $BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS/.aws
 ./prepare-aws.secrets.sh $BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS/.aws ${BUMBLEBEE_ID}
@@ -52,3 +51,5 @@ echo " --------------------------------------- "
 mkdir -p ${CHEMIN_GITLAB_SECRETS}
 
 ./prepare-gitlab-secret.sh ${CHEMIN_GITLAB_SECRETS} ${BUMBLEBEE_ID}
+
+./generer-paire-de-clefs-robot.sh $BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS/.ssh $BUMBLEBEE_ID
