@@ -3,6 +3,9 @@ Copyright 2020 Jean-Baptiste-Lasselle
 
 GNU GPL v3
 
+Inspired by @sahityamaruvada
+in his article https://medium.com/@sahityamaruvada/spinning-up-instances-with-terraform-in-azure-and-aws-38f251d462e8
+
 */
 
 provider "aws" {
