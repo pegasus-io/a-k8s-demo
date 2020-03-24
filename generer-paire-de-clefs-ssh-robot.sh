@@ -73,20 +73,12 @@ sleep 3s
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-sudo apt-get install -y dialog jq
 
-export QUESTION="Connect to your gitlab [$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME] account, \n In the Settings Menu for your gitlab [$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME] user, Search for the \"Personal Access Token\" Menu, \n from which you will be able to create a new token for your pegasus. What's the valueof yoru token? \n (Copy / paste the token value and press Enter Key) "
-
-#
-# Pas de valeur par défaut,le [2>] estlà pour faire la redirection de canal de sortie du processs (synchrone) de la commande [dialog]
-#
-dialog --inputbox "$QUESTION" 15 50 2> ./gitlab.access.token.reponses.pegasus
-
-
+# --- #
 # export PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=gitlab.com
-export GITLAB_ACCESS_TOKEN=$(cat ./gitlab.access.token.reponses.pegasus)
-# Security (don't leave any secret on the file system, ne it in a container or a VM):
-rm ./gitlab.access.token.reponses.pegasus
+# TODO security : access to ${BUMBLEBEE_GITLAB_SECRET_FILE}  is restricted to aws linux user group, to which belongs beeio
+# --- #
+export GITLAB_ACCESS_TOKEN=$(cat ${BUMBLEBEE_GITLAB_SECRET_FILE})
 
 export ACCESS_TOKEN=$GITLAB_ACCESS_TOKEN
 
