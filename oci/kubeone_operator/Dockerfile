@@ -163,6 +163,7 @@ ARG TERRAFORM_INSTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform/ins
 ARG TERRAFORM_LIBS_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform/libs/${TERRAFORM_VERSION}
 
 
+
 ARG GITFLOW_VERSION=000
 ARG GITFLOW_INTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/git-flow/installation/${GITFLOW_VERSION}
 
@@ -194,6 +195,7 @@ COPY init-iaac.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 COPY init-aws.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 COPY install-kubeone.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 COPY install-terraform.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
+COPY install-terraform-clean-syntax.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 COPY kubeone-prepare.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 COPY kubeone-boot-atlantis.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 
@@ -235,6 +237,11 @@ RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-kubeone.sh
 # ---------------------------------------------------------
 # creates a terraform linux user group
 RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-terraform.sh
+# ---------------------------------------------------------
+# Now installing TERRAFORM clean syntax module utility
+# ---------------------------------------------------------
+# creates a terraform linux user group
+RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-terraform-clean-syntax.sh
 
 # [create-bee-user.sh] creates a user 'beeio' and its group, 'bumblebee' group
 # So we create :

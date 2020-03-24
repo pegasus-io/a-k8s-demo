@@ -39,7 +39,17 @@ echo " ENV CHECK - TERRAFORM_LIBS_HOME=[${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terra
 
 # git clone https://github.com/apparentlymart/terraform-clean-syntax ${TERRAFORM_LIBS_HOME}/
 
-git clone git@github.com/apparentlymart/terraform-clean-syntax ${TERRAFORM_LIBS_HOME}/
+git clone git@gitlab.com:second-bureau/bellerophon/terraform/external/terraform-clean-syntax.git ${TERRAFORM_LIBS_HOME}/
 
 cd ${TERRAFORM_LIBS_HOME}/
-git checkout
+git checkout 0.0.1
+go install || exit 7
+go build || exit 7
+
+terraform-clean-syntax --help
+echo "--------------------------------------"
+echo '[terraform-clean-syntax] is now installed. - In any '
+echo 'directory SOME_DIRECTORY where you run "terraform plan", you '
+echo 'can clean up you iac source files out of executing : '
+echo ' terraform-clean-syntax SOME_DIRECTORY'
+echo "--------------------------------------"
