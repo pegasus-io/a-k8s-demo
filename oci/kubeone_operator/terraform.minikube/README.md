@@ -2,8 +2,8 @@
 
 This AWS Quickstart Terraform recipe creates the single node infrastructure minimal needed for `minikube`.
 
+[minikube official]: https://kubernetes.io/docs/setup/learning-environment/minikube/
 
-[aws-quickstart]: https://github.com/kubermatic/kubeone/blob/master/docs/quickstart-aws.md
 
 
 ## The Single VM properties
@@ -21,8 +21,8 @@ This AWS Quickstart Terraform recipe creates the single node infrastructure mini
 
 * D'après les prix d'`AWS / EC2`, si je prenais une VM `t3.medium`, au prix à la demande, plein pot, sans réduction, et au prix à la demande, j'aurai `0.05 x 750 heures = 37.5 US dollars`, donc moins de `35 euros`.
 * Donc si je prends cette limite comme référence objectif, et que je fais un checkup complet de mon compte AWS toutes les semaines, avec un terraform destroy obligatoire, alores  je devrais m'en sortir.
-* Je peux monter jusqu'à 37 dollars par mois, c'est raisonnable, ok, et le coût du POC proposé est dans cette limite :
-
+* Je peux monter jusqu'à `37 dollars` par mois, c'est raisonnable, ok, et le coût du POC proposé est dans cette limite :
+* Les _minimum hardware requirements_, sont de ` 2GB RAM, 2 CPUS, and a disk of 20GB.` d'après cette source officielle redhat (plutôt fiable) : https://developers.redhat.com/blog/2019/04/16/build-your-kubernetes-armory-with-minikube-kail-and-kubens/
 
 
 
