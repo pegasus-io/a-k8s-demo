@@ -108,7 +108,8 @@ curl -H "Content-Type: application/json" -H "PRIVATE-TOKEN: ${ACCESS_TOKEN}" -X 
 
 echo ''
 echo "POINT DEBUG dans [$0]"
-echo ''
+echo 'requête "GITLAB.COM API v4" : '
+echo "curl -H "Content-Type: application/json" -H \"PRIVATE-TOKEN: ${ACCESS_TOKEN}\" -X POST --data \"$PAYLOAD\" \"https://${PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME}/api/v4/user\" "
 exit 0
 
 
