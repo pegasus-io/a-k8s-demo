@@ -15,7 +15,7 @@ This AWS Quickstart Terraform recipe creates the single node onfrastructure mini
 | **AMI**              | Ubuntu Server 18.04 LTS (HVM), SSD Volume Type | ccccc | `"eu-west-3"` | no       | `"cc3"` | no       |
 | **Instance Type**    | t3.micro (2 vCPU, 1GB Memory) | string | `"eu-west-3"` | no       | `"cc3"` | no       |
 | **Storage**          | 8 GB (gp2) | string | `"eu-west-3"` | no       | `"cc3"` | no       |
-| **Tags**             | <ul><li>– Key: Name</li><li>– Value: Minikube</li></ul> | string | `"eu-west-3"` | no       | `"cc3"` | no       |
+| **Tags**             | <ul><li>Key: Name</li><li>Value: Minikube</li></ul> | string | `"eu-west-3"` | no       | `"cc3"` | no       |
 | **Security Group**   | AWS region to speak to | string | `"eu-west-3"` | no       | `"cc3"` | no       |
 | **SSH Key Pair**     | AWS region to speak to | string | `"eu-west-3"` | no       | `"cc3"` | no       |
 
