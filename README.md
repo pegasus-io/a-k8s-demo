@@ -7,6 +7,8 @@ In this little exeriment, we will :
 
 ## The Kubernetes Cluster
 
+
+
 ### Provision
 
 To provision the k8s cluster, and set up your local work environment, execute this in an empty directory :
@@ -30,6 +32,17 @@ Because after k8s is fully operational on AWS, we will have to :
   * tail -f the logs of the `NodeJS` / `TypeScript` application running live
   * reconfigure one of the configuration parameters of the `NodeJS` / `TypeScript` application, and restart it, ultimately
   * change the source code of the `NodeJS` / `TypeScript` application, like change the background color of the API landing page, and re-deploy it live, ultimately using a blue green deployment. `Commit ID` will be visible on landing page of the APi, in every release of the `NodeJS` / `TypeScript` app.
+
+
+### K8S cluster provision Tests
+
+```bash
+git clone https://github.com/pegasus-io/a-k8s-demo.git ~/a-k8s-demo
+cd ~/a-k8s-demo
+git checkout feature/k8s-provisioning
+chmod +x ./load.pipeline.sh
+./load.pipeline.sh
+```
 
 ## The `NodeJS` / `TypeScript` App Source Code
 
