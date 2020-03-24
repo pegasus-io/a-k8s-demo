@@ -6,6 +6,7 @@ GNU GPL v3
 Inspired by @sahityamaruvada
 in his article https://medium.com/@sahityamaruvada/spinning-up-instances-with-terraform-in-azure-and-aws-38f251d462e8
 
+But mostly debugged using https://www.terraform.io/docs/providers/aws/r/instance.html
 */
 
 provider "aws" {
