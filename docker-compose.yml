@@ -45,7 +45,7 @@ services:
       - BUMBLEBEE_AWS_PRIVATE_KEY_FILE=/kubeonebee/.secrets/aws/aws.private.key
       - BUMBLEBEE_AWS_PUBLIC_KEY_FILE=/kubeonebee/.secrets/aws/aws.public.key
     volumes:
-      - $PWD/.robots/.secrets/:/kubeonebee/.secrets:rw
+      - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}:/kubeonebee/.secrets:rw
 #
 # ----------- HELM OPS to test Helm Chart deployment of
 #             the NodeJS Express TypeScript App to the

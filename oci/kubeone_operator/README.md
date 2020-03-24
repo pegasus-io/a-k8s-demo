@@ -59,3 +59,14 @@ bash-5.0$
   * So okay, we need to do something about availabitlity zones on `AWS` :
     * region we use is the one for Paris, France, aka `eu-west-3`.
     * one `AWS` availability zone is defined in a region
+
+
+Okay, the minimal terraform setup for kubeone involves 3 machines, which is :
+* the minimum cluster nodes number for a production Kubernetes , as mentioned by the `Kubernetes` documentation itself.
+* out of the AWS Free plan.
+* So I switched to finding the quickest solution to deploy minikube, which will restrain to only one machine, on AWS EC2 : https://www.radishlogic.com/kubernetes/running-minikube-in-aws-ec2-ubuntu/
+
+## The minkube fall back
+
+see `oci/kubeone_operator/terraform.minikube` :
+* cccc :

@@ -52,7 +52,7 @@ services:
       - SSH_URI_TO_ANSIBLE_PLAYBOOK=$SSH_URI_TO_ANSIBLE_PLAYBOOK
       # + ccc
     volumes:
-      - $BUMBLEBEE_SECRET_VAULT_OUTSIDE_CONTAINER:/ansiblebee/.secrets:rw
+      - $BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS:/ansiblebee/.secrets:rw
       - ./ansible/workspace:/ansiblebee/workspace:rw
     # ---------------------------------------------
     # in case I want an interactive shell session
