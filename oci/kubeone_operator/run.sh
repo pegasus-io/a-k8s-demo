@@ -6,8 +6,9 @@ set -x
 
 echo "Entrée dans [$0]"
 cd $BUMBLEBEE_HOME_INSIDE_CONTAINER
-./kubeone-prepare.sh || exit 5
-./init-iaac.sh || exit 2
+./init-iaac.sh || exit 4
+./init-aws.sh || exit 5
+./kubeone-prepare.sh || exit 3
 # installations are done at OCI image build time
-# ./install-kubeone.sh || exit 3
-# ./install-terraform.sh || exit 4
+# ./install-kubeone.sh || exit 6
+# ./install-terraform.sh || exit 7
