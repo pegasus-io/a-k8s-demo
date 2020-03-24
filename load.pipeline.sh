@@ -9,6 +9,7 @@ source .little.pipeline.env
 
 ./create-bumblebee.sh
 
+exit 0
 source .little.pipeline.env
 # clean
 docker-compose down --rmi all && docker system prune -f --all && docker system prune -f --volumes
