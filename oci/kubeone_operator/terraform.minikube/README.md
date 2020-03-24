@@ -17,7 +17,7 @@ This AWS Quickstart Terraform recipe creates the single node infrastructure mini
 | **Storage**          | 8 GB (gp2) | string | `"eu-west-3"` | no       | `"cc3"` | no       |
 | **Tags**             | <ul><li>Key: Name</li><li>Value: Minikube</li></ul> | string | `"eu-west-3"` | no       | `"cc3"` | no       |
 | **Security Group**   | <ul><li>Nom : `"Minikube Security Group"`</li><li>`– SSH, 0.0.0.0/0`</li></ul> | string | `"eu-west-3"` | no       | `"cc3"` | no       |
-| **SSH Key Pair**     | AWS region to speak to | string | `"eu-west-3"` | no       | `"cc3"` | no       |
+| **SSH Key Pair**     | paire de clefs du robot **_Bumblebee_** | string | `"eu-west-3"` | no       | `"cc3"` | no       |
 
 * D'après les prix d'`AWS / EC2`, si je prenais une VM `t3.medium`, au prix à la demande, plein pot, sans réduction, et au prix à la demande, j'aurai `0.05 x 750 heures = 37.5 US dollars`, donc moins de `35 euros`.
 * Donc si je prends cette limite comme référence objectif, et que je fais un checkup complet de mon compte AWS toutes les semaines, avec un terraform destroy obligatoire, alores  je devrais m'en sortir.
