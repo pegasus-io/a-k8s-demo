@@ -84,10 +84,13 @@ rm ./gitlab.access.token.reponses.pegasus
 
 echo " [${HORODATAGE}] Test de votre token gitlab.com : "
 
-curl --header "PRIVATE-TOKEN: $GITLAB_ACCESS_TOKEN" -X GET "https://$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME/api/v4/user/keys" | jq .
-
+curl --header "PRIVATE-TOKEN: $GITLAB_ACCESS_TOKEN" -X GET "https://$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME/api/v4/user/keys" | jq '.username' > ./bot.${BUMBLEBEE_ID}.gitlab.username
 if [ "$?" == "0" ]; then
-  echo "cccc"
+  echo "The Gilab Token you provided is invalid"
+else
+  export BUMBLEBEE_GITLAB_USERNAME=$(cat ./bot.${BUMBLEBEE_ID}.gitlab.username)
+  rm ./bot.${BUMBLEBEE_ID}.gitlab.username
+  echo "Hello \@{$BUMBLEBEE_GITLAB_USERNAME}"
 fi;
 
 

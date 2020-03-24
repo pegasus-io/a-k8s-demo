@@ -132,4 +132,4 @@ ls -allh ${AWS_CREDENTIALS_FILE}
 cat ${AWS_CREDENTIALS_FILE}
 echo '------------------------------------------------'
 
-sleep 17s
+sleep 2s
