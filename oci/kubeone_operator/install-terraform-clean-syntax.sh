@@ -37,6 +37,9 @@ echo " ENV CHECK - TERRAFORM_LIBS_HOME=[${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terra
 # ---
 # Downloading Terraform executable
 
-git clone https://github.com/apparentlymart/terraform-clean-syntax ${TERRAFORM_LIBS_HOME}/
+# git clone https://github.com/apparentlymart/terraform-clean-syntax ${TERRAFORM_LIBS_HOME}/
+
+git clone git@github.com/apparentlymart/terraform-clean-syntax ${TERRAFORM_LIBS_HOME}/
+
 cd ${TERRAFORM_LIBS_HOME}/
-git checkout 
+git checkout
