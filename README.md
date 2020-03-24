@@ -46,6 +46,7 @@ chmod +x ./load.pipeline.sh
 
 # -------------
 # - tear down :
+# -------------
 # docker-compose down --rmi all && docker system prune -f --all && docker system prune -f --volumes && cd && rm -fr ~/a-k8s-demo
 
 ```
