@@ -51,5 +51,7 @@ echo " --------------------------------------- "
 mkdir -p ${CHEMIN_GITLAB_SECRETS}
 
 ./prepare-gitlab-secret.sh ${CHEMIN_GITLAB_SECRETS} ${BUMBLEBEE_ID}
-
+echo ''
+echo 'POINT DEBUG'
+exit 0
 ./generer-paire-de-clefs-ssh-robot.sh $BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS/.ssh $BUMBLEBEE_ID
