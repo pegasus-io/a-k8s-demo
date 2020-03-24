@@ -95,6 +95,11 @@ variable "ami" {
   description = "AMI ID, use it to fixate control-plane AMI in order to avoid force-recreation it at later times"
 }
 
+variable "control_plane_instance_count" {
+  default     = 3
+  description = "Number of VMs"
+}
+
 variable "subnets_cidr" {
   default     = 24
   description = "CIDR mask bits per subnet"
