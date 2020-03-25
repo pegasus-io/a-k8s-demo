@@ -73,8 +73,12 @@ rm -f ./main.tf
 cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/main.tf .
 rm -f ./variables.tf
 cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/variables.tf .
+rm -f ./output.tf
+cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/output.tf .
 rm -f ./terraform.tfvars
 cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/terraform.tfvars .
+rm -f ./versions.tfvars
+cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/versions.tfvars .
 
 echo '+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+'
 echo '+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+'
@@ -92,5 +96,13 @@ echo '+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 echo " # --- running init in [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace] " | tee -a ./kubeone.prepare.terraform.init.logs
 terraform init | tee -a ./kubeone.prepare.terraform.init.logs
 # and to test them in the dry run :
+echo '------------------------------------------------------------------------'
+echo '---  Now checking bashrc env before terraform plan '
+echo '------------------------------------------------------------------------'
+echo "AWS_ACCESS_KEY_ID=[${AWS_ACCESS_KEY_ID}]"
+echo "AWS_SECRET_ACCESS_KEY=[${AWS_SECRET_ACCESS_KEY}]"
+echo "AWS_DEFAULT_REGION=[${AWS_DEFAULT_REGION}]"
+echo '------------------------------------------------------------------------'
+
 echo " # --- running plan in [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace] " | tee -a ./kubeone.prepare.terraform.plan.logs
 terraform plan | tee -a ./kubeone.prepare.terraform.plan.logs
