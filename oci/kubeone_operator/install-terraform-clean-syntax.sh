@@ -33,7 +33,8 @@ echo '---------------------------------------------------------------'
 # ---
 # That's where we 'll install Terraform on the nix system' filesystem
 # export TERRAFORM_INTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform/installation/${TERRAFORM_VERSION}
-echo " ENV CHECK - TERRAFORM_LIBS_HOME=[${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform/libs/${TERRAFORM_VERSION}]"
+echo " ENV CHECK - TERRAFORM_LIBS_HOME devrait avoir la valeur [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform/libs/${TERRAFORM_VERSION}]"
+echo " ENV CHECK - TERRAFORM_LIBS_HOME=[${TERRAFORM_LIBS_HOME}]"
 # ---
 # Downloading Terraform executable
 
