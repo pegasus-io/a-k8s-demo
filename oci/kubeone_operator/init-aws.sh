@@ -6,6 +6,11 @@
 echo '----------------------------------------------------------------'
 echo "Initializing AWS secrets for Terraform to use them"
 echo '----------------------------------------------------------------'
+echo '----------------------------------------------------------------'
+echo " Checking value of env. var. BUMBLEBEE_HOME_INSIDE_CONTAINER=[${BUMBLEBEE_HOME_INSIDE_CONTAINER}]"
+echo '----------------------------------------------------------------'
+ls -allh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/
+ls -allh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws
 ls -allh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/credentials
 echo '----------------------------------------------------------------'
 cat ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/credentials
