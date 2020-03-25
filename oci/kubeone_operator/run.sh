@@ -15,5 +15,5 @@ cd $BUMBLEBEE_HOME_INSIDE_CONTAINER
 # ---------------------------------------------------------
 # creates a terraform linux user group
 ./install-terraform-clean-syntax.sh || exit 13
-# ./kubeone-prepare.sh || exit 14
+./kubeone-prepare.sh || exit 14
 exec "${SHELL}"
