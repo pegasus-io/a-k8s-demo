@@ -30,7 +30,7 @@ services:
     restart: always
     stdin_open: true
     tty: true
-    # entrypoint: ["/bin/bash"]
+    entrypoint: ["/bin/bash"]
     command: ["/bin/bash"]
     environment:
       - SSH_URI_TO_HELM_CHART=$SSH_URI_TO_HELM_CHART
