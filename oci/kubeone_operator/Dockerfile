@@ -268,4 +268,4 @@ ENTRYPOINT ["/kubeonebee/run.sh"]
 # I want bash inside, not just /bin/sh, because
 # this container is an interactive workspace
 #
-# CMD ["/bin/bash"]
+CMD ["/bin/bash"]
