@@ -1,4 +1,12 @@
-# Purpose
+# KUBEONE DEFAULT TERRAFORM MINIFIED
+
+* La recette minimale de provision proposée par `kubeone`, est conforme aux exigences officielles d'une configuration minimale Haute disponibilité de Kubernetes : 3 VM.
+* Or, pour pouvoir afire une démo reposant à plsu de 75% sur le FRee Tier AWS, 3 VM, c'est trop.
+* J'ai donc :
+  * modifié le Terraform pour qu'il ne provisionne qu'une seule VM
+  * ajouté un module utilitaire, fort utile : https://github.com/pegasus-io/flowed-terraform-clean-syntax
+
+# Purpose of the experiment
 
 In this little exeriment, we will :
 * Quickly develop a simple Express based REST API, The REST API feeds from a mongodb DataBase
@@ -11,7 +19,7 @@ In this little exeriment, we will :
 
 ### Provision
 
-To provision the k8s cluster, and set up your local work environment, execute this in an empty directory :
+To set up your local work environment, execute this in an empty directory :
 
 ```bash
 # You choose your method, SSH or HTTPS
@@ -24,6 +32,12 @@ chmod +x ./load.pipeline.sh
 ./load.pipeline.sh
 
 ```
+* To terraform plan the k8s cluster, execute, in the same shell session, and the same directory, the command :
+```bash
+./run.pipeline.sh
+```
+
+
 
 Why have I named my shell script `load.pipeline.sh`, instead of `setup-k8s.sh` ?
 
@@ -40,7 +54,7 @@ Because after k8s is fully operational on AWS, we will have to :
 ```bash
 git clone https://github.com/pegasus-io/a-k8s-demo.git ~/a-k8s-demo
 cd ~/a-k8s-demo
-git checkout feature/k8s-provisioning-2
+git checkout feature/k8s-provisioning
 chmod +x ./load.pipeline.sh
 ./load.pipeline.sh
 
