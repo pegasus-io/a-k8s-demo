@@ -2,8 +2,9 @@
 
 This AWS Quickstart Terraform recipe creates the single node infrastructure minimal needed for `minikube`.
 
+* The example terraform I startedd from : https://medium.com/@sahityamaruvada/spinning-up-instances-with-terraform-in-azure-and-aws-38f251d462e8
+
 [minikube official]: https://kubernetes.io/docs/setup/learning-environment/minikube/
-* one example terraform : https://medium.com/@sahityamaruvada/spinning-up-instances-with-terraform-in-azure-and-aws-38f251d462e8
 
 ## The Single VM properties
 
