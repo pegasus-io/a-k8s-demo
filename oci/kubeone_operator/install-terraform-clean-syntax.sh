@@ -26,8 +26,7 @@ export HASHICORP_PGP_SIGNING_KEY=hashicorp.pgp.key
 
 
 echo '---------------------------------------------------------------'
-echo ' Commandes GPG dans le conteneur kubeone#./install-terraform.sh'
-echo "----------------------- [$(pwd)] "
+echo "Installation [$0]"
 echo '---------------------------------------------------------------'
 
 # ---
