@@ -43,7 +43,7 @@ services:
         - OPERATOR_UID=${BUMBLEBEE_LX_USER_UID}
         - OPERATOR_GID=${BUMBLEBEE_LX_USER_UID}
     entrypoint: ["aws", "--version"]
-    command: ["/bin/bash"]
+    command: /bin/bash
     environment:
       - PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME
       - BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME=$BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME
