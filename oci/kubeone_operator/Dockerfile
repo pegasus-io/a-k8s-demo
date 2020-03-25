@@ -237,11 +237,7 @@ RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-kubeone.sh
 # ---------------------------------------------------------
 # creates a terraform linux user group
 RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-terraform.sh
-# ---------------------------------------------------------
-# Now installing TERRAFORM clean syntax module utility
-# ---------------------------------------------------------
-# creates a terraform linux user group
-RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-terraform-clean-syntax.sh
+
 
 # [create-bee-user.sh] creates a user 'beeio' and its group, 'bumblebee' group
 # So we create :
