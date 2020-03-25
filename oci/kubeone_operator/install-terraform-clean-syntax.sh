@@ -29,14 +29,16 @@ echo '---------------------------------------------------------------'
 echo "Installation [$0]"
 echo '---------------------------------------------------------------'
 
+export GIT_SSH_COMMAND=$BUMBLEBEE_GIT_SSH_COMMAND
 # ---
 # That's where we 'll install Terraform on the nix system' filesystem
 # export TERRAFORM_INTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform/installation/${TERRAFORM_VERSION}
 echo " ENV CHECK - TERRAFORM_LIBS_HOME devrait avoir la valeur [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform/libs/${TERRAFORM_VERSION}]"
 echo " ENV CHECK - TERRAFORM_LIBS_HOME=[${TERRAFORM_LIBS_HOME}]"
+echo " ENV CHECK - BUMBLEBEE_GIT_SSH_COMMAND=[${BUMBLEBEE_GIT_SSH_COMMAND}]"
+echo " ENV CHECK - GIT_SSH_COMMAND=[${GIT_SSH_COMMAND}]"
 # ---
 # Downloading Terraform executable
-
 # git clone https://github.com/apparentlymart/terraform-clean-syntax ${TERRAFORM_LIBS_HOME}/
 mkdir -p ${TERRAFORM_LIBS_HOME}/
 git clone git@gitlab.com:second-bureau/bellerophon/terraform/external/terraform-clean-syntax.git ${TERRAFORM_LIBS_HOME}/
