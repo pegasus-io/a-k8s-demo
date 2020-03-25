@@ -1,0 +1,3 @@
+# Secrets locally tested
+oci/kubeone_operator/aws/.secrets/
+oci/kubeone_operator/aws/.secrets/*

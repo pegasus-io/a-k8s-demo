@@ -1,0 +1,116 @@
+version: '3.2'
+
+services:
+
+#
+# ----------- KUBEONE GITOPS able to :
+#             => Deploy the Atlantis service to Heroku
+#             => Backup the Atlantis service running on Heroku
+#             => Restore the Atlantis service running on Heroku
+  atlantis_autopilot:
+    image: pegasusio/creshtest_atlantis_autopilot:0.0.1
+    environment:
+      # Git repo where the autopilot is versioned
+      - SSH_URI_TO_GIT_REPO=$SSH_URI_TO_GIT_REPO
+
+#
+# ----------- KUBEONE GITOPS able to :
+#             => Bootstrap the Atlantis git repo, which Atlantis
+#                will use to operate the AWS IAAS and the
+#                Kubernetes Cluster inside of the AWS tenant.
+#             => Bootstrap the Atlantis git repo, which Atlantis
+#                will use to operate the AWS IAAS and the
+#                Kubernetes Cluster inside of the AWS tenant.
+
+  kubeone_gitops_operator:
+    # image: jblass3ll3.world/a-k8s-demo/kubeone_operator:0.0.1
+    # From docker.io
+    image: pegasusio/creshtest_kubeone_operator:0.0.1
+    container_name: 'kubeone_gitops_operator'
+    restart: always
+    stdin_open: true
+    tty: true
+    # entrypoint: ["/bin/bash"]
+    # command: ["/bin/bash"]
+    environment:
+      - SSH_URI_TO_HELM_CHART=$SSH_URI_TO_HELM_CHART
+      - SSH_URI_TO_ATLANTIS_WATCHED_GIT=$SSH_URI_TO_ATLANTIS_WATCHED_GIT
+      # +++
+      # +++>> BEE BOT
+      # +++
+      # Also need 'beeio' robot secrets :
+      # => SSH private key to git push over ssh.
+      # => AWS credentials
+      # Both being
+      # where inside the container, the bot will find the private key to
+      # git push to github.com / gitlab.com
+      # also see volume [/kubeonebee/.secrets] mounted from outside the container
+      # --
+      # Bumblebee knows where its SSH secrets are, bumblebee just needs the private key filename
+      - BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME=${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}
+      - BUMBLEBEE_GIT_SSH_COMMAND=${BUMBLEBEE_GIT_SSH_COMMAND}
+      # Where Bumblebee will find its aws credentials inside container
+      - BUMBLEBEE_AWS_CREDENTIALS_FILE=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/credentials
+    volumes:
+      - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}:/kubeonebee/.secrets:rw
+#
+# ----------- HELM OPS to test Helm Chart deployment of
+#             the NodeJS Express TypeScript App to the
+#             K8S Cluster on AWS.
+  helm_operator_deployer:
+    # image: jblass3ll3.world/a-k8s-demo/helm_operator:0.0.1
+    # From docker.io
+    image: pegasusio/creshtest_helm_operator:0.0.1
+    environment:
+      - SSH_URI_TO_HELM_CHART=$SSH_URI_TO_HELM_CHART
+#
+# ----------- ANSIBLE OPS to test the Ansible playbook which will
+#             be executed after the terraform apply by https://runatlantis.io, by the
+#             Terraform Ansible Provider Plugin
+#
+#             This ansible playbook will execute :
+#               => The kubeone command to spawn the K8S Cluster on AWS
+#               => The Helm Chart deploying the NodeJS Express TypeScript App to the K8S Cluster on AWS
+#
+  ansible_terraprovider:
+    # image: jblass3ll3.world/a-k8s-demo/helm_operator:0.0.1
+    # From docker.io
+    image: pegasusio/creshtest_helm_operator:0.0.1
+    environment:
+      - SSH_URI_TO_HELM_CHART=$SSH_URI_TO_HELM_CHART
+
+
+#
+# ----------- AWS CLI OPS : to perform various live tests on the provisioned AWS infra
+  awscli-op1:
+    # image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
+    image: pegasusio/creshtest_aws-cli-v2:0.0.1
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+    command: sh -c "aws autoscaling describe-auto-scaling-groups | jq -r '.AutoScalingGroups[] | select(.AutoScalingGroupName | startswith(\"${STACK_NAME}-NodeAsg\")).AutoScalingGroupName'"
+    volumes:
+      - $PWD/aws-cli/operator1:/aws/playground:rw
+
+  awscli-op2:
+    # image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
+    image: pegasusio/creshtest_aws-cli-v2:0.0.1
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+    command: sh -c "aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names $ASG_NAME | jq '.AutoScalingGroups[0].DesiredCapacity'"
+    volumes:
+      - $PWD/aws-cli/operator2:/aws/playground:rw
+
+  awscli-op3:
+    # image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
+    image: pegasusio/creshtest_aws-cli-v2:0.0.1
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+    command: sh -c "aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME --desired-capacity $ASG_DESIRED_CAPACITY"
+    volumes:
+      - $PWD/aws-cli/operator3:/aws/playground:rw
