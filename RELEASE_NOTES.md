@@ -13,13 +13,9 @@ In this little exeriment, we will :
 * An deploy this REST API in a Kubernetes Cluster, hosted on AWS, using only AWS Free Tier subscribe plan.
 
 
-## The Kubernetes Cluster
+### How to see what's in this release
 
-
-
-### Provision
-
-To set up your local work environment, execute this in an empty directory :
+* To set up your local work environment, execute this in an empty directory :
 
 ```bash
 # You choose your method, SSH or HTTPS
@@ -32,12 +28,33 @@ chmod +x ./load.pipeline.sh
 ./load.pipeline.sh
 
 ```
+
 * To terraform plan the k8s cluster, execute, in the same shell session, and the same directory, the command :
+
 ```bash
 ./run.pipeline.sh
 ```
 
+* You can after that, if you feel like, pay a visit inside the factory :
 
+```bash
+docker exec -it kubeone_gitops_operator bash
+# to test a few commands, like :
+# 'cd terraformation/ && ./terraform plan'
+# 
+```
+
+
+* And to tear it all down :
+
+```bash
+
+# -------------
+# - tear down :
+# -------------
+docker-compose down --rmi all && docker system prune -f --all && docker system prune -f --volumes && cd && rm -fr ~/a-k8s-demo && clear
+
+```
 
 Why have I named my shell script `load.pipeline.sh`, instead of `setup-k8s.sh` ?
 
@@ -49,61 +66,29 @@ Because after k8s is fully operational on AWS, we will have to :
   * change the source code of the `NodeJS` / `TypeScript` application, like change the background color of the API landing page, and re-deploy it live, ultimately using a blue green deployment. `Commit ID` will be visible on landing page of the APi, in every release of the `NodeJS` / `TypeScript` app.
 
 
-### K8S cluster provision Tests
-
-```bash
-git clone https://github.com/pegasus-io/a-k8s-demo.git ~/a-k8s-demo
-cd ~/a-k8s-demo
-git checkout feature/k8s-provisioning
-chmod +x ./load.pipeline.sh
-./load.pipeline.sh
-
-# -------------
-# - tear down :
-# -------------
-# docker-compose down --rmi all && docker system prune -f --all && docker system prune -f --volumes && cd && rm -fr ~/a-k8s-demo && clear
-
-```
-
 ## The `NodeJS` / `TypeScript` App Source Code
 
-The source code is under the `./source.code/` folder in this git repository.
+On The  App Side, onece the cluster is provided, what we need is  a `Helm Chart` to deploy our app to the Kuberentes Cluster.
 
-## The IAAC
-
-* To work on this recipe, you need to fulfil its requirements and dependencies :
-  * it requires you to "_git-work_" within a `/bin/bash` shell session
-  * it requires [this bash utilility I designed](https://github.com/pegasus-io/ever-better-iaac/releases/0.0.1) for personal use, to make available the `initializeIAAC` command below.
-
-* Once meeting requirements, you can use the following cyle, to contirbute to this recipe :
-
-```bash
-export WORK_HOME=~/a-k8s-demo-atom-w
-# -- IAAC ENV when I work on the present repo
-export SSH_URI_TO_THIS_REPO=git@github.com:pegasus-io/a-k8s-demo.git
-
-initializeIAAC $SSH_URI_TO_THIS_REPO $WORK_HOME
-
-git flow init --defaults
-git push -u origin --all
+The Helm Chart is not ready yet in this release, but you can already test the NodeJS Example App :
 
 
-atom .
+<pre>
 
-export GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa'
-# If I want to make a release today ...
-export REALEASE_VERSION=0.0.2
+export DEMO_HOME=$(mktemp -d -t demo-node-mongo-XXXXXXXXXX)
+# export URI_TO_GIT_REPO=git@gitlab.com:second-bureau/pegasus/pokus/exterieur/infra/example-node-mongo-app
+export URI_TO_GIT_REPO=git@github.com:pegasus-io/node-mongo-example-app.git
 
-export COMMIT_MESSAGE=""
-export COMMIT_MESSAGE="$COMMIT_MESSAGE Resuming work on [$SSH_URI_TO_THIS_REPO]"
-export FEATURE_ALIAS="git-flowing-the-iaac"
-git flow feature start $FEATURE_ALIAS
-# git add --all && git commit -m "$COMMIT_MESSAGE" && git push -u origin HEAD
+git clone $URI_TO_GIT_REPO $DEMO_HOME
 
-# git flow feature finish $FEATURE_ALIAS && git push -u origin HEAD
+cd $DEMO_HOME
+docker-compose build && docker-compose up -d --force-recreate
+echo ''
+echo " Your app will be available at http://localhost:80/ and http://$(hostname):80/ "
+echo ''
+echo " To see the logs, execute this command : "
+echo ''
+echo " docker-compose logs -f ""
+echo ''
 
-# REALEASE START - git flow release start $FEATURE_ALIAS && git push -u origin HEAD
-# REALEASE FINISH - with signature # git flow release finish -s $FEATURE_ALIAS && git push -u origin HEAD
-# REALEASE FINISH - without signature # git flow release finish $FEATURE_ALIAS && git push -u origin HEAD
-
-```
+</pre>
