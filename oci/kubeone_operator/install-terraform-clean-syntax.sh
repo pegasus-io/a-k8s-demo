@@ -38,12 +38,14 @@ echo " ENV CHECK - TERRAFORM_LIBS_HOME=[${TERRAFORM_LIBS_HOME}]"
 echo " ENV CHECK - BUMBLEBEE_GIT_SSH_COMMAND=[${BUMBLEBEE_GIT_SSH_COMMAND}]"
 echo " ENV CHECK - GIT_SSH_COMMAND=[${GIT_SSH_COMMAND}]"
 # ---
-# Downloading Terraform executable
-# git clone https://github.com/apparentlymart/terraform-clean-syntax ${TERRAFORM_LIBS_HOME}/
+# Downloading Terraform Clean Syntax Module source
 mkdir -p ${TERRAFORM_LIBS_HOME}/
-git clone git@gitlab.com:second-bureau/bellerophon/terraform/external/terraform-clean-syntax.git ${TERRAFORM_LIBS_HOME}/
+# git clone https://github.com/apparentlymart/terraform-clean-syntax ${TERRAFORM_LIBS_HOME}/
+# git clone git@gitlab.com:second-bureau/bellerophon/terraform/external/terraform-clean-syntax.git ${TERRAFORM_LIBS_HOME}/
+git clone https://github.com/pegasus-io/flowed-terraform-clean-syntax.git ${TERRAFORM_LIBS_HOME}/
 
 cd ${TERRAFORM_LIBS_HOME}/
+# Building Terraform Clean Syntax Module source
 git checkout 0.0.1
 go install || exit 7
 go build || exit 7
