@@ -93,7 +93,9 @@ echo '+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 
 
 
-echo " # --- running init in [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace] " | tee -a ./kubeone.prepare.terraform.init.logs
+# echo " # --- running init in [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace] " | tee -a ./kubeone.prepare.terraform.init.logs
+echo " # --- running init in [$(pwd)] " | tee -a ./kubeone.prepare.terraform.init.logs
+
 terraform init | tee -a ./kubeone.prepare.terraform.init.logs
 # and to test them in the dry run :
 echo '------------------------------------------------------------------------'
@@ -103,6 +105,6 @@ echo "AWS_ACCESS_KEY_ID=[${AWS_ACCESS_KEY_ID}]"
 echo "AWS_SECRET_ACCESS_KEY=[${AWS_SECRET_ACCESS_KEY}]"
 echo "AWS_DEFAULT_REGION=[${AWS_DEFAULT_REGION}]"
 echo '------------------------------------------------------------------------'
-
+terraform-clean-syntax .
 echo " # --- running plan in [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace] " | tee -a ./kubeone.prepare.terraform.plan.logs
 terraform plan | tee -a ./kubeone.prepare.terraform.plan.logs
