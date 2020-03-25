@@ -1,0 +1,86 @@
+version: '3.2'
+
+services:
+
+  awscli_v2:
+    # image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
+    image: pegasusio/creshtest_aws-cli-v2:0.0.1
+    build:
+      context: oci/aws-cli/v2/
+      args:
+        - PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME
+        - OPERATOR_UID=${BUMBLEBEE_LX_USER_UID}
+        - OPERATOR_GID=${BUMBLEBEE_LX_USER_UID}
+
+    entrypoint: ["aws", "--version"]
+    command: ["/bin/sh"]
+    # volumes:
+      # - aws-cli/operatorN:/aws/playground:rw
+
+  awscli-v1:
+    # image: jblass3ll3.world/a-k8s-demo/aws-cli-v1:0.0.1
+    # From docker.io
+    image: pegasusio/creshtest_aws-cli-v1:0.0.1
+    build:
+      context: oci/aws-cli/v1/
+      args:
+        - PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME
+        - OPERATOR_UID=${BUMBLEBEE_LX_USER_UID}
+        - OPERATOR_GID=${BUMBLEBEE_LX_USER_UID}
+    entrypoint: ["aws", "--version"]
+    command: ["/bin/sh"]
+    # volumes:
+      # - aws-cli/operatorN:/aws/playground:rw
+
+  ansible_operator:
+    # image: jblass3ll3.world/a-k8s-demo/ansible_operator:0.0.1
+    # From docker.io
+    image: pegasusio/creshtest_ansible_operator:0.0.1
+    build:
+      context: oci/ansible/
+      args:
+        - PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME
+        - OPERATOR_UID=${BUMBLEBEE_LX_USER_UID}
+        - OPERATOR_GID=${BUMBLEBEE_LX_USER_UID}
+    entrypoint: ["aws", "--version"]
+    command: /bin/bash
+    environment:
+      - PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME
+      - BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME=$BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME
+      - BUMBLEBEE_GIT_SSH_COMMAND=$BUMBLEBEE_GIT_SSH_COMMAND
+      # that's the ansible playbook who knows how to deploymyhugo resume to this pipeline's local deployement target.
+      - SSH_URI_TO_ANSIBLE_PLAYBOOK=$SSH_URI_TO_ANSIBLE_PLAYBOOK
+      # + ccc
+    volumes:
+      - $BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS:/ansiblebee/.secrets:rw
+      - ./ansible/workspace:/ansiblebee/workspace:rw
+    # ---------------------------------------------
+    # in case I want an interactive shell session
+    # --
+    # stdin_open:       true
+    # --
+    # tty:              true
+    # --
+    # restart: always
+    # ---------------------------------------------
+    restart: 'no'
+
+  # user mgmt https://gitlab.com/second-bureau/pegasus/pegasus/-/issues/117
+  kubeone_operator:
+    # image: jblass3ll3.world/a-k8s-demo/kubeone_operator:0.0.1
+    # From docker.io
+    image: pegasusio/creshtest_kubeone_operator:0.0.1
+    build:
+      context: oci/kubeone_operator/
+      args:
+        - PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME
+        - OPERATOR_UID=${BUMBLEBEE_LX_USER_UID}
+        - OPERATOR_GID=${BUMBLEBEE_LX_USER_UID}
+  # helm_operator:
+    # image: jblass3ll3.world/a-k8s-demo/helm_operator:0.0.1
+    # From docker.io
+    # image: pegasusio/creshtest_helm_operator:0.0.1
+    # build:
+      # context: oci/helm_operator/
+      # args:
+        # - CCC=$CCC
