@@ -38,7 +38,7 @@ echo " ENV CHECK - TERRAFORM_LIBS_HOME=[${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terra
 # Downloading Terraform executable
 
 # git clone https://github.com/apparentlymart/terraform-clean-syntax ${TERRAFORM_LIBS_HOME}/
-
+mkdir -p ${TERRAFORM_LIBS_HOME}/
 git clone git@gitlab.com:second-bureau/bellerophon/terraform/external/terraform-clean-syntax.git ${TERRAFORM_LIBS_HOME}/
 
 cd ${TERRAFORM_LIBS_HOME}/
