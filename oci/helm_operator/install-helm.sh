@@ -8,7 +8,7 @@ echo "Remember : Kubectl must be installed where you wnat to install Helm"
 # I privately mirror it on git@gitlab.com:second-bureau/bellerophon/terraform/terraform.git
 # You should also reference your own private mirror of this repo, in your automation recipes
 # because then you will remove any external service build time and runtime dependency from your CI/CD factory, your pipelines run faster, with more reliability.
-export HELM_VERSION=${HELM_VERSION:-'0.12.24'}
+export HELM_VERSION=${HELM_VERSION:-'2.16.4'}
 # ---
 # can be :
 # => 'darwin' (mac os)
@@ -24,10 +24,10 @@ export HELM_OS=${HELM_OS:-'linux'}
 export HELM_CPU_ARCH=${HELM_CPU_ARCH:-'amd64'}
 
 
-export HELM_PKG_DWLD_URI="https://github.com/hashicorp/terraform/archive/terraform_${HELM_VERSION}_${HELM_OS}_${HELM_CPU_ARCH}.zip"
-export HELM_PKG_DWLD_URI="https://releases.hashicorp.com/terraform/${HELM_VERSION}/terraform_${HELM_VERSION}_${HELM_OS}_${HELM_CPU_ARCH}.zip"
 
-export HELM_CHECKSUMS_FILE_DWLD_URI="https://releases.hashicorp.com/terraform/0.12.24/terraform_${HELM_VERSION}_SHA256SUMS"
+export HELM_PKG_DWLD_URI="https://get.helm.sh/helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz"
+
+export HELM_CHECKSUMS_FILE_DWLD_URI="https://get.helm.sh/helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz.sha256"
 # Signature of the HELM_CHECKSUMS_FILE_DWLD_URI, to verify the signature of the checksum file.
 export HELM_CHECKSUMS_FILE_SIGNATURE_DWLD_URI="https://releases.hashicorp.com/terraform/${HELM_VERSION}/terraform_${HELM_VERSION}_SHA256SUMS.sig"
 # HASHICORP_PGP_SIGNING_KEY => to verify [HELM_CHECKSUMS_FILE_SIGNATURE_DWLD_URI]
