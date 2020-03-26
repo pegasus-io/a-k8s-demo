@@ -97,9 +97,45 @@ http://127.0.0.1:45855/api/v1/namespaces/kubernetes-dashboard/services/http:kube
 ```
 
 
+### Minikube bootstrap output
+
+* Interesting, xause it confirms us the format of "API_SLICE", a `minikube start` important option :
+
+```bash
+minikube version: v1.8.2
+commit: eb13446e786c9ef70cb0a9f85a633194e62396a1
++ sudo minikube config set driver none
+❗  These changes will take effect upon a minikube delete and then a minikube start
++ export MINI_K8S_API_SERVER_IP=172.217.22.131
++ MINI_K8S_API_SERVER_IP=172.217.22.131
++ export MINI_K8S_API_SERVER_IP=172.217.22.131
++ MINI_K8S_API_SERVER_IP=172.217.22.131
++ export 'API_SERVER_IPSLICE=[192.0.2.16, 192.0.2.17, 192.0.2.18, 192.0.2.19]'
++ API_SERVER_IPSLICE='[192.0.2.16, 192.0.2.17, 192.0.2.18, 192.0.2.19]'
++ export 'API_SERVER_IPSLICE=[192.168.1.0/24]'
++ API_SERVER_IPSLICE='[192.168.1.0/24]'
++ export 'API_SERVER_IPSLICE=[192.168.1.22]'
++ API_SERVER_IPSLICE='[192.168.1.22]'
++ export API_SERVER_IPSLICE=192.168.1.22
++ API_SERVER_IPSLICE=192.168.1.22
++ export API_SERVER_IPSLICE=172.217.22.131
++ API_SERVER_IPSLICE=172.217.22.131
++ sudo minikube start --apiserver-ips 172.217.22.131 --apiserver-name minikube.pegasusio.io
+😄  minikube v1.8.2 on Debian 9.12
+✨  Using the none driver based on user configuration
+🤹  Running on localhost (CPUs=4, Memory=7987MB, Disk=23338MB) ...
+ℹ️   OS release is Debian GNU/Linux 9 (stretch)
+🐳  Preparing Kubernetes v1.17.3 on Docker 19.03.5 ...
+    > kubelet.sha256: 65 B / 65 B [--------------------------] 100.00% ? p/s 0s
+    > kubectl.sha256: 65 B / 65 B [--------------------------] 100.00% ? p/s 0s
+    > kubeadm.sha256: 65 B / 65 B [--------------------------] 100.00% ? p/s 0s
+    > kubectl: 41.48 MiB / 41.48 MiB [---------------] 100.00% 41.96 MiB p/s 1s
+    > kubeadm: 37.52 MiB / 37.52 MiB [---------------] 100.00% 25.23 MiB p/s 2s
+    > kubelet: 106.42 MiB / 106.42 MiB [-------------] 100.00% 63.37 MiB p/s 2s
+🚀  Launching Kubernetes ...
 
 
-
+```
 
 
 ### About the minikube start options :
