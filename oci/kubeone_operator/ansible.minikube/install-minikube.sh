@@ -39,6 +39,8 @@ sudo minikube config set driver none
 
 # Launching minikube
 export MINI_K8S_API_SERVER_IP=${MINI_K8S_API_SERVER_IP:-'172.217.22.131'}
+export MINI_K8S_API_SERVER_IP=${MINI_K8S_API_SERVER_IP:-'192.168.1.22'}
+
 export API_SERVER_IPSLICE='[192.0.2.16, 192.0.2.17, 192.0.2.18, 192.0.2.19]'
 export API_SERVER_IPSLICE='[192.168.1.0/24]'
 export API_SERVER_IPSLICE='[192.168.1.22]'
