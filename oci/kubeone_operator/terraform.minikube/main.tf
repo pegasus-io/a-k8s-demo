@@ -17,6 +17,7 @@ resource "aws_instance" "creshVM" {
   ami             = var.aws_instance_desired_ami #id of desired AMI
   instance_type   = var.aws_instance_type
   key_name = "creshkey"
+  # key_name = "${module.aws_key_pair.deployercreds.key_name}"
   security_groups = ["${aws_security_group.allow_all.name}"]
   tags = {
     Env = "creshdemo"
@@ -47,7 +48,7 @@ resource "aws_security_group" "allow_all" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-resource "aws_key_pair" "deployer" {
+resource "aws_key_pair" "deployercreds" {
   key_name   = "creshkey"
   public_key = "var.my_ssh_pubkey"
 }
