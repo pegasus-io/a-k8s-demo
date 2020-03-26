@@ -73,7 +73,14 @@ sudo minikube start --apiserver-ips 127.0.0.1 --apiserver-name localhost
 sudo minikube start --apiserver-ips 127.0.0.1 --apiserver-name minikube.pegasusio.io
 
 ```
+* About the minikube start options :
 
+>
+>      `--apiserver-ips` `ipSlice`             A set of apiserver IP Addresses which are used in the generated certificate for kubernetes.  This can be used if you want to make the apiserver available from outside the machine (default [])
+>      `--apiserver-name` `string`             The apiserver name which is used in the generated certificate for kubernetes.  This can be used if you want to make the apiserver available from outside the machine (default "minikubeCA")
+>
+> see https://minikube.sigs.k8s.io/docs/reference/commands/start/
+>
 
 # Security warning
 
