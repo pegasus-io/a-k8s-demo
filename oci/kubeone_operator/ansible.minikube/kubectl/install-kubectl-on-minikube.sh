@@ -60,7 +60,12 @@ sed -i "s#server:.*#client-key: https://${MINIKUBE_HOST}:8443#g" ~/.kube/config
 
 
 kubectl version
-minikube dashboard
+
+echo ''
+echo " now execute : "
+echo ''
+echo "     minikube dashboard "
+echo ''
 
 
 
