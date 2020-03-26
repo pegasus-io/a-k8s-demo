@@ -45,11 +45,11 @@ resource "aws_security_group" "allow_all" {
   name = "allow_ssh"
   ingress {
     from_port   = "1"
-    to_port     = "65534"
+    to_port     = "65535"
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-} 
+}
 # resource "aws_key_pair" "deployercreds" {
 #   key_name   = "creshkey"
 #   public_key = "var.my_ssh_pubkey"
