@@ -43,6 +43,8 @@ echo '---   VIRUTALIZATION CAPABILITIES OF CONTAINERIZATION HOST [$(hostname)] :
 echo '---------------------------------------------------------------------------------'
 grep -E --color 'vmx|svm' /proc/cpuinfo
 echo '---------------------------------------------------------------------------------'
+echo " Has [$(hostname)] virtuamlization capabilities ?"
+egrep -q 'vmx|svm' /proc/cpuinfo && echo yes || echo no
 echo '---------------------------------------------------------------------------------'
 
 
