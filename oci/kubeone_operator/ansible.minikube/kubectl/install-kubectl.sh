@@ -133,7 +133,7 @@ kubectl version --client
 echo '---------------------------------------------------------------------------------'
 echo 'Now you must provide '
 echo "the following files which your provider must"
-echo " have given you, at the elow specified path on your machine : "
+echo " have given you, at the below-specified path on your machine : "
 echo '---------------------------------------------------------------------------------'
 echo "    certificate-authority: ${HOME}/.kube/ca.crt"
 echo "    client-certificate: ${HOME}/.kube/client.crt"
@@ -144,5 +144,17 @@ echo ""
 echo "  sudo chown -R ${USER}:${USER} ~/.kube/"
 echo ""
 echo '---------------------------------------------------------------------------------'
-echo " Then, you will be able to execute [kubectl version] without sudo (and any error)"
+echo " Then only, you will be able to use [kubectl] "
+echo '---------------------------------------------------------------------------------'
+echo ''
+echo '       CLUSTER DASHBOARD '
+echo ''
+echo '---------------------------------------------------------------------------------'
+echo " Now, to access your K8S cluster Dashboard, just execute the command :"
+echo "     kubectl proxy "
+echo ""
+echo " You can then immediately access your kubernetes cluster dashboard at : "
+echo "http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/overview?namespace=default"
+echo '---------------------------------------------------------------------------------'
+# kubectl proxy
 echo '---------------------------------------------------------------------------------'
