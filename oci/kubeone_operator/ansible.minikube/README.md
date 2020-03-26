@@ -9,30 +9,7 @@
 
 ## Using the `--vm-driver=none` option
 
-* First, install minikube as usual :
-
-```bash
-export MINIKUBE_VERSION_TAG=latest
-# https://github.com/kubernetes/minikube/releases/tag/v1.8.2
-export MINIKUBE_VERSION=1.8.2
-export MINIKUBE_VERSION_TAG="v${MINIKUBE_VERSION}"
-
-curl -Lo minikube https://storage.googleapis.com/minikube/releases/${MINIKUBE_VERSION_TAG}/minikube-linux-amd64 \
-  && chmod +x minikube
-
-# alsofor the minikube binary to be there :
-mv mnikube /usr/local/bin
-```
-
-* Launch minikube with the `--vm-driver` option set to `none` :
-
-```bash
-sudo minikube start --vm-driver=none --apiserver-ips 127.0.0.1 --apiserver-name localhost
-# sudo minikube config set driver none
-```
-
-
-* Complete provision and start test :
+* Execute this :
 
 ```bash
 # ---
