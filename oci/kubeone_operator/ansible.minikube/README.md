@@ -69,8 +69,10 @@ minikube version
 sudo minikube config set driver none
 
 # Launching minikube
-sudo minikube start --apiserver-ips 127.0.0.1 --apiserver-name localhost
-sudo minikube start --apiserver-ips 127.0.0.1 --apiserver-name minikube.pegasusio.io
+
+export API_SERVER_IPSLICE='[192.0.2.16, 192.0.2.17, 192.0.2.18, 192.0.2.19]'
+sudo minikube start --cpus 4 --apiserver-ips 127.0.0.1 --apiserver-name localhost
+sudo minikube start --cpus 4 --apiserver-ips 127.0.0.1 --apiserver-name minikube.pegasusio.io
 
 ```
 * About the minikube start options :
