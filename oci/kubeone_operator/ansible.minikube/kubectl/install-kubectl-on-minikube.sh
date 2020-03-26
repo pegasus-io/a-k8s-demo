@@ -115,7 +115,7 @@ sudo cp ${KUBECTL_CLIENT_KEY_PATH} ~/.kube
 
 # ---
 # Adding the minikube profile to the non root operator
-# sudo cp -fR /root/.minikube ~/
+sudo cp -fR /root/.minikube ~/
 
 export CURRENTUSER=$USER
 sudo chown -R ${CURRENTUSER}:${CURRENTUSER} /home/${CURRENTUSER}/.kube
