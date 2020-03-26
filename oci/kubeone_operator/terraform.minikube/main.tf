@@ -20,6 +20,7 @@ resource "aws_instance" "creshVM" {
   key_name = "creshKeyPair"
   # key_name = "${module.aws_key_pair.deployercreds.key_name}"
   security_groups = ["${aws_security_group.allow_all.name}"]
+  # iam_instance_profile = "${aws_iam_instance_profile.test_profile.name}"
   tags = {
     Env = "creshdemo"
   }
@@ -44,7 +45,7 @@ resource "aws_security_group" "allow_all" {
   name = "allow_ssh"
   ingress {
     from_port   = 0
-    to_port     = 0
+    to_port     = 65000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
