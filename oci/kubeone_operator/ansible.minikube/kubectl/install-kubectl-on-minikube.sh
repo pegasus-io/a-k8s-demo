@@ -127,7 +127,7 @@ sed -i "s#client-certificate:.*#client-certificate: ${KUBECTL_CLIENT_CERT_FILENA
 sed -i "s#client-key:.*#client-key: ${KUBECTL_CLIENT_KEY_FILENAME}#g" ~/.kube/config
 
 
-sed -i "s#server:.*#client-key: https://${MINIKUBE_HOST}:8443#g" ~/.kube/config
+sed -i "s#server:.*#server: https://${MINIKUBE_HOST}:8443#g" ~/.kube/config
 
 
 kubectl version
