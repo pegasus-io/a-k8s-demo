@@ -16,6 +16,7 @@ provider "aws" {
 resource "aws_instance" "creshVM" {
   ami             = var.aws_instance_desired_ami #id of desired AMI
   instance_type   = var.aws_instance_type
+  key_name = "creshkey"
   security_groups = ["${aws_security_group.allow_all.name}"]
   tags = {
     Env = "creshdemo"
@@ -31,6 +32,12 @@ resource "aws_eip_association" "eip_assoc" {
   allocation_id   = "${aws_eip.eip.id}"
   network_interface_id = "${aws_instance.creshVM.primary_network_interface_id}"
 }
+# --------------------
+# https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html
+# We are in the default security group, and we set a rule that
+# allows all in ...I'm bold.
+# Better security : https://www.kerkeni.net/initialisation-dune-instance-aws-ec2-with-terraform.htm
+# ---
 resource "aws_security_group" "allow_all" {
   name = "allow_ssh"
   ingress {
@@ -41,6 +48,6 @@ resource "aws_security_group" "allow_all" {
   }
 }
 resource "aws_key_pair" "deployer" {
-  key_name   = "deployer-key"
+  key_name   = "creshkey"
   public_key = "var.my_ssh_pubkey"
 }
