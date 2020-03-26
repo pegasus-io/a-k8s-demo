@@ -37,7 +37,9 @@ sudo minikube start --vm-driver=none --apiserver-ips 127.0.0.1 --apiserver-name 
 ```bash
 # ---
 # True, we're supposed not to use virtualization, still, I
-# wanna know where I am and I believe what I see.
+# wanna know where I am and I believe what I see : You will
+# check that there is no need for virtualizaion to run
+# minikube with the '--vm-driver=none' option
 echo '---------------------------------------------------------------------------------'
 echo '---   VIRUTALIZATION CAPABILITIES OF CONTAINERIZATION HOST [$(hostname)] :'
 echo '---------------------------------------------------------------------------------'
@@ -71,10 +73,15 @@ sudo minikube config set driver none
 # Launching minikube
 
 export API_SERVER_IPSLICE='[192.0.2.16, 192.0.2.17, 192.0.2.18, 192.0.2.19]'
-sudo minikube start --cpus 4 --apiserver-ips 127.0.0.1 --apiserver-name localhost
-sudo minikube start --cpus 4 --apiserver-ips 127.0.0.1 --apiserver-name minikube.pegasusio.io
+export API_SERVER_IPSLICE='[192.168.1.0/24]'
+export API_SERVER_IPSLICE='[192.168.1.22]'
+export API_SERVER_IPSLICE='192.168.1.22'
 
+# sudo minikube start --apiserver-ips 127.0.0.1 --apiserver-name localhost
+sudo minikube start --apiserver-ips ${API_SERVER_IPSLICE} --apiserver-name minikube.pegasusio.io
+# ❗  The 'none' driver does not respect the --cpus flag
 ```
+
 * About the minikube start options :
 
 >
@@ -84,11 +91,13 @@ sudo minikube start --cpus 4 --apiserver-ips 127.0.0.1 --apiserver-name minikube
 > see https://minikube.sigs.k8s.io/docs/reference/commands/start/
 >
 
+
+
 # Security warning
 
 ### The `--vm-driver=none` option 's consequences
 
-En utilsiant cette option, Pour le résumer :
+En utilisant cette option, Pour le résumer :
 * on a deux problèmes de sécurité :
   * des processus miinikube exposés au monde extérieur, comme l'API server, qui sont exécutés par l'utilsiateur root. Cela est un problème.
   * des credentials token etc... notamment les tokens de la configuration `kubectl`, qui sont démunis de toute protection
