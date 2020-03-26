@@ -77,6 +77,12 @@ rm -f ./output.tf
 cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/output.tf .
 rm -f ./terraform.tfvars
 cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/terraform.tfvars .
+export FUSA_PUBKEY=$(cat ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.ssh/${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}.pub)
+echo ''
+echo ''
+echo "DEBUG FUSA_PUBKEY=[${FUSA_PUBKEY}]"
+echo ''
+sed -i "s#EC2_FUSA_SSH_AUTH_PUBKEY_JINJA2_VAR#${FUSA_PUBKEY}#g"
 rm -f ./versions.tfvars
 cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/versions.tfvars .
 

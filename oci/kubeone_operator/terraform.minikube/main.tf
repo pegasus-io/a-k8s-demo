@@ -40,3 +40,7 @@ resource "aws_security_group" "allow_all" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+resource "aws_key_pair" "deployer" {
+  key_name   = "deployer-key"
+  public_key = "var.my_ssh_pubkey"
+}
