@@ -138,7 +138,7 @@ echo "AWS_DEFAULT_REGION=[${AWS_DEFAULT_REGION}]"
 echo '------------------------------------------------------------------------'
 terraform-clean-syntax .
 echo " # --- running plan in [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace] " | tee -a ./kubeone.prepare.terraform.plan.logs
-terraform plan -out=k8s.cresh.provision.plan.tf | tee -a ./kubeone.prepare.terraform.plan.logs
+terraform plan -out=k8s.cresh.provision.plan.terraplan | tee -a ./kubeone.prepare.terraform.plan.logs
 
 
 # ---- FINALLY GENERATING THE KUBEONE CONFIG TO RUN KUEBONE AFTER THAT
