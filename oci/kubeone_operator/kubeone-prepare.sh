@@ -77,7 +77,13 @@ rm -f ./output.tf
 cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/output.tf .
 rm -f ./terraform.tfvars
 cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/terraform.tfvars .
-export FUSA_PUBKEY=$(cat ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.ssh/${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}.pub)
+
+ssh-keygen -P "" -t rsa -b 4096 -m pem -f aws.creshkey
+cp ./aws.creshkey ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/
+cp ./aws.creshkey.pub ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/
+
+# export FUSA_PUBKEY=$(cat ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.ssh/${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}.pub)
+export FUSA_PUBKEY=$(cat ./aws.creshkey.pub)
 echo ''
 echo ''
 echo "DEBUG FUSA_PUBKEY=[${FUSA_PUBKEY}]"
