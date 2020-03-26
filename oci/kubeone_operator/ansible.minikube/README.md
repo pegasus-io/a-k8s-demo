@@ -60,10 +60,15 @@ minikube version
 # --- #
 # sets the none driver as the default : we don't have to use the '--vm-driver' option again.
 # --- #
+# jbl@poste-devops-typique:~/minikube$ sudo minikube config set driver none
+# ❗  These changes will take effect upon a minikube delete and then a minikube start
+# jbl@poste-devops-typique:~/minikube$
+# --- clear enough
 sudo minikube config set driver none
 
 # Launching minikube
 sudo minikube start --apiserver-ips 127.0.0.1 --apiserver-name localhost
+sudo minikube start --apiserver-ips 127.0.0.1 --apiserver-name minikube.pegasusio.io
 
 ```
 
