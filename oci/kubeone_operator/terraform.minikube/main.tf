@@ -44,12 +44,12 @@ resource "aws_eip_association" "eip_assoc" {
 resource "aws_security_group" "allow_all" {
   name = "allow_ssh"
   ingress {
-    from_port   = ''
-    to_port     = ''
+    from_port   = "1"
+    to_port     = "65534"
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-}
+} 
 # resource "aws_key_pair" "deployercreds" {
 #   key_name   = "creshkey"
 #   public_key = "var.my_ssh_pubkey"
