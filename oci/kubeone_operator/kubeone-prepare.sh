@@ -78,7 +78,15 @@ cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/output.tf .
 rm -f ./terraform.tfvars
 cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/terraform.tfvars .
 
-ssh-keygen -P "" -t rsa -b 4096 -m pem -f aws.creshkey
+# ssh-keygen -P "" -t rsa -b 4096 -m pem -f aws.creshkey # ne fonctionenra pas
+# Ce qu'il faut faire :
+# ---
+#   utiliser la AWS CLI pour générer une paire de clefs,
+#   AWS CLI garde la clef publique et ne nous retourne que la clef privée
+#   et de toute façon bee n'utilise que la celf privée.
+# ---
+# il faut donc réparer l'installation de AWS dans le conteneur.
+aws ec2 create-key-pair --key-name MyKeyPair --query 'creshKeyMaterial' --output text > ./aws.creshkey
 cp ./aws.creshkey ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/
 cp ./aws.creshkey.pub ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/
 
