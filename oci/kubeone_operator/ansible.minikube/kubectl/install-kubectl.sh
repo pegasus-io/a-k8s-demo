@@ -139,6 +139,10 @@ echo "    certificate-authority: ${HOME}/.kube/ca.crt"
 echo "    client-certificate: ${HOME}/.kube/client.crt"
 echo "    client-key: ${HOME}/.kube/client.key"
 echo '---------------------------------------------------------------------------------'
-echo "Once those files are insalled at the specified paths, you"
-echo "will be able to execute [kubectl version] without sudo, and any error"
+echo "Once those files are installed at the specified paths, execute : "
+echo ""
+echo "  sudo chown -R ${USER}:${USER} ~/.kube/"
+echo ""
+echo '---------------------------------------------------------------------------------'
+echo " Then, you will be able to execute [kubectl version] without sudo (and any error)"
 echo '---------------------------------------------------------------------------------'

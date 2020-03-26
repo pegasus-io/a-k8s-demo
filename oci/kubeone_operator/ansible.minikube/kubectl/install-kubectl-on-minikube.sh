@@ -42,8 +42,13 @@ sudo cp ${KUBECTL_MINIKUBE_CA_CERT_PATH} ~/.kube
 sudo cp ${KUBECTL_CLIENT_CERT_PATH} ~/.kube
 sudo cp ${KUBECTL_CLIENT_KEY_PATH} ~/.kube
 
+# ---
+# Adding the minikube profile to the non root operator
+sudo cp -fR /root/.minikube ~/
+
 export CURRENTUSER=$USER
 sudo chown -R ${CURRENTUSER}:${CURRENTUSER} /home/${CURRENTUSER}/.kube
+sudo chown -R ${CURRENTUSER}:${CURRENTUSER} /home/${CURRENTUSER}/.minikube
 unset CURRENTUSER
 
 sed -i "s#certificate-authority:.*#certificate-authority: ${KUBECTL_MINIKUBE_CA_CERT_FILENAME}#g" ~/.kube/config
