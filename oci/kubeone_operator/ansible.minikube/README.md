@@ -9,6 +9,15 @@
 
 ## Using the `--vm-driver=none` option
 
+* You need the public IP Address of your AWS VM, say it is `172.217.22.131`,
+* on the VM where minikube will be installed, add this to the end of the `/etc/hosts` file :
+
+```bash
+# ----
+# Minkube Cresh App env
+172.217.22.131  minikube.a-k8s-demo.io a-k8s-demo.io
+```
+
 * Execute this :
 
 ```bash
@@ -49,17 +58,24 @@ sudo minikube config set driver none
 
 # Launching minikube
 
-export API_SERVER_IPSLICE='[192.0.2.16, 192.0.2.17, 192.0.2.18, 192.0.2.19]'
-export API_SERVER_IPSLICE='[192.168.1.0/24]'
-export API_SERVER_IPSLICE='[192.168.1.22]'
-export API_SERVER_IPSLICE='192.168.1.22'
+export MINI_K8S_API_SERVER_IP=${MINI_K8S_API_SERVER_IP:-'172.217.22.131'}
+# export API_SERVER_IPSLICE='[192.0.2.16, 192.0.2.17, 192.0.2.18, 192.0.2.19]'
+# export API_SERVER_IPSLICE='[192.168.1.0/24]'
+# export API_SERVER_IPSLICE='[192.168.1.22]'
+# export API_SERVER_IPSLICE="192.168.1.22"
+export API_SERVER_IPSLICE="${MINI_K8S_API_SERVER_IP}"
 
 # sudo minikube start --apiserver-ips 127.0.0.1 --apiserver-name localhost
 sudo minikube start --apiserver-ips ${API_SERVER_IPSLICE} --apiserver-name minikube.pegasusio.io
-# ❗  The 'none' driver does not respect the --cpus flag
+
 ```
 
-* About the minikube start options :
+
+
+
+
+
+### About the minikube start options :
 
 >
 >      `--apiserver-ips` `ipSlice`             A set of apiserver IP Addresses which are used in the generated certificate for kubernetes.  This can be used if you want to make the apiserver available from outside the machine (default [])
