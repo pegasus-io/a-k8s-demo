@@ -28,15 +28,47 @@ export TERRAFORM_PKG_DWLD_URI="https://releases.hashicorp.com/terraform/${TERRAF
 export TERRAFORM_CHECKSUMS_FILE_DWLD_URI="https://releases.hashicorp.com/terraform/0.12.24/terraform_${TERRAFORM_VERSION}_SHA256SUMS"
 # Signature of the TERRAFORM_CHECKSUMS_FILE_DWLD_URI, to verify the signature of the checksum file.
 export TERRAFORM_CHECKSUMS_FILE_SIGNATURE_DWLD_URI="https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_SHA256SUMS.sig"
-# ---
 # HASHICORP_PGP_SIGNING_KEY => to verify [TERRAFORM_CHECKSUMS_FILE_SIGNATURE_DWLD_URI]
 # see https://www.hashicorp.com/security.html#secure-communications to find again the key its fingerprint and doc on how to automate retreiving key.
+export HASHICORP_PGP_SIGNING_KEY=hashicorp.pgp.key
+curl https://keybase.io/hashicorp/pgp_keys.asc -o ${HASHICORP_PGP_SIGNING_KEY}
+
+
+echo '---------------------------------------------------------------'
+echo ' Commandes GPG dans le conteneur kubeone#./install-terraform.sh'
+echo "----------------------- [$(pwd)] "
+echo '---------------------------------------------------------------'
+ls -allh .
+ls -allh ./${HASHICORP_PGP_SIGNING_KEY}
+echo '---------------------------------------------------------------'
+
+# TODO : générer une clef ?
+echo '---------------------------------------------------------------'
+echo '--- GPG FULL GENERATE KEY :  '
+echo '---------------------------------------------------------------'
+# gpg --full-generate-key
+gpg --list-keys
+echo '---------------------------------------------------------------'
+
+# curl https://keybase.io/hashicorp/pgp_keys.asc | gpg --import
+gpg --batch --import ./${HASHICORP_PGP_SIGNING_KEY}
+cat ./${HASHICORP_PGP_SIGNING_KEY}
+# I need a PGP Key for this container, to
+# sign HashiCorp's Key and make it a "trusted" key in
+# the eyes of [gpg]
 # ---
-# Note : This is an insecure alternative install of teraform, Because
-# sometimes, hashicorp's signature is not available online, I experienced that
-# with https://keybase.io/hashicorp/ :
-# In which case, you get an error, and see in the logs : 'SELF-SIGNED PUBLIC KEY NOT FOUND'
+# To Sign an imported key with an utltimately
+# trusted key :
+#
+# https://raymii.org/s/articles/GPG_noninteractive_batch_sign_trust_and_send_gnupg_keys.html
 # ---
+# Now silently ultimately trusting the newly added HashiCorp PGP Keys
+# https://www.rzegocki.pl/blog/how-to-make-gnupg2-to-fall-in-love-with-docker/
+for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u); do  echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key $fpr trust; done
+
+gpg --list-keys
+# exit 99
+# Non, il faut générer une seule et unique fois une seule clef GPG
 
 
 
@@ -44,9 +76,22 @@ export TERRAFORM_CHECKSUMS_FILE_SIGNATURE_DWLD_URI="https://releases.hashicorp.c
 
 checkIntegrityUsingTerraformChecksums () {
   echo '--------------------------------------------------------'
-  echo "---- CHECKING HASHICORP's CHECKSUMS : "
+  echo '---- VERIF CLEF TRUST ULTIMATE HASHICORP : '
+  echo '--------------------------------------------------------'
+  gpg --list-keys
   echo '--------------------------------------------------------'
   curl -LO "${TERRAFORM_CHECKSUMS_FILE_DWLD_URI}"
+  curl -LO "${TERRAFORM_CHECKSUMS_FILE_SIGNATURE_DWLD_URI}"
+  gpg --verify ./terraform_${TERRAFORM_VERSION}_SHA256SUMS.sig ./terraform_${TERRAFORM_VERSION}_SHA256SUMS
+  if [ "$?" == "0" ]; then
+    echo "Successfully checked trusted HashiCorp signature of the downloaded checksum file [./terraform_${TERRAFORM_VERSION}_SHA256SUMS]"
+    echo "Proceeding installation"
+  else
+    echo "HashiCorp signature check  of the downloaded checksum file [./terraform_${TERRAFORM_VERSION}_SHA256SUMS] failed."
+    echo "check yourself the Hashicorp signature running the following command : "
+    echo "   gpg --verify $(pwd)/terraform_${TERRAFORM_VERSION}_SHA256SUMS.sig $(pwd)/terraform_${TERRAFORM_VERSION}_SHA256SUMS"
+    exit 3
+  fi;
   cat terraform_${TERRAFORM_VERSION}_SHA256SUMS | grep ${TERRAFORM_OS} | grep ${TERRAFORM_CPU_ARCH} | tee ./terraform.integrity.checksum
   echo "------------------------------------------------------------------------"
   echo " [$0#checkIntegrityUsingTerraformChecksums ()] Contenu de [./terraform_${TERRAFORM_VERSION}_SHA256SUMS]   "

@@ -9,5 +9,6 @@ variable "aws_instance_type" {}
 # To find out which AMI id to use, go here :
 # https://aws.amazon.com/amazon-linux-ami/
 # ---
-# 
+#
 variable "aws_instance_desired_ami" {}
+variable "my_ssh_pubkey" {}
