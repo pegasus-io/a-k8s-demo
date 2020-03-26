@@ -37,6 +37,14 @@ else
 fi;
 
 
+echo "---------------------------------------------------------------------------------"
+echo '---   Env sum up : '
+echo "---------------------------------------------------------------------------------"
+echo "--- MINIKUBE_HOST=[${MINIKUBE_HOST}]"
+echo "--- MINIKUBE_PUBLIC_IP=[${MINIKUBE_PUBLIC_IP}]"
+echo "---------------------------------------------------------------------------------"
+
+
 # ---
 #
 echo '---------------------------------------------------------------------------------'
@@ -89,13 +97,48 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VER
 # alsofor the minikube binary to be there :
 sudo mv ./kubectl /usr/local/bin
 
-echo "[kubectl] installation complete"
-kubectl version --client
+
+
+# CONFIG
+
 
 mkdir -p ~/.kube
 
 
+echo 'apiVersion: v1' >> ~/.kube/config
+echo 'clusters:' >> ~/.kube/config
+echo '- cluster:' >> ~/.kube/config
+echo '    certificate-authority: ca.crt' >> ~/.kube/config
+echo "    server: https://${MINIKUBE_HOST}:8443" >> ~/.kube/config
+echo '  name: minikube' >> ~/.kube/config
+echo 'contexts:' >> ~/.kube/config
+echo '- context:' >> ~/.kube/config
+echo '    cluster: minikube' >> ~/.kube/config
+echo '    user: minikube' >> ~/.kube/config
+echo '  name: minikube' >> ~/.kube/config
+echo 'current-context: minikube' >> ~/.kube/config
+echo 'kind: Config' >> ~/.kube/config
+echo 'preferences: {}' >> ~/.kube/config
+echo 'users:' >> ~/.kube/config
+echo '- name: minikube' >> ~/.kube/config
+echo '  user:' >> ~/.kube/config
+echo "    client-certificate: ${HOME}/.kube/client.crt" >> ~/.kube/config
+echo "    client-key: ${HOME}/.kube/client.key" >> ~/.kube/config
 
-
-
-kubectl version
+clear
+echo ''
+echo '---------------------------------------------------------------------------------'
+echo "Kubectl is now installed"
+kubectl version --client
+echo '---------------------------------------------------------------------------------'
+echo 'Now you must provide '
+echo "the following files which your provider must"
+echo " have given you, at the elow specified path on your machine : "
+echo '---------------------------------------------------------------------------------'
+echo "    certificate-authority: ${HOME}/.kube/ca.crt"
+echo "    client-certificate: ${HOME}/.kube/client.crt"
+echo "    client-key: ${HOME}/.kube/client.key"
+echo '---------------------------------------------------------------------------------'
+echo "Once those files are insalled at the specified paths, you"
+echo "will be able to execute [kubectl version] without sudo, and any error"
+echo '---------------------------------------------------------------------------------'
