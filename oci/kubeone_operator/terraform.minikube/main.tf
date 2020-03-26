@@ -44,8 +44,8 @@ resource "aws_eip_association" "eip_assoc" {
 resource "aws_security_group" "allow_all" {
   name = "allow_ssh"
   ingress {
-    from_port
-    to_port
+    from_port   = ''
+    to_port     = ''
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
