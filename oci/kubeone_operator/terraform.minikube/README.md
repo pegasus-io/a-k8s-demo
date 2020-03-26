@@ -24,7 +24,26 @@ This AWS Quickstart Terraform recipe creates the single node infrastructure mini
 * Les _minimum hardware requirements_, sont de ` 2GB RAM, 2 CPUS, and a disk of 20GB.` d'après cette source officielle redhat (plutôt fiable) : https://developers.redhat.com/blog/2019/04/16/build-your-kubernetes-armory-with-minikube-kail-and-kubens/
 
 
+## The first user in the VM
 
+We have all infos at : https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/managing-users.html
+
+* You can't set the first user's name using `terraform`, on AWS,
+* instead, eah "_AMI_" has a username for the first user :
+
+>
+> Each Linux instance launches with a default Linux system user account.
+> The default user name is determined by the AMI that was specified when
+> you launched the instance. For `Amazon Linux 2` or the **Amazon Linux AMI**, the
+>  user name is `ec2-user`. For `CentOS`, the user name is `centos`. For `Debian`, the
+> user name is `admin` or `root`. For `Fedora`, the user name is `ec2-user` or `fedora`.
+> For `RHEL`, the user name is `ec2-user` or `root`.
+> For `SUSE`, the user name is `ec2-user` or `root`.
+> For `Ubuntu`, the user name is `ubuntu`.
+>
+> Otherwise, if `ec2-user` and `root` don't work, check with
+> your **AMI provider**.
+>
 
 
 ## AWS Pricing (`march 2020`)
