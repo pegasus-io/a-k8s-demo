@@ -74,16 +74,27 @@ sudo minikube start --apiserver-ips ${API_SERVER_IPSLICE} --apiserver-name minik
 
 ```bash
 # ---
-jibl@poste-devops-typique:~/minikube$ minikube dashboard
+jbl@poste-devops-typique:~/minikube$ minikube dashboard
 🙄  "minikube" profile does not exist
-jibl@poste-devops-typique:~/minikube$ sudo minikube dashboard
-[sudo] Mot de passe de jibl : 
+jbl@poste-devops-typique:~/minikube$ sudo minikube dashboard
+[sudo] Mot de passe de jbl : 
 💣  kubectl not found in PATH, but is required for the dashboard. Installation guide: https://kubernetes.io/docs/tasks/tools/install-kubectl/
-jibl@poste-devops-typique:~/minikube$
+jbl@poste-devops-typique:~/minikube$
 
 ```
 
-* Ok, let's install kubectl :
+* Ok, let's install `kubectl`, and for that, just run the `install-kubectl.sh` in the same folder as this `README.md`.
+* Now, we can access the dashboard :
+
+```bash
+jbl@poste-devops-typique:~/minikube$ sudo minikube dashboard
+🔌  Enabling dashboard ...
+🤔  Verifying dashboard health ...
+🚀  Launching proxy ...
+🤔  Verifying proxy health ...
+http://127.0.0.1:45855/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/
+
+```
 
 
 
