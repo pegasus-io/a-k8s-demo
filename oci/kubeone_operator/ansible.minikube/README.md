@@ -55,8 +55,8 @@ curl -Lo minikube https://storage.googleapis.com/minikube/releases/${MINIKUBE_VE
   && chmod +x minikube
 
 # alsofor the minikube binary to be there :
-mv mnikube /usr/local/bin
-minikube --version
+sudo mv ./minikube /usr/local/bin
+minikube version
 # --- #
 # sets the none driver as the default : we don't have to use the '--vm-driver' option again.
 # --- #
