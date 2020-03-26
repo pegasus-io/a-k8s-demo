@@ -16,7 +16,8 @@ provider "aws" {
 resource "aws_instance" "creshVM" {
   ami             = var.aws_instance_desired_ami #id of desired AMI
   instance_type   = var.aws_instance_type
-  key_name = "creshkey"
+  # keypair is created using AWS CLI : aws ec2 create-key-pair --key-name creshKeyPair --query 'KeyMaterial' --output text > ./aws.creshkey.pem
+  key_name = "creshKeyPair"
   # key_name = "${module.aws_key_pair.deployercreds.key_name}"
   security_groups = ["${aws_security_group.allow_all.name}"]
   tags = {
@@ -48,7 +49,7 @@ resource "aws_security_group" "allow_all" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-resource "aws_key_pair" "deployercreds" {
-  key_name   = "creshkey"
-  public_key = "var.my_ssh_pubkey"
-}
+# resource "aws_key_pair" "deployercreds" {
+#   key_name   = "creshkey"
+#   public_key = "var.my_ssh_pubkey"
+# }
