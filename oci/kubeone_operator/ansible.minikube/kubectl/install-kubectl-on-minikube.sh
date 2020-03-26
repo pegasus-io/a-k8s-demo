@@ -36,20 +36,19 @@ export KUBECTL_CLIENT_KEY_PATH=$(sudo cat /root/.kube/config|grep client-key| aw
 export KUBECTL_CLIENT_KEY_FILENAME=$(echo ${KUBECTL_CLIENT_KEY_PATH}|awk -F '/' '{print $NF}')
 
 mkdir -p ~/.kube
-mkdir -p ~/.minikube
 
 sudo cp /root/.kube/config ~/.kube
-sudo cp ${KUBECTL_MINIKUBE_CA_CERT_PATH} ~/.minikube
-sudo cp ${KUBECTL_CLIENT_CERT_PATH} ~/.minikube
-sudo cp ${KUBECTL_CLIENT_KEY_PATH} ~/.minikube
+sudo cp ${KUBECTL_MINIKUBE_CA_CERT_PATH} ~/.kube
+sudo cp ${KUBECTL_CLIENT_CERT_PATH} ~/.kube
+sudo cp ${KUBECTL_CLIENT_KEY_PATH} ~/.kube
 
 export CURRENTUSER=$USER
 sudo chown -R ${CURRENTUSER}:${CURRENTUSER} /home/${CURRENTUSER}/.kube
-sudo chown -R ${CURRENTUSER}:${CURRENTUSER} /home/${CURRENTUSER}/.minikube
+unset CURRENTUSER
 
-sed -i "s#certificate-authority:.*#certificate-authority: ~/.minikube/${KUBECTL_MINIKUBE_CA_CERT_FILENAME}#g" ~/.kube/config
-sed -i "s#client-certificate:.*#client-certificate: ~/.minikube/${KUBECTL_CLIENT_CERT_FILENAME}#g" ~/.kube/config
-sed -i "s#client-key:.*#client-key: ~/.minikube/${KUBECTL_CLIENT_KEY_FILENAME}#g" ~/.kube/config
+sed -i "s#certificate-authority:.*#certificate-authority: ${KUBECTL_MINIKUBE_CA_CERT_FILENAME}#g" ~/.kube/config
+sed -i "s#client-certificate:.*#client-certificate: ${KUBECTL_CLIENT_CERT_FILENAME}#g" ~/.kube/config
+sed -i "s#client-key:.*#client-key: ${KUBECTL_CLIENT_KEY_FILENAME}#g" ~/.kube/config
 
 
 kubectl version
@@ -57,4 +56,4 @@ kubectl version
 
 
 
-sudo kubectl version
+# sudo kubectl version
