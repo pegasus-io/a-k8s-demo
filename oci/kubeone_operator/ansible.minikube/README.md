@@ -17,7 +17,7 @@
 # Minkube Cresh App env
 172.217.22.131  minikube.a-k8s-demo.io a-k8s-demo.io
 ```
-
+* Do the same on the machine from where you want to `kubectl` to the cluster
 * Execute this :
 
 ```bash
