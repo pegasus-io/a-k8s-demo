@@ -70,6 +70,22 @@ sudo minikube start --apiserver-ips ${API_SERVER_IPSLICE} --apiserver-name minik
 
 ```
 
+* Ok, so now see the output when we try and access the k8S dashboard :
+
+```bash
+# ---
+jibl@poste-devops-typique:~/minikube$ minikube dashboard
+🙄  "minikube" profile does not exist
+jibl@poste-devops-typique:~/minikube$ sudo minikube dashboard
+[sudo] Mot de passe de jibl : 
+💣  kubectl not found in PATH, but is required for the dashboard. Installation guide: https://kubernetes.io/docs/tasks/tools/install-kubectl/
+jibl@poste-devops-typique:~/minikube$
+
+```
+
+* Ok, let's install kubectl :
+
+
 
 
 
