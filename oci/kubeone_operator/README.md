@@ -66,8 +66,28 @@ Okay, the minimal terraform setup for kubeone involves 3 machines, which is :
 * out of the AWS Free plan.
 * So I switched to finding the quickest solution to deploy minikube, which will restrain to only one machine, on AWS EC2 : https://www.radishlogic.com/kubernetes/running-minikube-in-aws-ec2-ubuntu/
 
+
+## Errors about the format of the public key
+
+```bash
+Error: Error launching source instance: InvalidKeyPair.NotFound: The key pair 'creshkey' does not exist
+	status code: 400, request id: 15fb460e-c0f4-4f64-aedd-42b19d461b6a
+
+  on main.tf line 16, in resource "aws_instance" "creshVM":
+  16: resource "aws_instance" "creshVM" {
+
+
+
+Error: Error import KeyPair: InvalidKey.Format: Key is not in valid OpenSSH public key format
+	status code: 400, request id: 73ad9ced-394c-49d5-821e-3e2a2a9dc4dd
+
+  on main.tf line 50, in resource "aws_key_pair" "deployer":
+  50: resource "aws_key_pair" "deployer" {
+```
+
+
 ## The minkube fall back
 
 see `oci/kubeone_operator/terraform.minikube` :
 * Le petit article : https://www.radishlogic.com/kubernetes/running-minikube-in-aws-ec2-ubuntu/
-* cccc : 
+* cccc :

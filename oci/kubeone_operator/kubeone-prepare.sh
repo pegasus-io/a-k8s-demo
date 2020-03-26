@@ -77,6 +77,37 @@ rm -f ./output.tf
 cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/output.tf .
 rm -f ./terraform.tfvars
 cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/terraform.tfvars .
+
+
+# -----------------------------------
+# ssh-keygen -P "" -t rsa -b 4096 -m pem -f aws.creshkey # ne fonctionenra pas
+# Ce qu'il faut faire :
+# ---
+#   utiliser la AWS CLI pour générer une paire de clefs,
+#   AWS CLI garde la clef publique et ne nous retourne que la clef privée
+# ---
+# il faut donc réparer l'installation de AWS dans le conteneur.
+# ---
+# En attendant, j'ai créé une parie de clef, l'ai
+# enregistrée sous AWS avec le nom 'creshKeyPair'
+# et donc on retrouve la réf 'creshKeyPair' dans le main.tf
+# ---
+# Le code de géénration d'une nouvelle clef est inutilisé, il
+# est laissé simplement pour ddes travaux ultérieurs.
+# ---
+aws ec2 create-key-pair --key-name creshKeyPair --query 'KeyMaterial' --output text > ./aws.creshkey.pem
+
+echo "$(ssh-keygen -y -f ./aws.creshkey.pem) bumblebee@pegasusio.io" > ./aws.creshkey.pub
+cp ./aws.creshkey.pem ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/
+cp ./aws.creshkey.pub ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/
+
+# export FUSA_PUBKEY=$(cat ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.ssh/${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}.pub)
+export FUSA_PUBKEY=$(cat ./aws.creshkey.pub)
+echo ''
+echo ''
+echo "DEBUG FUSA_PUBKEY=[${FUSA_PUBKEY}]"
+echo ''
+sed -i "s#EC2_FUSA_SSH_AUTH_PUBKEY_JINJA2_VAR#${FUSA_PUBKEY}#g" ./terraform.tfvars
 rm -f ./versions.tfvars
 cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/versions.tfvars .
 
@@ -107,7 +138,7 @@ echo "AWS_DEFAULT_REGION=[${AWS_DEFAULT_REGION}]"
 echo '------------------------------------------------------------------------'
 terraform-clean-syntax .
 echo " # --- running plan in [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace] " | tee -a ./kubeone.prepare.terraform.plan.logs
-terraform plan -out=k8s.cresh.provision.plan.tf | tee -a ./kubeone.prepare.terraform.plan.logs
+terraform plan -out=k8s.cresh.provision.plan.terraplan | tee -a ./kubeone.prepare.terraform.plan.logs
 
 
 # ---- FINALLY GENERATING THE KUBEONE CONFIG TO RUN KUEBONE AFTER THAT
