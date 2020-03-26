@@ -2,11 +2,15 @@
 
 set -x
 
+
+#!/bin/bash
+
+set -x
+
+export MINIKUBE_HOST=${MINIKUBE_HOST:-'minikube.pegasusio.io'}
+
 # ---
-# True, we're supposed not to use virtualization, still, I
-# wanna know where I am and I believe what I see : You will
-# check that there is no need for virtualizaion to run
-# minikube with the '--vm-driver=none' option
+#
 echo '---------------------------------------------------------------------------------'
 echo '---   Install kubectl on host [$(hostname)] :'
 echo '---------------------------------------------------------------------------------'
@@ -25,8 +29,6 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VER
 # alsofor the minikube binary to be there :
 sudo mv ./kubectl /usr/local/bin
 kubectl version --client
-
-exit 0
 
 mkdir -p ~/.kube && sudo cp /root/.kube/config ~/.kube
 
