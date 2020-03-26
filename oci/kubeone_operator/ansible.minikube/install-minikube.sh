@@ -48,7 +48,8 @@ export API_SERVER_IPSLICE="192.168.1.22"
 export API_SERVER_IPSLICE="${MINI_K8S_API_SERVER_IP}"
 
 
-
+# ------
 # sudo minikube start --apiserver-ips 127.0.0.1 --apiserver-name localhost
 sudo minikube start --apiserver-ips ${API_SERVER_IPSLICE} --apiserver-name minikube.pegasusio.io
 # ❗  The 'none' driver does not respect the --cpus flag
+# ---
