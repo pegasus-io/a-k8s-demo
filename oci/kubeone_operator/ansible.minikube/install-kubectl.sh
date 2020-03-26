@@ -25,3 +25,7 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VER
 # alsofor the minikube binary to be there :
 sudo mv ./kubectl /usr/local/bin
 kubectl version --client
+
+
+mkdir -p ~/.kube && sudo cp /root/.kube/config ~/.kube
+export CURRENTUSER=$USER
