@@ -132,6 +132,7 @@ echo '+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 echo " # --- running init in [$(pwd)] " | tee -a ./kubeone.prepare.terraform.init.logs
 
 terraform init | tee -a ./kubeone.prepare.terraform.init.logs
+terraform destroy -auto-approve || exit 34
 # and to test them in the dry run :
 echo '------------------------------------------------------------------------'
 echo '---  Now checking bashrc env before terraform plan '
