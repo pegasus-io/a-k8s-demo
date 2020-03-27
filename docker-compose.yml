@@ -84,7 +84,7 @@ services:
 
 #
 # ----------- AWS CLI OPS : to perform various live tests on the provisioned AWS infra
-  awscli-op1:
+  awscli_op1:
     # image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
     image: pegasusio/creshtest_aws-cli-v2:0.0.1
     environment:
