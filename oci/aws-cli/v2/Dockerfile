@@ -61,7 +61,8 @@ RUN ${AWSCLI_HOME}/install.aws-cli-v2.sh
 ENV AWS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 # since https://github.com/aws/aws-cli/issues/5038#issuecomment-595892997
 ENV AWS_PAGER=""
-
+# where well map the creds
+RUN mkdir -p ~/.aws/
 VOLUME /aws/.secrets
 
 USER ${BUMBLEBEE_USER}
