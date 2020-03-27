@@ -46,10 +46,4 @@ ls -allh $PROVISIONING_HOME/aws
 
 $PROVISIONING_HOME/aws/install
 
-if [ "$?" == "0" ]; then
-  aws --version
-  aws iam list-users
-else
-  echo "Installing AWS CLI v2 failed, mzybe because you are not executing this as root"
-  exit 1
-fi;
+aws --version
