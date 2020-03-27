@@ -56,7 +56,9 @@ RUN chmod +x ${AWSCLI_HOME}/*.sh
 WORKDIR /aws
 USER root
 RUN ${AWSCLI_HOME}/install.aws-cli-v2.sh
-
+# since https://github.com/aws/aws-cli/issues/2690#issuecomment-325733996
+RUN update-ca-trust force-enable
+RUN update-ca-trust extract
 VOLUME /aws/.secrets
 
 USER ${BUMBLEBEE_USER}
