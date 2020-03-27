@@ -23,3 +23,5 @@ echo ''
 echo "-------------------------------------------"
 # Now making the ssh key available for terraform opn the shared volume :
 cp /home/${BUMBLEBEE_USER}/creshAWSSSHkey /aws/.secrets
+
+exec "$SHELL"

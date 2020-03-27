@@ -55,6 +55,7 @@ RUN adduser \
 RUN chown ${BUMBLEBEE_USER}:${BUMBLEBEE_USER} -R ${AWSCLI_HOME}
 
 COPY install.aws-cli-v2.sh ${AWSCLI_HOME}
+COPY create-aws-ec2-keypair.sh ${AWSCLI_HOME}
 RUN chmod +x ${AWSCLI_HOME}/*.sh
 WORKDIR /aws
 USER root
@@ -74,4 +75,6 @@ USER ${BUMBLEBEE_USER}
 VOLUME /aws/.secrets
 
 WORKDIR /aws/playground
+
+ENTRYPOINT [ "/aws/create-aws-ec2-keypair.sh" ]
 CMD [ "/bin/bash" ]
