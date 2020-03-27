@@ -91,7 +91,7 @@ services:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
-      - BUMBLEBEE_UID=${BUMBLEBEE_UID}
+      - BUMBLEBEE_UID=${BUMBLEBEE_LX_USER_UID}
     # command: sh -c "aws autoscaling describe-auto-scaling-groups | jq -r '.AutoScalingGroups[] | select(.AutoScalingGroupName | startswith(\"${STACK_NAME}-NodeAsg\")).AutoScalingGroupName'"
     volumes:
       - $PWD/aws-cli/operator1:/aws/playground:rw
