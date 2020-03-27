@@ -27,8 +27,8 @@ export AWS_CLI_PACKAGE_FILENAME=awscliv2.zip
 # Ensuring that the paths you install to contain no
 # volume or folder names that contain any spaces otherwise
 # the installation would fail.
-mkdir -p ~/.a-k8s-demo/aws_cli
-export PROVISIONING_HOME=$(mktemp  --tmpdir=/home/$(whoami)/.a-k8s-demo/aws_cli.${AWS_CLI_VERSION}/XXXX -d -t provisioning.${HORODATAGE}.XXX)
+mkdir -p /home/$(whoami)/.a-k8s-demo/aws_cli/${AWS_CLI_VERSION}/
+export PROVISIONING_HOME=$(mktemp -d -p /home/$(whoami)/.a-k8s-demo/aws_cli/${AWS_CLI_VERSION}/ -t provision.XXXXXXX)
 
 echo ""
 echo "Downloading [$AWS_CLI_PACKAGE_FILENAME] ..."
