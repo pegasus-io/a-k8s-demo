@@ -96,7 +96,7 @@ services:
       - $PWD/aws-cli/operator1:/aws/playground:rw
       # - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}:/aws/.secrets:rw
       - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}/.aws/credentials:/home/beeio/.aws/credentials:rw
-      - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}/.aws/creshAWSSSHkey:/home/beeio/.aws/creshAWSSSHkey:rw
+      # - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}/.aws/creshAWSSSHkey:/home/beeio/.aws/creshAWSSSHkey:rw
 
     restart: always
     stdin_open: true
