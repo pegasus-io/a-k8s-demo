@@ -23,7 +23,7 @@ ENV AWSCLI_PLAYGROUND=${AWSCLI_PLAYGROUND}
 
 RUN mkdir -p $AWSCLI_PLAYGROUND
 
-ARG BUMBLEBEE_USER=docker
+ARG BUMBLEBEE_USER=beeio
 ARG BUMBLEBEE_UID=12345
 ARG BUMBLEBEE_GID=23456
 
@@ -40,13 +40,13 @@ RUN adduser \
     --disabled-password \
     --gecos "" \
     --home "$(pwd)" \
-    --ingroup "$BUMBLEBEE_USER" \
+    # --ingroup "$BUMBLEBEE_USER" \
     --no-create-home \
     --uid "$BUMBLEBEE_UID" \
     "$BUMBLEBEE_USER"
 
-RUN export GRPNAME=$(getent group ${BUMBLEBEE_GID} | awk -F ':' '{print $1}') && usermod -aG ${GRPNAME} ${BUMBLEBEE_USER}
-RUN chown :${BUMBLEBEE_GID} -R $AWSCLI_HOME
+# RUN export GRPNAME=$(getent group ${BUMBLEBEE_GID} | awk -F ':' '{print $1}') && usermod -aG ${GRPNAME} ${BUMBLEBEE_USER}
+RUN chown ${BUMBLEBEE_USER}:${BUMBLEBEE_USER} -R $AWSCLI_HOME
 
 COPY install.aws-cli-v2.sh ${AWSCLI_HOME}
 RUN chmod +x ${AWSCLI_HOME}/*.sh
