@@ -57,7 +57,8 @@ WORKDIR /aws
 USER root
 RUN ${AWSCLI_HOME}/install.aws-cli-v2.sh
 # since https://github.com/aws/aws-cli/issues/2690
-ENV AWS_CA_BUNDLE=/etc/ssl/certs/cacert.pem
+# ENV AWS_CA_BUNDLE=/etc/ssl/certs/cacert.pem
+ENV AWS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 VOLUME /aws/.secrets
 
 USER ${BUMBLEBEE_USER}
