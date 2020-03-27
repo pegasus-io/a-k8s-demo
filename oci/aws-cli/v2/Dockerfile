@@ -66,6 +66,7 @@ ENV AWS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 ENV AWS_PAGER=""
 # where well map the creds
 RUN mkdir -p ~/.aws/
+RUN mkdir -p ${AWSCLI_HOME}/.secrets
 RUN chown -R ${BUMBLEBEE_USER}:${BUMBLEBEE_USER} ${AWSCLI_HOME}/
 RUN chown -R ${BUMBLEBEE_USER}:${BUMBLEBEE_USER} ${AWSCLI_HOME}/.secrets
 RUN chown -R ${BUMBLEBEE_USER}:${BUMBLEBEE_USER} /aws/.secrets
