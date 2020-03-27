@@ -9,7 +9,7 @@ FROM debian:9.12-slim
 
 MAINTAINER Jean-Baptiste Lasselle <jean.baptiste.lasselle@gmail.com>
 
-RUN apt-get update -y &&  apt-get install -y curl jq
+RUN apt-get update -y &&  apt-get install -y curl jq unzip
 
 ENV AWS_ACCESS_KEY_ID ""
 ENV AWS_SECRET_ACCESS_KEY ""
