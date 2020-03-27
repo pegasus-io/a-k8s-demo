@@ -55,4 +55,5 @@ USER root
 RUN ${AWSCLI_HOME}/install.aws-cli-v2.sh
 USER ${BUMBLEBEE_USER}
 
+WORKDIR /aws/playground
 CMD [ "/bin/bash" ]
