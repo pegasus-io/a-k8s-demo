@@ -49,7 +49,7 @@ RUN adduser \
     "$BUMBLEBEE_USER"
 
 # RUN export GRPNAME=$(getent group ${BUMBLEBEE_GID} | awk -F ':' '{print $1}') && usermod -aG ${GRPNAME} ${BUMBLEBEE_USER}
-RUN chown ${BUMBLEBEE_USER}:${BUMBLEBEE_USER} -R $AWSCLI_HOME
+RUN chown ${BUMBLEBEE_USER}:${BUMBLEBEE_USER} -R ${AWSCLI_HOME}
 
 COPY install.aws-cli-v2.sh ${AWSCLI_HOME}
 RUN chmod +x ${AWSCLI_HOME}/*.sh
@@ -64,6 +64,8 @@ ENV AWS_PAGER=""
 # where well map the creds
 RUN mkdir -p ~/.aws/
 VOLUME /aws/.secrets
+RUN chown -R ${BUMBLEBEE_USER}:${BUMBLEBEE_USER} ${AWSCLI_HOME}/
+RUN chown -R ${BUMBLEBEE_USER}:${BUMBLEBEE_USER} ${AWSCLI_HOME}/.secrets
 
 USER ${BUMBLEBEE_USER}
 
