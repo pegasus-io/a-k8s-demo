@@ -1,4 +1,4 @@
-FROM 9.12-slim
+FROM debian:9.12-slim
 # FROM ubuntu:20.04
 # FROM alpine:3.11.3
 # can't install aws cli v2 on alpine by now (march 2020) :
