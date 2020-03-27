@@ -46,7 +46,7 @@ ls -allh $PROVISIONING_HOME/aws
 
 $PROVISIONING_HOME/aws/install
 
-if [ $? == 0 ]; then
+if [ "$?" == "0" ]; then
   aws --version
   aws iam list-users
 else
