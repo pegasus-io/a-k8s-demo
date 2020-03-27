@@ -101,3 +101,9 @@ services:
     restart: always
     stdin_open: true
     tty: true
+    # The healthcheck is important for the orchestration : it allows this recipe to wait until an EC2 Key Pair is generated and ready.
+    healthcheck:
+      test: ["CMD", "/bin/bash", '-c', '/aws/healthcheck.sh || exit 1']
+      interval: 5s
+      timeout: 5s
+      retries: 5
