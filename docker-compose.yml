@@ -68,13 +68,13 @@ services:
 #
 # ----------- ANSIBLE OPS to test the Ansible playbook which will
 #             be executed after the terraform apply by https://runatlantis.io, by the
-#             Terraform Ansible Provider Plugin
+#             Terraform Ansible Provisioner
 #
 #             This ansible playbook will execute :
 #               => The kubeone command to spawn the K8S Cluster on AWS
 #               => The Helm Chart deploying the NodeJS Express TypeScript App to the K8S Cluster on AWS
 #
-  ansible_terraprovider:
+  ansible_terraprovisioner:
     # image: jblass3ll3.world/a-k8s-demo/helm_operator:0.0.1
     # From docker.io
     image: pegasusio/creshtest_helm_operator:0.0.1
