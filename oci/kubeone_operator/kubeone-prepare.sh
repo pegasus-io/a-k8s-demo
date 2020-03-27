@@ -145,3 +145,8 @@ terraform plan -out=k8s.cresh.provision.plan.terraplan | tee -a ./kubeone.prepar
 
 kubeone config print > kubeone-config.yaml
 kubeone config print --full > kubeone-config.full.yaml
+
+echo '------------------------------------------------------------------------'
+echo '---  Now terraforming '
+echo '------------------------------------------------------------------------'
+terraform apply -auto-approve
