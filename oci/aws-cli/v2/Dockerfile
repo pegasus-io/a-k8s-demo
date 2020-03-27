@@ -40,8 +40,8 @@ RUN adduser \
     --disabled-password \
     --gecos "" \
     --home "$(pwd)" \
-    # --ingroup "$BUMBLEBEE_USER" \
-    --no-create-home \
+    # --ingroup "SOMEGROUPCREATEDBEFORE" \
+    # --no-create-home \
     --uid "$BUMBLEBEE_UID" \
     "$BUMBLEBEE_USER"
 
