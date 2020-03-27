@@ -16,9 +16,10 @@
 set +x
 
 aws ec2 create-key-pair --key-name jblCreshPaireClef | jq '.KeyMaterial' | awk -F '"' '{print $2}' > ./creshAWSSSHkey
-
+echo "-------------------------------------------"
+echo ''
 echo "debug "
-echo ""
+echo ''
 echo "-------------------------------------------"
 # Now making the ssh key available for terraform opn the shared volume :
 cp ./creshAWSSSHkey /aws/.secrets
