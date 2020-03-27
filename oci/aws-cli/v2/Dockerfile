@@ -51,6 +51,7 @@ RUN chown ${BUMBLEBEE_USER}:${BUMBLEBEE_USER} -R $AWSCLI_HOME
 COPY install.aws-cli-v2.sh ${AWSCLI_HOME}
 RUN chmod +x ${AWSCLI_HOME}/*.sh
 WORKDIR /aws
+USER root
 RUN ${AWSCLI_HOME}/install.aws-cli-v2.sh
 USER ${BUMBLEBEE_USER}
 
