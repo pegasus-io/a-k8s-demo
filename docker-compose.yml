@@ -97,25 +97,3 @@ services:
     restart: always
     stdin_open: true
     tty: true
-    
-  awscli-op2:
-    # image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
-    image: pegasusio/creshtest_aws-cli-v2:0.0.1
-    environment:
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
-    command: sh -c "aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names $ASG_NAME | jq '.AutoScalingGroups[0].DesiredCapacity'"
-    volumes:
-      - $PWD/aws-cli/operator2:/aws/playground:rw
-
-  awscli-op3:
-    # image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
-    image: pegasusio/creshtest_aws-cli-v2:0.0.1
-    environment:
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
-    command: sh -c "aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME --desired-capacity $ASG_DESIRED_CAPACITY"
-    volumes:
-      - $PWD/aws-cli/operator3:/aws/playground:rw
