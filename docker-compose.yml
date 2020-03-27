@@ -94,7 +94,10 @@ services:
     command: sh -c "aws autoscaling describe-auto-scaling-groups | jq -r '.AutoScalingGroups[] | select(.AutoScalingGroupName | startswith(\"${STACK_NAME}-NodeAsg\")).AutoScalingGroupName'"
     volumes:
       - $PWD/aws-cli/operator1:/aws/playground:rw
-
+    restart: always
+    stdin_open: true
+    tty: true
+    
   awscli-op2:
     # image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
     image: pegasusio/creshtest_aws-cli-v2:0.0.1
