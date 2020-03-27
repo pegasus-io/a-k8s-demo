@@ -56,6 +56,9 @@ RUN chmod +x ${AWSCLI_HOME}/*.sh
 WORKDIR /aws
 USER root
 RUN ${AWSCLI_HOME}/install.aws-cli-v2.sh
+
+VOLUME /aws/.secrets
+
 USER ${BUMBLEBEE_USER}
 
 WORKDIR /aws/playground
