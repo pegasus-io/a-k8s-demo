@@ -74,12 +74,12 @@ services:
 #               => The kubeone command to spawn the K8S Cluster on AWS
 #               => The Helm Chart deploying the NodeJS Express TypeScript App to the K8S Cluster on AWS
 #
-  ansible_terraprovisioner:
-    # image: jblass3ll3.world/a-k8s-demo/helm_operator:0.0.1
-    # From docker.io
-    image: pegasusio/creshtest_helm_operator:0.0.1
-    environment:
-      - SSH_URI_TO_HELM_CHART=$SSH_URI_TO_HELM_CHART
+#   ansible_terraprovisioner:
+#     # image: jblass3ll3.world/a-k8s-demo/helm_operator:0.0.1
+#     # From docker.io
+#     image: pegasusio/creshtest_helm_operator:0.0.1
+#     environment:
+#       - SSH_URI_TO_HELM_CHART=$SSH_URI_TO_HELM_CHART
 
 
 #
