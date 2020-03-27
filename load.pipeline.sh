@@ -16,9 +16,10 @@ docker-compose down --rmi all && docker system prune -f --all && docker system p
 docker-compose -f docker-compose.build.yml build awscli_v2
 docker-compose -f docker-compose.build.yml build kubeone_operator
 
+docker-compose up -d --force-recreate awscli_op1
+
 echo ''
 echo 'POINT DEBUG'
 exit 0
 # run
-docker-compose up -d --force-recreate awscli_op1
 docker-compose up -d --force-recreate kubeone_gitops_operator && docker-compose logs -f kubeone_gitops_operator
