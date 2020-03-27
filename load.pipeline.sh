@@ -14,9 +14,10 @@ source .little.pipeline.env
 docker-compose down --rmi all && docker system prune -f --all && docker system prune -f --volumes
 # build
 docker-compose -f docker-compose.build.yml build awscli_v2
+docker-compose up -d --force-recreate awscli_op1
+
 docker-compose -f docker-compose.build.yml build kubeone_operator
 
-docker-compose up -d --force-recreate awscli_op1
 
 echo ''
 echo 'POINT DEBUG'
