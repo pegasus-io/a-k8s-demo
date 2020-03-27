@@ -49,10 +49,10 @@ output "instance_ips" {
 output "public_elastic_ip" {
   description = "The public Elastic IP address assigned to the single instance (you can use that to ssh into it)"
   # value       = aws_instance.creshVM.public_ip
-  value = aws_eip.ip.public_ip
+  value = aws_eip.eip.public_ip
 }
 # output "elastic_ip" {
-#   value = aws_eip.ip.public_ip
+#   value = aws_eip.eip.public_ip
 # }
 output "ipv6_addresses" {
   description = "List of assigned IPv6 addresses of instances"
