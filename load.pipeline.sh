@@ -16,8 +16,8 @@ docker-compose down --rmi all && docker system prune -f --all && docker system p
 docker-compose -f docker-compose.build.yml build awscli_v2
 docker-compose up -d --force-recreate awscli_op1
 # so we wait until execution has completed
-docker-compose logs -f awscli_op1
-
+# docker-compose logs -f awscli_op1
+./wait-for-ec2-keypair.sh
 
 docker-compose -f docker-compose.build.yml build kubeone_operator
 
