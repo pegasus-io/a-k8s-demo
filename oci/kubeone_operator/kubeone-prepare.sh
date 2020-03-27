@@ -174,7 +174,7 @@ echo "---  "
 echo "---  Finally, to tear down your whole infrastructure, execute : "
 echo "---  "
 echo '------------------------------------------------------------------------'
-echo "     cd $(pwd) && terraform destroy -auto-approve || exit 34 "
+echo "     cd $(pwd) && terraform destroy -auto-approve "
 echo '------------------------------------------------------------------------'
 #
 # sudo ping4 -c 4 ${PUBLIC_EIP_OF_AWS_INSTANCE}
