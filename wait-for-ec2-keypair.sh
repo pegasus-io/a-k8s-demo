@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-export AWSCLI_OPERATOR_CONTAINER_NAME=${AWSCLI_OPERATOR_CONTAINER_NAME:-'portuscontainer'}
+export AWSCLI_OPERATOR_CONTAINER_NAME=${AWSCLI_OPERATOR_CONTAINER_NAME:-'awscli_bee'}
 
 # just a wait,but healthchecking willbe used instead :
 
