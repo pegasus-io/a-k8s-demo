@@ -51,6 +51,8 @@ services:
       - BUMBLEBEE_GIT_SSH_COMMAND=${BUMBLEBEE_GIT_SSH_COMMAND}
       # Where Bumblebee will find its aws credentials inside container
       - BUMBLEBEE_AWS_CREDENTIALS_FILE=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/credentials
+      # just to dsplay nice litlle output message in the docker logs :
+      - BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS=${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}
     volumes:
       - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}:/kubeonebee/.secrets:rw
 #

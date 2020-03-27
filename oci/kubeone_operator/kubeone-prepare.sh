@@ -92,14 +92,18 @@ cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/terraform.tfvars .
 # enregistrée sous AWS avec le nom 'creshKeyPair'
 # et donc on retrouve la réf 'creshKeyPair' dans le main.tf
 # ---
-# Le code de géénration d'une nouvelle clef est inutilisé, il
-# est laissé simplement pour ddes travaux ultérieurs.
+# https://docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-keypairs.html
+# ---
+# Le code de génération d'une nouvelle clef est inutilisé, il
+# est laissé simplement pour des travaux ultérieurs.
 # ---
 aws ec2 create-key-pair --key-name creshKeyPair --query 'KeyMaterial' --output text > ./aws.creshkey.pem
 
 echo "$(ssh-keygen -y -f ./aws.creshkey.pem) bumblebee@pegasusio.io" > ./aws.creshkey.pub
 cp ./aws.creshkey.pem ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/
 cp ./aws.creshkey.pub ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/
+chmod 600 ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/aws.creshkey.pem
+chmod 644 ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/aws.creshkey.pub
 
 # export FUSA_PUBKEY=$(cat ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.ssh/${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}.pub)
 export FUSA_PUBKEY=$(cat ./aws.creshkey.pub)
@@ -149,4 +153,21 @@ kubeone config print --full > kubeone-config.full.yaml
 echo '------------------------------------------------------------------------'
 echo '---  Now terraforming '
 echo '------------------------------------------------------------------------'
-terraform apply -auto-approve
+terraform apply -auto-approve || exit 33
+
+export PUBLIC_EIP_OF_AWS_INSTANCE="$(terraform output public_elastic_ip)"
+echo '------------------------------------------------------------------------'
+echo "---  You can now SSH into your VM using ip address [${PUBLIC_EIP_OF_AWS_INSTANCE}] "
+echo "---  Using the following commands : "
+echo "---  "
+echo "---  # [inside container] : "
+echo "---  "
+echo "---  ssh -i ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/aws.creshkey.pem ec2-user@${PUBLIC_EIP_OF_AWS_INSTANCE}"
+echo "---  "
+echo "---  # [outside container] : "
+echo "---  "
+echo "---  ssh -i ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}/.aws/aws.creshkey.pem ec2-user@${PUBLIC_EIP_OF_AWS_INSTANCE}"
+echo "---  "
+sudo ping -c 4 ${PUBLIC_EIP_OF_AWS_INSTANCE}
+echo '------------------------------------------------------------------------'
+ssh -Tvai ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/aws.creshkey.pem ec2-user@${PUBLIC_EIP_OF_AWS_INSTANCE}
