@@ -9,7 +9,7 @@ FROM debian:9.12-slim
 
 MAINTAINER Jean-Baptiste Lasselle <jean.baptiste.lasselle@gmail.com>
 
-RUN apt-get update -y &&  apt-get install -y curl jq unzip
+RUN apt-get update -y &&  apt-get install -y curl jq unzip vim
 
 ENV AWS_ACCESS_KEY_ID ""
 ENV AWS_SECRET_ACCESS_KEY ""
@@ -39,7 +39,7 @@ ENV GID=${BUMBLEBEE_GID}
 RUN adduser \
     --disabled-password \
     --gecos "" \
-    --home "$(pwd)" \
+    # --home "$(pwd)" \
     # --ingroup "SOMEGROUPCREATEDBEFORE" \
     # --no-create-home \
     --uid "$BUMBLEBEE_UID" \
