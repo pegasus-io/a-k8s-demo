@@ -132,7 +132,7 @@ echo '+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 echo " # --- running init in [$(pwd)] " | tee -a ./kubeone.prepare.terraform.init.logs
 
 terraform init | tee -a ./kubeone.prepare.terraform.init.logs
-terraform destroy -auto-approve || exit 34
+
 # and to test them in the dry run :
 echo '------------------------------------------------------------------------'
 echo '---  Now checking bashrc env before terraform plan '
@@ -169,7 +169,15 @@ echo "---  # [outside container] : "
 echo "---  "
 echo "---  ssh -i ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}/.aws/aws.creshkey.pem ec2-user@${PUBLIC_EIP_OF_AWS_INSTANCE}"
 echo "---  "
-# sudo ping -c 4 ${PUBLIC_EIP_OF_AWS_INSTANCE}
-# sudo ping4 -c 4 ${PUBLIC_EIP_OF_AWS_INSTANCE}
 echo '------------------------------------------------------------------------'
+echo "---  "
+echo "---  Finally, to tear down your whole infrastructure, execute : "
+echo "---  "
+echo '------------------------------------------------------------------------'
+echo "---  cd $(pwd) terraform destroy -auto-approve || exit 34 "
+echo '------------------------------------------------------------------------'
+#
+# sudo ping4 -c 4 ${PUBLIC_EIP_OF_AWS_INSTANCE}
+# sudo ping -c 4 ${PUBLIC_EIP_OF_AWS_INSTANCE}
 # ssh -Tvai ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/aws.creshkey.pem ec2-user@${PUBLIC_EIP_OF_AWS_INSTANCE}
+# -----------------------------------------------------------------------------
