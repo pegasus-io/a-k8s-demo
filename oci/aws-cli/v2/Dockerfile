@@ -6,8 +6,11 @@ FROM debian:9.12-slim
 # basically reason is the aws cli binary distrobution for linux, is
 # compiled for some linux target OS, but not others. It shoudl be ok on debian or ubuntu
 
-
-MAINTAINER Jean-Baptiste Lasselle <jean.baptiste.lasselle@gmail.com>
+LABEL maintainer="Jean-Baptiste-Lasselle <jean.baptiste.lasselle.pegasus@gmail.com>"
+LABEL author="Jean-Baptiste-Lasselle <jean.baptiste.lasselle.pegasus@gmail.com>"
+LABEL build="0.0.0.0.0.0.0.0"
+LABEL commitid="0.0.0.0.0.0.0.0"
+LABEL daymood="firefox https://www.youtube.com/watch?v=fBM3nb-3iFs"
 
 RUN apt-get update -y &&  apt-get install -y curl jq unzip vim
 
