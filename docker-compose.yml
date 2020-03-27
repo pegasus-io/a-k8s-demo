@@ -93,7 +93,7 @@ services:
       - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
     # command: sh -c "aws autoscaling describe-auto-scaling-groups | jq -r '.AutoScalingGroups[] | select(.AutoScalingGroupName | startswith(\"${STACK_NAME}-NodeAsg\")).AutoScalingGroupName'"
     volumes:
-      - $PWD/aws-cli/operator1:/aws/playground:rw
+      # - $PWD/aws-cli/operator1:/aws/playground:rw
       # - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}:/aws/.secrets:rw
       - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}/.aws/credentials:/home/beeio/.aws/credentials:rw
       # - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}/.aws/creshAWSSSHkey:/home/beeio/.aws/creshAWSSSHkey:rw
