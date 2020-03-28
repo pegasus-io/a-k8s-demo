@@ -8,11 +8,15 @@ J'ai un petit serveur chez moi, et je me sers d'AWS juste pour gérer l'aspect D
 * Il utilise AWS pour associer un npm de domaine que j'ai acheté, à une adresse IP particlière, donc il utilsie AWS uniquement pour faire des enregsitrements DNS, `DNS record`
 * Sans pour autant avoir la moindre machine virtuelle chez `AWS`.
 
-Comment pourrait-on faire cela, mais avec un client `DynDNS`, typiquement un client `DynDNS`, pour `noip.com`, par exemple ?
-En écrivant un nouveau module Terraform  :
-* lui utilise le `Terraform http data source` https://www.terraform.io/docs/providers/http/data_source.html
-* il faudrait donc le `Terraform DynDNS data source`
-* le mieux est de l'implémenter dans le language que je veux, en tant que `Terraform external datasource` https://www.terraform.io/docs/providers/external/data_source.html
+C'est une solution alternative à la mis een oeuvre d' un client `DynDNS`, typiquement un client `DynDNS`, pour `noip.com`.
+
+MAis cette solution a une dépendance de taille : il faut que le service `icanhazip.com` soit opérationnel.
+
+La solution existe, il faut :
+
+* Déployer un service équivalent à `icanhazip.com`,
+* Par exemple sur un `heroku`, mais n'importe où, à la condition qu' il existe un lien réseau, entre la machine dont je veux les metadata réseau `WAN` (par ex. l'adresse IP publique) , et le service, avec un passage obligaoire par le WAN (donc aucune liaison L2, et un passage `BGP`).
+
 
 ## La doc terraform pour l'implémentation du `Terraform External Datasource`
 
