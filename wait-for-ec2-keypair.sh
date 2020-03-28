@@ -15,6 +15,14 @@ checkHealthOf () {
     echo "You should provide one and only one argument to the [checkHealthOf] function, the name of the container you want to check the healt of"
     return 1;
   else
+    # ---
+    export CONTAINER_IS_DOWN=$(docker inspect $CONTAINER_TO_CHECK_NAME | jq '.[]' | jq '.State.Running')
+    echo "Health of container [$CONTAINER_TO_CHECK_NAME] is [$HEALTHCHECK_ANSWER] " | tee -a ANSWERCONTAINER_NAME.speak
+    if [ "$CONTAINER_IS_DOWN" == 'false' ];then
+      echo " Container [$CONTAINER_TO_CHECK_NAME] is down"
+      return 1;
+    fi;
+    # ---
     echo "Checking name of container (not empty name) [CONTAINER_TO_CHECK_NAME=$CONTAINER_TO_CHECK_NAME] ...  " | tee ANSWERCONTAINER_NAME.speak
     # export HEALTHCHECK_ANSWER=$(docker inspect $CONTAINER_TO_CHECK_NAME | jq '.[]' | jq '.Status.Health')
     export HEALTHCHECK_ANSWER=$(docker inspect $CONTAINER_TO_CHECK_NAME | jq '.[]' | jq '.State.Health.Status' | awk -F '"' '{print $2}')
