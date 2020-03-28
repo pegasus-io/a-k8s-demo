@@ -13,10 +13,10 @@ export FILE_TO_CHECK=/home/${BUMBLEBEE_USER}/creshAWSSSHkey
 
 checkWitnessFile () {
   if [ -f $1 ]; then
-    echo "The file [$1] was found, health changes to healthy:  EC2 KeyPair is READY"
+    echo "The file [$1] was found, health changes to 'healthy':  EC2 KeyPair is READY"
     return 0
   else
-    echo "The file [$1] was NOT found, health changes to healthy:  EC2 KeyPair is NOT READY"
+    echo "The file [$1] was NOT found, health remains set to 'unhealthy' :  EC2 KeyPair is NOT READY"
     return 1
   fi;
 }
