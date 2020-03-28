@@ -28,10 +28,10 @@ checkHealthOf () {
     export HEALTHCHECK_ANSWER=$(docker inspect $CONTAINER_TO_CHECK_NAME | jq '.[]' | jq '.State.Health.Status' | awk -F '"' '{print $2}')
     echo "Health of container [$CONTAINER_TO_CHECK_NAME] is [$HEALTHCHECK_ANSWER] " | tee -a ANSWERCONTAINER_NAME.speak
     if [ "$HEALTHCHECK_ANSWER" == 'healthy' ];then
-      echo " OUI VERIF [HEALTHCHECK_ANSWER=[${HEALTHCHECK_ANSWER}]] retour ZERO"
+      echo " OUI VERIF [HEALTHCHECK_ANSWER=[${HEALTHCHECK_ANSWER}]] "
       return 0;
     else
-      echo " OUI VERIF [HEALTHCHECK_ANSWER=[${HEALTHCHECK_ANSWER}]] retour UN"
+      echo " OUI VERIF [HEALTHCHECK_ANSWER=[${HEALTHCHECK_ANSWER}]] "
       return 1;
     fi;
   fi;
