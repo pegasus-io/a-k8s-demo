@@ -65,6 +65,16 @@ export API_SERVER_IPSLICE='[192.168.1.22]'
 export API_SERVER_IPSLICE="192.168.1.22"
 export API_SERVER_IPSLICE="${MINI_K8S_API_SERVER_IP}"
 
+# ------------------------------------------------------------------------------------------------------------
+# ❗  To use kubectl or minikube commands as your own user, you may need to relocate them. For example, to overwrite your own settings, run:
+#
+#     ▪ sudo mv /root/.kube /root/.minikube $HOME
+#     ▪ sudo chown -R $USER $HOME/.kube $HOME/.minikube
+#
+# 💡  This can also be done automatically by setting the env var CHANGE_MINIKUBE_NONE_USER=true
+# ------------------------------------------------------------------------------------------------------------
+
+export CHANGE_MINIKUBE_NONE_USER=true
 
 # ------
 # sudo minikube start --apiserver-ips 127.0.0.1 --apiserver-name localhost
