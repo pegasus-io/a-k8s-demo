@@ -42,7 +42,7 @@ resource "aws_eip_association" "eip_assoc" {
 # allows all in ...I'm bold.
 # Better security : https://www.kerkeni.net/initialisation-dune-instance-aws-ec2-with-terraform.htm
 # ---
-resource "aws_security_group" "allow_all" {
+resource "aws_security_group" "allow_all_in" {
   name = "allow_ssh"
   ingress {
     from_port   = "0"
@@ -52,10 +52,23 @@ resource "aws_security_group" "allow_all" {
   }
 }
 # ---
+# outbound traffic to at least, be able to
+# use package manager inside the
+# linux amazon AMI distro
+# ---
+resource "aws_security_group_rule" "allow_all_out" {
+  type              = "egress"
+  to_port           = 0
+  protocol          = "-1"
+  prefix_list_ids   = ["${aws_vpc_endpoint.my_endpoint.prefix_list_id}"]
+  from_port         = 0
+  security_group_id = "sg-123456"
+}
+# ---
 # Test it : [terraform import aws_key_pair.deployercreds creshkey]
 # ---
 # resource "aws_key_pair" "deployercreds" {
 #   key_name   = "creshkey"
 #   public_key = "var.my_ssh_pubkey"
 # }
-# 
+#
