@@ -37,6 +37,7 @@ chmod +x ./load.pipeline.sh
 * Then you will execute this on the freshly terraformed `AWS ec2` instance :
 
 ```bash
+# This will soon be an ansible playbook, which is going to be executed as Terraform provisioner, using the Terraform Ansible Provisioner.
 export OPS_HOME="${HOME}/minikube"
 export URI_DE_CE_REPO=https://github.com/pegasus-io/a-k8s-demo.git
 export THIS_RECIPES_RELEASE=feature/aws-provisioning
