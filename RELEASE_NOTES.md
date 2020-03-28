@@ -68,7 +68,15 @@ chmod +x ./oci/kubeone_operator/ansible.minikube/*.sh
 ```bash
 docker exec -it kubeone_gitops_operator bash
 # to test a few commands, like :
-# 'cd terraformation/ && ./terraform plan'
+#
+#   terraform init
+#   terraform plan
+#   terraform apply, (maybe terrafom import)
+#   terraform output public_elastic_ip
+#   terraform destroy,
+#
+# Top do so you will have  to :
+# 'cd kubeone/source/examples/terraform/aws'
 #
 ```
 
