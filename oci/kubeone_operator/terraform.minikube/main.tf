@@ -20,7 +20,7 @@ resource "aws_instance" "creshVM" {
   # key_name = "creshKeyPair"
   key_name = "jblCreshPaireClef"
   # key_name = "${module.aws_key_pair.deployercreds.key_name}"
-  security_groups = ["${aws_security_group.allow_all_in.name}", "${aws_security_group.allow_all_out.name}"]
+  security_groups = ["${aws_security_group.allow_all.name}"]
   # iam_instance_profile = "${aws_iam_instance_profile.test_profile.name}"
   tags = {
     Env = "creshdemo"
@@ -42,7 +42,7 @@ resource "aws_eip_association" "eip_assoc" {
 # allows all in ...I'm bold.
 # Better security : https://www.kerkeni.net/initialisation-dune-instance-aws-ec2-with-terraform.htm
 # ---
-resource "aws_security_group" "allow_all_in" {
+resource "aws_security_group" "allow_all" {
   name = "allow_ssh"
   ingress {
     from_port   = "0"
