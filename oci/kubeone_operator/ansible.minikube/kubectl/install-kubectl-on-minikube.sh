@@ -139,5 +139,6 @@ echo "     minikube dashboard "
 echo ''
 
 
-
+sudo cp -fR /root/.minikube ~/
+sudo cp -fR /root/.kube ~/
 # sudo kubectl version
