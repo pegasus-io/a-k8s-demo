@@ -10,7 +10,7 @@ J'ai un petit serveur chez moi, et je me sers d'AWS juste pour gérer l'aspect D
 
 C'est une solution alternative à la mis een oeuvre d' un client `DynDNS`, typiquement un client `DynDNS`, pour `noip.com`.
 
-MAis cette solution a une dépendance de taille : il faut que le service `icanhazip.com` soit opérationnel.
+Mais cette solution a une dépendance de taille : il faut que le service `icanhazip.com` soit opérationnel.
 
 La solution existe, il faut :
 
