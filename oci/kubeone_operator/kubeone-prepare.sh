@@ -167,7 +167,7 @@ echo "---  ssh -i ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/aws.creshkey.
 echo "---  "
 echo "---  # [outside container] : "
 echo "---  "
-echo "---  ssh -i ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}/.aws/aws.creshkey.pem ec2-user@${PUBLIC_EIP_OF_AWS_INSTANCE}"
+echo "---  ssh -i ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/beesecrets/creshAWSSSHkey.pem ec2-user@${PUBLIC_EIP_OF_AWS_INSTANCE}"
 echo "---  "
 echo '------------------------------------------------------------------------'
 echo "---  "
