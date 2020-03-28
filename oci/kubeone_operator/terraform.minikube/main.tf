@@ -57,6 +57,7 @@ resource "aws_security_group" "allow_all_in" {
 # linux amazon AMI distro
 # ---
 resource "aws_security_group_rule" "allow_all_out" {
+  name = "allow_all_out_traffic"
   type              = "egress"
   to_port           = 0
   protocol          = "-1"
@@ -64,6 +65,7 @@ resource "aws_security_group_rule" "allow_all_out" {
   from_port         = 0
   security_group_id = "sg-123456"
 }
+
 # ---
 # Test it : [terraform import aws_key_pair.deployercreds creshkey]
 # ---
