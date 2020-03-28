@@ -11,7 +11,6 @@ cat /etc/os-release
 echo ''
 echo '------------------------------------------------------------'
 
-sudo yum update -y
 
 # ---
 # - git : to operate as a gitops
@@ -25,3 +24,8 @@ unset CURRENT_USER_ATREYOU
 sudo systemctl enable docker.service
 sudo systemctl daemon-reload
 sudo systemctl restart docker.service
+
+sudo yum update -y
+
+# à cet instant, il y a besoin de faire un nouveau login linux pour que les commandes docker puissent s'exécuter sans sudo.
+echo "# à cet instant, il y a besoin de faire un nouveau login linux pour que les commandes docker puissent s'exécuter sans sudo."
