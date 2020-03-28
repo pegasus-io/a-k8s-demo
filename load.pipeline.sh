@@ -6,7 +6,7 @@ export HORODATAGE=`date +%m-%d-%Y_%Hh-%Mmin-%Ssec`
 export OPS_HOME=$(pwd)
 
 source .little.pipeline.env
-
+mkdir -p $PWD/beecli
 ./create-bumblebee.sh
 
 source .little.pipeline.env

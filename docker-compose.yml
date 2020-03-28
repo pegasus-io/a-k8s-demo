@@ -114,4 +114,4 @@ volumes:
     driver_opts:
       type: "none"
       o: "bind,rw"
-      device: "/home/jibl/a-k8s-demo/beecli"
+      device: "$PWD/beecli"
