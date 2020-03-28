@@ -54,6 +54,7 @@ services:
       # just to dsplay nice litlle output message in the docker logs :
       - BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS=${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}
     volumes:
+      - beesecrets:/kubeonebee/beesecrets:rw
       - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}:/kubeonebee/.secrets:rw
 #
 # ----------- HELM OPS to test Helm Chart deployment of
@@ -94,7 +95,7 @@ services:
       - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
     # command: sh -c "aws autoscaling describe-auto-scaling-groups | jq -r '.AutoScalingGroups[] | select(.AutoScalingGroupName | startswith(\"${STACK_NAME}-NodeAsg\")).AutoScalingGroupName'"
     volumes:
-      # - $PWD/aws-cli/operator1:/aws/playground:rw
+      - beesecrets:/aws/share:rw
       # - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}:/aws/.secrets:rw
       - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}/.aws/credentials:/home/beeio/.aws/credentials:rw
     restart: always
@@ -106,3 +107,11 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+volumes:
+  beesecrets:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind,rw"
+      device: "/home/jibl/a-k8s-demo/beecli"

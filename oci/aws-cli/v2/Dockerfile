@@ -70,6 +70,7 @@ ENV AWS_PAGER=""
 # where well map the creds
 RUN mkdir -p ~/.aws/
 RUN mkdir -p ${AWSCLI_HOME}/.secrets
+RUN mkdir -p ${AWSCLI_HOME}/share
 RUN chown -R ${BUMBLEBEE_USER}:bumblebee ${AWSCLI_HOME}/
 RUN chown -R ${BUMBLEBEE_USER}:bumblebee ${AWSCLI_HOME}/.secrets
 RUN chown -R ${BUMBLEBEE_USER}:bumblebee /aws/.secrets
