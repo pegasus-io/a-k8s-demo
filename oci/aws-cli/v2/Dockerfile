@@ -12,7 +12,7 @@ LABEL build="0.0.0.0.0.0.0.0"
 LABEL commitid="0.0.0.0.0.0.0.0"
 LABEL daymood="firefox https://www.youtube.com/watch?v=fBM3nb-3iFs"
 
-RUN apt-get update -y &&  apt-get install -y curl jq unzip vim
+RUN apt-get update -y &&  apt-get install -y curl jq unzip vim openssh openssh-server
 
 ENV AWS_ACCESS_KEY_ID ""
 ENV AWS_SECRET_ACCESS_KEY ""
