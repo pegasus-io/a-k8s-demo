@@ -13,7 +13,7 @@ echo '--------------------------------------------------------------------------
 grep -E --color 'vmx|svm' /proc/cpuinfo
 echo '---------------------------------------------------------------------------------'
 echo " Has [$(hostname)] virtualization capabilities ?"
-egrep -q 'vmx|svm' /proc/cpuinfo && echo yes || echo no
+grep -E --color 'vmx|svm' /proc/cpuinfo && echo yes || echo no
 echo '---------------------------------------------------------------------------------'
 
 
