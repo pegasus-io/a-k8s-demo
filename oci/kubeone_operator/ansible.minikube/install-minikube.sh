@@ -17,14 +17,6 @@ grep -E --color 'vmx|svm' /proc/cpuinfo && echo yes || echo no
 echo '---------------------------------------------------------------------------------'
 
 
-
-# - docker installation : this install is VERY bad, it does not install a specific verson of docker, just latest, so time dependent
-curl -fsSL https://get.docker.com/ | sh
-export CURRENT_USER_HEY=$(whoami)
-sudo chmod -aG docker ${CURRENT_USER_HEY}
-unset CURRENT_USER_HEY
-
-
 export MINIKUBE_VERSION_TAG=latest
 # https://github.com/kubernetes/minikube/releases/tag/v1.8.2
 export MINIKUBE_VERSION=${MINIKUBE_VERSION:-'1.8.2'}
