@@ -10,8 +10,8 @@ aws_instance_type="t3.micro"
 # I changed AMI because :
 #
 # "ami-0ebc281c20e89ba4b" => Amazon Linux version 1, does not have systemd
-# "ami-0ebc281c20e89ba4b" => Amazon Linux version 2, does not have systemd, required by minikube, instead they blended their own sh***t sysctl
-# "ami-b38e14b2" => suposed to be a debian 9
+# "ami-07eda9385feb1e969" => Amazon Linux version 2, does have systemd, required by minikube
+#
 aws_instance_desired_ami="ami-b38e14b2"
 
 # my_ssh_pubkey="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 email@example.com"
