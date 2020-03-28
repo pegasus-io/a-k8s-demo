@@ -22,8 +22,9 @@ export MINIKUBE_VERSION_TAG=latest
 export MINIKUBE_VERSION=${MINIKUBE_VERSION:-'1.8.2'}
 export MINIKUBE_VERSION_TAG="v${MINIKUBE_VERSION}"
 
-curl -Lo minikube https://storage.googleapis.com/minikube/releases/${MINIKUBE_VERSION_TAG}/minikube-linux-amd64 \
-  && chmod +x minikube
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/${MINIKUBE_VERSION_TAG}/minikube-linux-amd64
+
+chmod +x minikube
 
 # alsofor the minikube binary to be there :
 # sudo mv ./minikube /usr/local/bin
