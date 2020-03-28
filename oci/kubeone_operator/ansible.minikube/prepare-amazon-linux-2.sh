@@ -2,7 +2,8 @@
 
 set -x
 
-# So I need Git, and docker before running minikube install
+# The Amazon Linux 2 is just a RHEL / CentOS derivative. 
+# So I need Git, and docker in my AWS image, before running minikube install
 
 sudo yum update -y
 #
