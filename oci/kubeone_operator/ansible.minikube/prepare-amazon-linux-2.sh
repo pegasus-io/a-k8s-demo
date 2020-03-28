@@ -17,3 +17,7 @@ sudo yum update -y
 # - git : to operate as a gitops
 # - docker installation : this install is VERY bad, it does not install a specific verson of docker, just latest, so time dependent
 sudo yum install -y git docker
+
+sudo systemctl enable docker.service
+sudo systemctl daemon-reload
+sudo systemctl restart docker.service
