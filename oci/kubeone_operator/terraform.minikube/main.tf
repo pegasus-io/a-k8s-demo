@@ -50,21 +50,20 @@ resource "aws_security_group" "allow_all_in" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  # ---
+  # outbound traffic to at least, be able to
+  # use package manager inside the
+  # linux amazon AMI distro
+  # ---
+  egress {
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
+  }
 }
-# ---
-# outbound traffic to at least, be able to
-# use package manager inside the
-# linux amazon AMI distro
-# ---
-resource "aws_security_group_rule" "allow_all_out" {
-  name = "allow_all_out_traffic"
-  type              = "egress"
-  to_port           = 0
-  protocol          = "-1"
-  # prefix_list_ids   = ["${aws_vpc_endpoint.my_endpoint.prefix_list_id}"]
-  from_port         = 0
-  security_group_id = "sg-123456"
-}
+
 
 # ---
 # Test it : [terraform import aws_key_pair.deployercreds creshkey]
