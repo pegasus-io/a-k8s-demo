@@ -41,12 +41,12 @@ ENV USER=${BUMBLEBEE_USER}
 ENV UID=${BUMBLEBEE_UID}
 ENV GID=${BUMBLEBEE_GID}
 
-
+RUN groupadd -g ${BUMBLEBEE_GID} bumblebee
 RUN adduser \
     --disabled-password \
     --gecos "" \
     # --home "$(pwd)" \
-    # --ingroup "SOMEGROUPCREATEDBEFORE" \
+    --ingroup "${BUMBLEBEE_GID}" \
     # --no-create-home \
     --uid "$BUMBLEBEE_UID" \
     "$BUMBLEBEE_USER"
