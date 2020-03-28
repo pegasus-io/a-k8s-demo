@@ -17,7 +17,7 @@ checkHealthOf () {
   else
     echo "Checking name of container (not empty name) [CONTAINER_TO_CHECK_NAME=$CONTAINER_TO_CHECK_NAME] ...  " | tee ANSWERCONTAINER_NAME.speak
     # export HEALTHCHECK_ANSWER=$(docker inspect $CONTAINER_TO_CHECK_NAME | jq '.[]' | jq '.Status.Health')
-    export HEALTHCHECK_ANSWER=$(docker inspect $CONTAINER_TO_CHECK_NAME | jq '.[]' | jq '.State.Health.Status')
+    export HEALTHCHECK_ANSWER=$(docker inspect $CONTAINER_TO_CHECK_NAME | jq '.[]' | jq '.State.Health.Status' | awk -F '"' '{print $2}')
     echo "Health of container [$CONTAINER_TO_CHECK_NAME] is [$HEALTHCHECK_ANSWER] " | tee -a ANSWERCONTAINER_NAME.speak
     if [ "$HEALTHCHECK_ANSWER" == 'healthy' ];then
       echo " OUI VERIF [HEALTHCHECK_ANSWER=[${HEALTHCHECK_ANSWER}]] retour ZERO"
