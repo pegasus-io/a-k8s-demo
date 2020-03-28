@@ -2,7 +2,7 @@
 
 set -x
 
-# So I need Git and docker installed, before running minikube install
+# So I need Git, before running minikube install
 
 sudo yum update -y
 #
@@ -13,6 +13,3 @@ echo ''
 cat /etc/os-release
 echo ''
 echo '------------------------------------------------------------'
-
-# - docker installation
-curl -fsSL https://get.docker.com/ | sh
