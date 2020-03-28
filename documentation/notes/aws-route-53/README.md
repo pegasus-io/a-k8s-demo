@@ -16,6 +16,22 @@ La solution existe, il faut :
 
 * Déployer un service équivalent à `icanhazip.com`,
 * Par exemple sur un `heroku`, mais n'importe où, à la condition qu' il existe un lien réseau, entre la machine dont je veux les metadata réseau `WAN` (par ex. l'adresse IP publique) , et le service, avec un passage obligaoire par le WAN (donc aucune liaison L2, et un passage `BGP`).
+* et il en existe un opensource https://github.com/mpolden/echoip
+
+## Opportunité : Et il faut aussi impléemnter un Terraform External Data Source DynDNS
+
+Je ne sais pas pourquoi, mais jai furieusement envie de le faire :
+* no-ip, c'est pour avoir un nom de domaine bidon vite fait, alors que je nai aps dadresse IP statique
+* pour `AWS`, l'avantage est le suivant : 
+  * Mais OUIIII attend si je susi en NO IP chez moi, c'est inutlisable son data source , sinon on devrait :
+    * surveiller quand l'adresse IP change
+    * à chaque fosi qu'elle change, relancer le terraform, pour que localement, la data source soit renseingée... Il y a quelque chose qui me gêne avec les datasources, leur sortie est très dépendante d'un contexte qui peut beacoup varier. On ne sait pas de quoi elle dépend, c'est très mauvais pour le IAAC ça.
+  * donc là au lieu de ça, je ne vais pas faire une entrée A record DNS,
+  * mais à la place, avec `AWS`, je vais faire un `route 53 alias` !
+
+Ah bah oui, là mainteannt je sais pourquoi j'en avais envie, c'est clair qu'il y aun use
+
+
 
 
 ## La doc terraform pour l'implémentation du `Terraform External Datasource`
