@@ -50,6 +50,7 @@ chmod +x ./oci/kubeone_operator/ansible.minikube/*.sh
 ```
 
 * Then you will install `kubectl` on your everyday laptop, of course a GNU/Linux, ar on worst case, a darwin :
+
 ```bash
 export OPS_HOME="${HOME}/.kctl"
 export URI_DE_CE_REPO=https://github.com/pegasus-io/a-k8s-demo.git
