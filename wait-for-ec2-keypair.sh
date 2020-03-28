@@ -16,7 +16,8 @@ checkHealthOf () {
     return 1;
   else
     echo "Checking name of container (not empty name) [CONTAINER_TO_CHECK_NAME=$CONTAINER_TO_CHECK_NAME] ...  " | tee ANSWERCONTAINER_NAME.speak
-    export HEALTHCHECK_ANSWER=$(docker inspect $CONTAINER_TO_CHECK_NAME | jq '.[]' | jq '.Status.Health')
+    # export HEALTHCHECK_ANSWER=$(docker inspect $CONTAINER_TO_CHECK_NAME | jq '.[]' | jq '.Status.Health')
+    export HEALTHCHECK_ANSWER=$(docker inspect $CONTAINER_TO_CHECK_NAME | jq '.[]' | jq '.State.Health.Status')
     echo "Health of container [$CONTAINER_TO_CHECK_NAME] is [$HEALTHCHECK_ANSWER] " | tee -a ANSWERCONTAINER_NAME.speak
     if [ "$HEALTHCHECK_ANSWER" == 'healthy' ];then
       return 0;
