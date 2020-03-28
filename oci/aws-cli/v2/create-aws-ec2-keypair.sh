@@ -22,4 +22,5 @@ echo "debug "
 echo ''
 echo "-------------------------------------------"
 
-exec "$SHELL"
+sleep infinity
+#exec "$SHELL"
