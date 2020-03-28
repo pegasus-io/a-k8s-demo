@@ -36,10 +36,10 @@ chmod +x minikube
 # ---
 sudo mv ./minikube /usr/bin
 
-export URI_DE_CE_REPO=https://github.com/pegasus-io/a-k8s-demo.git
-export THIS_RECIPES_RELEASE=feature/aws-provisioning
-git clone "$URI_DE_CE_REPO" .
-git checkout $THIS_RECIPES_RELEASE
+# export URI_DE_CE_REPO=https://github.com/pegasus-io/a-k8s-demo.git
+# export THIS_RECIPES_RELEASE=feature/aws-provisioning
+# git clone "$URI_DE_CE_REPO" .
+# git checkout $THIS_RECIPES_RELEASE
 chmod +x ./oci/kubeone_operator/ansible.minikube/*.sh
 ./oci/kubeone_operator/ansible.minikube/kubectl/install-kubectl-on-minikube.sh
 
