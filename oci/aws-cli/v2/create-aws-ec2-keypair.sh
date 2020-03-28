@@ -14,6 +14,13 @@
 # ------
 
 set +x
+
+# ---
+# first, delete the keypair, whether it exists or
+# not, because if it does not exist, aws cli will
+# remain silent.
+aws ec2 delete-key-pair --key-name jblCreshPaireClef
+# then create the keypair
 aws ec2 create-key-pair --key-name jblCreshPaireClef --query 'KeyMaterial' --output text > /home/${BUMBLEBEE_USER}/creshAWSSSHkey.pem
 chmod 600 ~/creshAWSSSHkey.pem
 cp ~/creshAWSSSHkey.pem /aws/share
