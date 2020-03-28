@@ -254,6 +254,7 @@ RUN usermod -aG terraform ${BUMBLEBEE_LX_USERNAME}
 
 # ----------------------------------------------------------------------------
 VOLUME /kubeonebee/.secrets
+VOLUME /kubeonebee/share
 
 WORKDIR /kubeonebee
 # HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "/kubeonebee/pipeline-step.healthcheck.sh" ]

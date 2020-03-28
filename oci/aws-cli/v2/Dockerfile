@@ -76,6 +76,7 @@ RUN chown -R ${BUMBLEBEE_USER}:bumblebee ${AWSCLI_HOME}/.secrets
 RUN chown -R ${BUMBLEBEE_USER}:bumblebee /aws/.secrets
 USER ${BUMBLEBEE_USER}
 VOLUME /aws/.secrets
+VOLUME /aws/share
 
 WORKDIR /aws/playground
 
