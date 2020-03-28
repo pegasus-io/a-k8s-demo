@@ -25,6 +25,7 @@ export IS_EC2_PAIR_READY=1
 while [ "$IS_EC2_PAIR_READY" != "0" ]
 do
   echo "checking health of the [AWSCLI_OPERATOR] container ..."
-  export IS_EC2_PAIR_READY=$(checkWitnessFile $FILE_TO_CHECK)
+  checkWitnessFile $FILE_TO_CHECK
+  export IS_EC2_PAIR_READY="$?"
   sleep 1s
 done
