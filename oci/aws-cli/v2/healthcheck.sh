@@ -8,7 +8,7 @@
 # ------
 
 
-export FILE_TO_CHECK=/home/${BUMBLEBEE_USER}/creshAWSSSHkey
+export FILE_TO_CHECK=/home/${BUMBLEBEE_USER}/creshAWSSSHkey.pem
 
 
 checkWitnessFile () {

@@ -14,8 +14,8 @@
 # ------
 
 set +x
-
-aws ec2 create-key-pair --key-name jblCreshPaireClef | jq '.KeyMaterial' | awk -F '"' '{print $2}' > /home/${BUMBLEBEE_USER}/creshAWSSSHkey
+aws ec2 create-key-pair --key-name jblCreshPaireClef --query 'KeyMaterial' --output text > /home/${BUMBLEBEE_USER}/creshAWSSSHkey.pem
+# aws ec2 create-key-pair --key-name jblCreshPaireClef | jq '.KeyMaterial' | awk -F '"' '{print $2}' > /home/${BUMBLEBEE_USER}/creshAWSSSHkey
 echo "-------------------------------------------"
 echo ''
 echo "debug "
