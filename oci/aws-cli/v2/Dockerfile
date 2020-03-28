@@ -46,7 +46,7 @@ RUN adduser \
     --disabled-password \
     --gecos "" \
     # --home "$(pwd)" \
-    --ingroup "${BUMBLEBEE_GID}" \
+    --ingroup "bumblebee" \
     # --no-create-home \
     --uid "$BUMBLEBEE_UID" \
     "$BUMBLEBEE_USER"
