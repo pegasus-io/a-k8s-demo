@@ -40,10 +40,11 @@ sudo mv ./minikube /usr/bin
 # export THIS_RECIPES_RELEASE=feature/aws-provisioning
 # git clone "$URI_DE_CE_REPO" .
 # git checkout $THIS_RECIPES_RELEASE
-chmod +x ./oci/kubeone_operator/ansible.minikube/*.sh
+chmod +x ./oci/kubeone_operator/ansible.minikube/kubectl/*.sh
 ./oci/kubeone_operator/ansible.minikube/kubectl/install-kubectl-on-minikube.sh
 
 minikube version
+
 # --- #
 # sets the none driver as the default : we don't have to use the '--vm-driver' option again.
 # --- #
