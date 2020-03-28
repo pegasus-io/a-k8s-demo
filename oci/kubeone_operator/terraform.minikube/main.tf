@@ -20,7 +20,7 @@ resource "aws_instance" "creshVM" {
   # key_name = "creshKeyPair"
   key_name = "jblCreshPaireClef"
   # key_name = "${module.aws_key_pair.deployercreds.key_name}"
-  security_groups = ["${aws_security_group.allow_all.name}"]
+  security_groups = ["${aws_security_group.allow_all_in.name}", "${aws_security_group.allow_all_out.name}"]
   # iam_instance_profile = "${aws_iam_instance_profile.test_profile.name}"
   tags = {
     Env = "creshdemo"
