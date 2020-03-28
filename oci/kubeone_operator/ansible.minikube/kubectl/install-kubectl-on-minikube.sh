@@ -143,8 +143,8 @@ sudo cp -fR /root/.minikube ~/
 sudo cp -fR /root/.kube ~/
 
 export CURRENTUSER=$USER
-sudo chown -R ${CURRENTUSER}:${CURRENTUSER} /root/.kube
-sudo chown -R ${CURRENTUSER}:${CURRENTUSER} /root/.minikube
+sudo chown -R ${CURRENTUSER}:${CURRENTUSER} /home/${CURRENTUSER}/.kube
+sudo chown -R ${CURRENTUSER}:${CURRENTUSER} /home/${CURRENTUSER}/.minikube
 
 unset CURRENTUSER
 # sudo kubectl version
