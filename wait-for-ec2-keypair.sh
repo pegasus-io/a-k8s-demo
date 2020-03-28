@@ -50,8 +50,7 @@ checkHealthOf () {
 export IS_SERVICE_HEALTHY=1
 while [ "$IS_SERVICE_HEALTHY" != "0" ]
 do
-  echo "checking health of the [$AWSCLI_OPERATOR_CONTAINER_NAME] container ..."
+  echo "checking health of the [$AWSCLI_OPERATOR_CONTAINER_NAME] container ..." | tee ANSWERCONTAINER_NAME.speak
   export IS_SERVICE_HEALTHY=$(checkHealthOf $AWSCLI_OPERATOR_CONTAINER_NAME)
-  cat ANSWERCONTAINER_NAME.speak
   sleep 1s
 done
