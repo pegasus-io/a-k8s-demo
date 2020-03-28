@@ -11,13 +11,13 @@ checkHealthOf () {
   export CONTAINER_TO_CHECK_NAME=$1
   export HEALTHCHECK_ANSWER=''
   if [ "x$CONTAINER_TO_CHECK_NAME" == "x" ];then
-    echo "Checking name of container (empty name) [CONTAINER_TO_CHECK_NAME=$CONTAINER_TO_CHECK_NAME] ... " > ANSWERCONTAINER_NAME.speak
+    echo "Checking name of container (empty name) [CONTAINER_TO_CHECK_NAME=$CONTAINER_TO_CHECK_NAME] ... " | tee ANSWERCONTAINER_NAME.speak
     echo "You should provide one and only one argument to the [checkHealthOf] function, the name of the container you want to check the healt of"
     return 1;
   else
-    echo "Checking name of container (not empty name) [CONTAINER_TO_CHECK_NAME=$CONTAINER_TO_CHECK_NAME] ...  " > ANSWERCONTAINER_NAME.speak
+    echo "Checking name of container (not empty name) [CONTAINER_TO_CHECK_NAME=$CONTAINER_TO_CHECK_NAME] ...  " | tee ANSWERCONTAINER_NAME.speak
     export HEALTHCHECK_ANSWER=$(docker inspect $CONTAINER_TO_CHECK_NAME | jq '.[]' | jq '.Status.Health')
-    echo "Health of container [$CONTAINER_TO_CHECK_NAME] is [$HEALTHCHECK_ANSWER] " >> ANSWERCONTAINER_NAME.speak
+    echo "Health of container [$CONTAINER_TO_CHECK_NAME] is [$HEALTHCHECK_ANSWER] " | tee -a ANSWERCONTAINER_NAME.speak
     if [ "$HEALTHCHECK_ANSWER" == 'healthy' ];then
       return 0;
     else
