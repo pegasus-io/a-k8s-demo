@@ -21,7 +21,7 @@ In this little exeriment, we will :
 # You choose your method, SSH or HTTPS
 export SSH_URI_TO_THIS_REPO=git@github.com:pegasus-io/a-k8s-demo.git
 export URI_DE_CE_REPO=https://github.com/pegasus-io/a-k8s-demo.git
-export THIS_RECIPES_RELEASE=0.0.1
+export THIS_RECIPES_RELEASE=0.0.3
 git clone "$URI_DE_CE_REPO" .
 git checkout $THIS_RECIPES_RELEASE
 chmod +x ./load.pipeline.sh
@@ -34,6 +34,32 @@ chmod +x ./load.pipeline.sh
 ```bash
 ./run.pipeline.sh
 ```
+* Then you will execute this on the freshly terraformed `AWS ec2` instance :
+
+```bash
+export OPS_HOME="${HOME}/minikube"
+export URI_DE_CE_REPO=https://github.com/pegasus-io/a-k8s-demo.git
+export THIS_RECIPES_RELEASE=feature/aws-provisioning
+git clone "$URI_DE_CE_REPO" ${OPS_HOME}
+cd ${OPS_HOME}
+git checkout $THIS_RECIPES_RELEASE
+chmod +x ./oci/kubeone_operator/ansible.minikube/*.sh
+./oci/kubeone_operator/ansible.minikube/install-minikube.sh
+
+```
+
+* Then you will install `kubectl` on your everyday laptop, of course a GNU/Linux, ar on worst case, a darwin :
+```bash
+export OPS_HOME="${HOME}/.kctl"
+export URI_DE_CE_REPO=https://github.com/pegasus-io/a-k8s-demo.git
+export THIS_RECIPES_RELEASE=feature/aws-provisioning
+git clone "$URI_DE_CE_REPO" ${OPS_HOME}
+cd ${OPS_HOME}
+git checkout $THIS_RECIPES_RELEASE
+chmod +x ./oci/kubeone_operator/ansible.minikube/*.sh
+./oci/kubeone_operator/ansible.minikube/kubectl/install-kubectl.sh
+
+```
 
 * You can after that, if you feel like, pay a visit inside the factory :
 
@@ -41,7 +67,7 @@ chmod +x ./load.pipeline.sh
 docker exec -it kubeone_gitops_operator bash
 # to test a few commands, like :
 # 'cd terraformation/ && ./terraform plan'
-# 
+#
 ```
 
 
