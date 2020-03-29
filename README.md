@@ -40,7 +40,7 @@ Because after k8s is fully operational on AWS, we will have to :
 ```bash
 git clone https://github.com/pegasus-io/a-k8s-demo.git ~/a-k8s-demo
 cd ~/a-k8s-demo
-git checkout feature/aws-provisioning
+git checkout feature/helm-operator
 chmod +x ./load.pipeline.sh
 ./load.pipeline.sh
 
