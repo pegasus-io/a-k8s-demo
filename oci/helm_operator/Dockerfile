@@ -55,8 +55,8 @@ ENV COMMIT_MESSAGE=$TAG_MESSAGE
 # ---------------------------------------------------
 #
 
-ARG BUMBLEBEE_HOME_INSIDE_CONTAINER=/kubeonebee
-ENV BUMBLEBEE_HOME_INSIDE_CONTAINER=/kubeonebee
+ARG BUMBLEBEE_HOME_INSIDE_CONTAINER=/helmbee
+ENV BUMBLEBEE_HOME_INSIDE_CONTAINER=/helmbee
 
 
 # ---
@@ -230,23 +230,23 @@ RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-helm.sh
 # --> the kubeone group : only those in this group will be allowed to execute the kubeone executable.
 # --> the terraform group : only those in this group will be allowed to execute the kubeone executable.
 # And we add 'beeio' robot user to both groups.
-RUN usermod -aG kubeone ${BUMBLEBEE_LX_USERNAME}
-RUN usermod -aG terraform ${BUMBLEBEE_LX_USERNAME}
+RUN usermod -aG helm ${BUMBLEBEE_LX_USERNAME}
+RUN usermod -aG kube ${BUMBLEBEE_LX_USERNAME}
 
 # RUN # NON DANS LE SCRIPT INSTALL KUBEONE # chown :kubeone -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone
 # RUN # NON DANS LE SCRIPT INSTALL TERRAFORM # chown :terraform -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform
 
 # ----------------------------------------------------------------------------
-VOLUME /kubeonebee/.secrets
+VOLUME /helmbee/.secrets
 
-WORKDIR /kubeonebee
-# HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "/kubeonebee/pipeline-step.healthcheck.sh" ]
+WORKDIR /helmbee
+# HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "/helmbee/pipeline-step.healthcheck.sh" ]
 
 RUN chmod a+x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/run.sh
-RUN chmod a+rwx -R /kubeonebee/
+RUN chmod a+rwx -R /helmbee/
 USER ${BUMBLEBEE_LX_USERNAME}
 
-ENTRYPOINT ["/kubeonebee/run.sh"]
+ENTRYPOINT ["/helmbee/run.sh"]
 
 #
 # I want bash inside, not just /bin/sh, because

@@ -160,3 +160,7 @@ echo "http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/http
 echo '---------------------------------------------------------------------------------'
 # kubectl proxy
 echo '---------------------------------------------------------------------------------'
+# TODO create helm user group, and give ownership
+groupadd kube
+# Adding
+usermod -aG kube ${BUMBLEBEE_LX_USERNAME}
