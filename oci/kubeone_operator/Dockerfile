@@ -55,8 +55,8 @@ ENV COMMIT_MESSAGE=$TAG_MESSAGE
 # ---------------------------------------------------
 #
 
-ARG BUMBLEBEE_HOME_INSIDE_CONTAINER=/helmbee
-ENV BUMBLEBEE_HOME_INSIDE_CONTAINER=/helmbee
+ARG BUMBLEBEE_HOME_INSIDE_CONTAINER=/kubeonebee
+ENV BUMBLEBEE_HOME_INSIDE_CONTAINER=/kubeonebee
 
 
 # ---
@@ -253,16 +253,16 @@ RUN usermod -aG terraform ${BUMBLEBEE_LX_USERNAME}
 # RUN # NON DANS LE SCRIPT INSTALL TERRAFORM # chown :terraform -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform
 
 # ----------------------------------------------------------------------------
-VOLUME /helmbee/.secrets
+VOLUME /kubeonebee/.secrets
 
-WORKDIR /helmbee
-# HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "/helmbee/pipeline-step.healthcheck.sh" ]
+WORKDIR /kubeonebee
+# HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "/kubeonebee/pipeline-step.healthcheck.sh" ]
 
 RUN chmod a+x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/run.sh
-RUN chmod a+rwx -R /helmbee/
+RUN chmod a+rwx -R /kubeonebee/
 USER ${BUMBLEBEE_LX_USERNAME}
 
-ENTRYPOINT ["/helmbee/run.sh"]
+ENTRYPOINT ["/kubeonebee/run.sh"]
 
 #
 # I want bash inside, not just /bin/sh, because
