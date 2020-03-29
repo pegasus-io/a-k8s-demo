@@ -8,6 +8,6 @@
 
 set +x
 
-./create-aws-ec2-keypair.sh
+${AWSCLI_HOME}/create-aws-ec2-keypair.sh
 
-./retrieve-ami-id.sh
+${AWSCLI_HOME}/retrieve-ami-id.sh
