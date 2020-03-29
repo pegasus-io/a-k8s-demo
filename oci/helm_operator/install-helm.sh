@@ -38,7 +38,7 @@ export HELM_CHECKSUMS_FILE_DWLD_URI="https://get.helm.sh/helm-v${HELM_VERSION}-$
 
 # echo '---------------------------------------------------------------'
 # echo '---------------------------------------------------------------'
-# echo ' Commandes GPG dans le conteneur kubeone#./install-helm.sh'
+# echo ' Commandes GPG dans le conteneur helm_operator#./install-helm.sh'
 # echo "----------------------- [$(pwd)] "
 # echo '---------------------------------------------------------------'
 # echo '---------------------------------------------------------------'
