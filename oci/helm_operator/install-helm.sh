@@ -1,7 +1,7 @@
 #/bin/bash
 
 
-echo "Remember : Kubectl must be installed where you wnat to install Helm"
+echo "Remember : Kubectl must be installed where you want to install Helm"
 # ---
 # Can be a commit hash, a branch name, or a tag (be it a release or not).
 # from this git repo : https://github.com/helm/helm

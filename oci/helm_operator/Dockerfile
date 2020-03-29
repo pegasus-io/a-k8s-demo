@@ -192,24 +192,13 @@ RUN mkdir -p ${BUMBLEBEE_WORKSPACE_INSIDE_CONTAINER}
 # ----------------------------------------------------------------------------
 
 COPY create-bee-user.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
-COPY install-git-flow.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/
 COPY init-iaac.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
-COPY init-aws.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
-COPY install-kubeone.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
-COPY install-terraform.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
-COPY install-terraform-clean-syntax.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
-COPY kubeone-prepare.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
-COPY kubeone-boot-atlantis.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
+COPY install-git-flow.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/
+COPY install-helm.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/
 
 COPY run.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 
 RUN mkdir -p ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation
-COPY terraform.minikube/main.tf ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation
-COPY terraform.minikube/variables.tf ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation
-COPY terraform.minikube/versions.tf ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation
-COPY terraform.minikube/output.tf ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation
-COPY terraform.minikube/terraform.tfvars ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation
-COPY atlantis.yml ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 
 RUN chmod +x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/*.sh
 
