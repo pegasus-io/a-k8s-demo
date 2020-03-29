@@ -118,7 +118,7 @@ installHelm () {
   # TODO create helm user group, and give ownership
   groupadd helm
   # Adding
-  usermod -aG helm ${BUMBLEBEE_LX_USERNAME}
+  # usermod -aG helm ${BUMBLEBEE_LX_USERNAME}
   mkdir -p ${HELM_INSTALLATION_HOME}/
   tar -zxvf ./helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz -C ${HELM_INSTALLATION_HOME}/
   echo '-----------------------------------------------------------------------'

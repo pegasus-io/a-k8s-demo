@@ -158,4 +158,4 @@ echo '--------------------------------------------------------------------------
 # TODO create helm user group, and give ownership
 groupadd kube
 # Adding
-usermod -aG kube ${BUMBLEBEE_LX_USERNAME}
+# usermod -aG kube ${BUMBLEBEE_LX_USERNAME}
