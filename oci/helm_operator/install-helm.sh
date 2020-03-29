@@ -120,7 +120,7 @@ installHelm () {
   # Adding
   usermod -aG helm ${BUMBLEBEE_LX_USERNAME}
   mkdir -p ${HELM_INSTALLATION_HOME}/
-  tar -zxvf ./helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz -d ${HELM_INSTALLATION_HOME}/
+  tar -zxvf ./helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz -C ${HELM_INSTALLATION_HOME}/
   echo '-----------------------------------------------------------------------'
   echo "Le contenu de [HELM_INSTALLATION_HOME=[${HELM_INSTALLATION_HOME}]]"
   echo " juste après le dezippe : "
