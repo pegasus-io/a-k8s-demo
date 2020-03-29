@@ -98,14 +98,9 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VER
 # sudo mv ./kubectl /usr/local/bin
 sudo mv ./kubectl /usr/bin
 
-
-
-
 # CONFIG
 
-
 mkdir -p ~/.kube
-
 
 echo 'apiVersion: v1' >> ~/.kube/config
 echo 'clusters:' >> ~/.kube/config
