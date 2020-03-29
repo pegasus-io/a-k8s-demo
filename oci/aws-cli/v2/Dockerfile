@@ -56,6 +56,8 @@ RUN chown ${BUMBLEBEE_USER}:bumblebee -R ${AWSCLI_HOME}
 
 COPY install.aws-cli-v2.sh ${AWSCLI_HOME}
 COPY create-aws-ec2-keypair.sh ${AWSCLI_HOME}
+COPY retrieve-ami-id.sh ${AWSCLI_HOME}
+COPY bee.sh ${AWSCLI_HOME}
 COPY healthcheck.sh ${AWSCLI_HOME}
 
 RUN chmod +x ${AWSCLI_HOME}/*.sh
@@ -80,5 +82,5 @@ VOLUME /aws/share
 
 WORKDIR /aws/playground
 
-ENTRYPOINT [ "/aws/create-aws-ec2-keypair.sh" ]
+ENTRYPOINT [ "/aws/bee.sh" ]
 CMD [ "/bin/bash" ]
