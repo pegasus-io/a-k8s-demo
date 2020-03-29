@@ -27,6 +27,7 @@ export HELM_CPU_ARCH=${HELM_CPU_ARCH:-'amd64'}
 
 export HELM_PKG_DWLD_URI="https://get.helm.sh/helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz"
 
+
 export HELM_CHECKSUMS_FILE_DWLD_URI="https://get.helm.sh/helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz.sha256"
 # Signature of the HELM_CHECKSUMS_FILE_DWLD_URI, to verify the signature of the checksum file.
 # export HELM_CHECKSUMS_FILE_SIGNATURE_DWLD_URI="https://releases.helm.com/helm/${HELM_VERSION}/helm_${HELM_VERSION}_SHA256SUMS.sig"
@@ -97,14 +98,18 @@ checkIntegrityUsingHelmChecksums () {
   fi;
 }
 
+echo '-----------------------------------------------------------------------'
 # ---
 # That's where we 'll install Terraform on the nix system' filesystem
 # export HELM_INTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/helm/installation/${HELM_VERSION}
 echo " ENV CHECK - HELM_INTALLATION_HOME=[${BUMBLEBEE_HOME_INSIDE_CONTAINER}/helm/installation/${HELM_VERSION}]"
 # ---
 # Downloading Terraform executable
+echo '-----------------------------------------------------------------------'
 
 curl -LO "${HELM_PKG_DWLD_URI}"
+
+curl -LO "${HELM_CHECKSUMS_FILE_DWLD_URI}"
 
 ls -allh
 
@@ -124,8 +129,10 @@ installHelm () {
   ln -s ${HELM_INSTALLATION_HOME}/helm /usr/local/bin/helm
 }
 
+# ----------------------------------------------------------------------------
 # installHelm
 # helm --version
+# ----------------------------------------------------------------------------
 
 # chmod a+rwx ./helm_${HELM_VERSION}_${HELM_OS}_${HELM_CPU_ARCH}.zip
 echo ''
