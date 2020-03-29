@@ -198,7 +198,6 @@ COPY install-helm.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/
 
 COPY run.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 
-RUN mkdir -p ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation
 
 RUN chmod +x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/*.sh
 
@@ -217,17 +216,17 @@ RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/create-bee-user.sh
 RUN echo "Je suis [$(whoami)]" && cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/ && ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-git-flow.sh
 
 
+# ---------------------------------------------------------
+# Now installing the git-flow AVH Ed.
+# ---------------------------------------------------------
+#
+RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-git-flow.sh
 
 # ---------------------------------------------------------
-# Now installing KUBEONE
+# Now installing HELM
 # ---------------------------------------------------------
 # creates a kubeone linux user group
-RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-kubeone.sh
-# ---------------------------------------------------------
-# Now installing TERRAFORM
-# ---------------------------------------------------------
-# creates a terraform linux user group
-RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-terraform.sh
+RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-helm.sh
 
 
 # [create-bee-user.sh] creates a user 'beeio' and its group, 'bumblebee' group
