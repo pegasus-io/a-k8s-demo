@@ -240,7 +240,7 @@ RUN usermod -aG kube ${BUMBLEBEE_LX_USERNAME}
 
 # ----------------------------------------------------------------------------
 VOLUME /helmbee/.secrets
-
+# ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/beesecrets/public_elastic_ip
 WORKDIR /helmbee
 # HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "/helmbee/pipeline-step.healthcheck.sh" ]
 

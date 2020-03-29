@@ -159,6 +159,8 @@ echo '---  Now terraforming '
 echo '------------------------------------------------------------------------'
 terraform apply -auto-approve || exit 33
 
+terraform output public_elastic_ip > ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/beesecrets/public_elastic_ip
+
 export PUBLIC_EIP_OF_AWS_INSTANCE="$(terraform output public_elastic_ip)"
 echo '------------------------------------------------------------------------'
 echo "---  You can now SSH into your VM using ip address [${PUBLIC_EIP_OF_AWS_INSTANCE}] "
