@@ -109,7 +109,7 @@ ENV SSH_URI_TO_ATLANTIS_WATCHED_GIT=$SSH_URI_TO_ATLANTIS_WATCHED_GIT
 #
 ENV SSH_URI_TO_ANSIBLE_HELM_OPERATOR=$SSH_URI_TO_ANSIBLE_HELM_OPERATOR
 # --- --------------------------
-#  -- KUBEONE KUBEONE_VERSION
+#  -- KUBEONE HELM_VERSION
 # --- --------------------------
 
 # ---
@@ -119,8 +119,8 @@ ENV SSH_URI_TO_ANSIBLE_HELM_OPERATOR=$SSH_URI_TO_ANSIBLE_HELM_OPERATOR
 # You should also reference your own private mirror of this repo, in your automation recipes
 # because then you will remove any external service build time and runtime dependency from
 # your CI/CD factory, your pipelines run faster, with more reliability.
-ARG KUBEONE_VERSION=${KUBEONE_VERSION:-'0.11.0'}
-ENV KUBEONE_VERSION=${KUBEONE_VERSION:-'0.11.0'}
+ARG HELM_VERSION=${HELM_VERSION:-'0.11.0'}
+ENV HELM_VERSION=${HELM_VERSION:-'0.11.0'}
 
 # ---
 # can be :
@@ -128,15 +128,15 @@ ENV KUBEONE_VERSION=${KUBEONE_VERSION:-'0.11.0'}
 # => 'linux' (for any GNU/Linux distrib.)
 # Kubeone does not support Windows
 #
-ARG KUBEONE_OS=${KUBEONE_OS:-'linux'}
-ARG KUBEONE_CPUARCH=${KUBEONE_CPUARCH:-'amd64'}
+ARG HELM_OS=${HELM_OS:-'linux'}
+ARG HELM_CPU_ARCH=${HELM_CPU_ARCH:-'amd64'}
 
 # ---
 # Where KUBEONE Is isntalled on the system, for
 # all users in the kubeone group, the beeio user
 # that executes the terraform init/plan/apply
 #
-ARG KUBEONE_INSTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/installation/${KUBEONE_VERSION}
+ARG HELM_INSTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/installation/${HELM_VERSION}
 
 # ---
 # Can be a commit hash, a branch name, or a tag (be it a release or not).
@@ -160,10 +160,6 @@ ARG HELM_OS=${HELM_OS:-'linux'}
 ARG HELM_CPU_ARCH=${HELM_CPU_ARCH:-'amd64'}
 
 ARG HELM_INSTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/helm/installation/${HELM_VERSION}
-
-ENV HELM_LIBS_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/helm/libs/${HELM_VERSION}
-
-
 
 
 ARG GITFLOW_VERSION=000
