@@ -223,8 +223,8 @@ RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-git-flow.sh
 # Now installing HELM
 # ---------------------------------------------------------
 # creates a kubeone linux user group
-RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-helm.sh
 RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-kubectl.sh
+RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-helm.sh
 
 
 # [create-bee-user.sh] creates a user 'beeio' and its group, 'bumblebee' group
