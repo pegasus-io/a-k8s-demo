@@ -70,7 +70,25 @@ services:
     tty: true
     environment:
       - SSH_URI_TO_HELM_CHART=$SSH_URI_TO_HELM_CHART
-
+      # +++
+      # +++>> BEE BOT
+      # +++
+      # Also need 'beeio' robot secrets :
+      # => SSH private key to git push over ssh.
+      # => AWS credentials
+      # Both being
+      # where inside the container, the bot will find the private key to
+      # git push to github.com / gitlab.com
+      # also see volume [/kubeonebee/.secrets] mounted from outside the container
+      # --
+      # Bumblebee knows where its SSH secrets are, bumblebee just needs the private key filename
+      - BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME=${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}
+      - BUMBLEBEE_GIT_SSH_COMMAND=${BUMBLEBEE_GIT_SSH_COMMAND}
+      # just to dsplay nice litlle output message in the docker logs :
+      - BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS=${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}
+    volumes:
+      - beesecrets:/kubeonebee/beesecrets:rw
+      - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}:/kubeonebee/.secrets:rw
 #
 # ----------- ANSIBLE OPS to test the Ansible playbook which will
 #             be executed after the terraform apply by https://runatlantis.io, by the

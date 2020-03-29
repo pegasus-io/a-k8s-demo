@@ -82,4 +82,6 @@ services:
     build:
       context: oci/helm_operator/
       args:
-        - CCC=$CCC
+        - PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME=$PIPELINE_GIT_SERVICE_PROVIDER_HOSTNAME
+        - OPERATOR_UID=${BUMBLEBEE_LX_USER_UID}
+        - OPERATOR_GID=${BUMBLEBEE_LX_USER_UID}
