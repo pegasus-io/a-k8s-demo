@@ -156,8 +156,11 @@ echo '------------------------------------------------------------'
 if [ "$?" == "0" ]; then
   # echo "Successfully checked integrity of the downloaded helm version ${HELM_VERSION} package for ${HELM_OS} OS on ${HELM_CPU_ARCH} cpu"
   echo "Skipped checking integrity of the downloaded helm version ${HELM_VERSION} package for ${HELM_OS} OS on ${HELM_CPU_ARCH} cpu"
-  echo "Proceeding installation"
-  checkIntegrityUsingHelmChecksums
+  echo "skipping integrity checks because of https://github.com/helm/helm/issues/7838 (and I don't want to build from source at installation time, it is wrong pattern)"
+  echo "Proceeding with [Helm] installation"
+  # ---
+  # skipping integrity checks because of https://github.com/helm/helm/issues/7838 (and I don't want to build from source at installation time, it is wrong pattern)
+  # checkIntegrityUsingHelmChecksums
   installHelm
 else
   echo "Integrity check failed for the downloaded helm version ${HELM_VERSION} package for ${HELM_OS} OS on ${HELM_CPU_ARCH} cpu"
