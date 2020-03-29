@@ -119,8 +119,8 @@ ENV SSH_URI_TO_ANSIBLE_HELM_OPERATOR=$SSH_URI_TO_ANSIBLE_HELM_OPERATOR
 # You should also reference your own private mirror of this repo, in your automation recipes
 # because then you will remove any external service build time and runtime dependency from
 # your CI/CD factory, your pipelines run faster, with more reliability.
-ARG HELM_VERSION=${HELM_VERSION:-'0.11.0'}
-ENV HELM_VERSION=${HELM_VERSION:-'0.11.0'}
+ARG HELM_VERSION=${HELM_VERSION:-'2.16.5'}
+ENV HELM_VERSION=${HELM_VERSION:-'2.16.5'}
 
 # ---
 # can be :
