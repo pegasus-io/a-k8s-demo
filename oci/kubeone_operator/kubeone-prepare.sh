@@ -115,7 +115,7 @@ sed -i "s#EC2_FUSA_SSH_AUTH_PUBKEY_JINJA2_VAR#${FUSA_PUBKEY}#g" ./terraform.tfva
 
 export EC2_AMAZON_LINUX_2_AMI_ID=$(cat ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/beesecrets/amazon.linux.ami.id)
 
-sed -i "s#EC2_AMAZON_LINUX_2_AMI_ID_JINJA2_VAR#${EC2_AMAZON_LINUX_2_AMI_ID}#g"
+sed -i "s#EC2_AMAZON_LINUX_2_AMI_ID_JINJA2_VAR#${EC2_AMAZON_LINUX_2_AMI_ID}#g" ./terraform.tfvars
 rm -f ./versions.tfvars
 cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/versions.tfvars .
 
