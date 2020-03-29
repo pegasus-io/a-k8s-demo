@@ -29,12 +29,31 @@ chmod +x ./load.pipeline.sh
 
 ```
 
-* To terraform plan the k8s cluster, execute, in the same shell session, and the same directory, the command :
+* To terraform the k8s cluster, execute, in the same shell session, and the same directory, the command :
 
 ```bash
 ./run.pipeline.sh
 ```
-* Then you will execute this on the freshly terraformed `AWS ec2` instance :
+* Then, to install minikube on the freshly terraformed `AWS ec2` instance, proceed with the two following steps :
+  * excute this on the AWS VM, to install `git` and `docker` :
+
+```bash
+# ---
+# - git : to operate as a gitops
+# - docker installation : this install is VERY bad, it does not install a specific verson of docker, just latest, so time dependent
+sudo yum install -y git docker
+
+export CURRENT_USER_ATREYOU=$(whoami)
+sudo usermod -aG docker ${CURRENT_USER_ATREYOU}
+unset CURRENT_USER_ATREYOU
+
+sudo systemctl enable docker.service
+sudo systemctl daemon-reload
+sudo systemctl restart docker.service
+
+sudo yum update -y
+```
+  * then execute this, to install `minikube` : 
 
 ```bash
 # This will soon be an ansible playbook, which is going to be executed as Terraform provisioner, using the Terraform Ansible Provisioner.
