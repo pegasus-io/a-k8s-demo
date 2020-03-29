@@ -161,6 +161,6 @@ echo '--------------------------------------------------------------------------
 # kubectl proxy
 echo '---------------------------------------------------------------------------------'
 # TODO create helm user group, and give ownership
-groupadd kube
+sudo groupadd kube
 # Adding
-usermod -aG kube ${BUMBLEBEE_LX_USERNAME}
+sudo usermod -aG kube ${BUMBLEBEE_LX_USERNAME}
