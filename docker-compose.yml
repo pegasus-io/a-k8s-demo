@@ -64,6 +64,10 @@ services:
     # image: jblass3ll3.world/a-k8s-demo/helm_operator:0.0.1
     # From docker.io
     image: pegasusio/creshtest_helm_operator:0.0.1
+    container_name: 'helm_operator'
+    restart: always
+    stdin_open: true
+    tty: true
     environment:
       - SSH_URI_TO_HELM_CHART=$SSH_URI_TO_HELM_CHART
 
