@@ -66,6 +66,7 @@ services:
     image: pegasusio/creshtest_helm_operator:0.0.1
     environment:
       - SSH_URI_TO_HELM_CHART=$SSH_URI_TO_HELM_CHART
+
 #
 # ----------- ANSIBLE OPS to test the Ansible playbook which will
 #             be executed after the terraform apply by https://runatlantis.io, by the

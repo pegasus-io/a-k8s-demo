@@ -4,8 +4,6 @@ set -x
 
 export MINIKUBE_HOST=${MINIKUBE_HOST:-'minikube.pegasusio.io'}
 export MINIKUBE_PUBLIC_IP='127.0.0.1'
-export MINIKUBE_PUBLIC_IP=$1
-
 
 # --- 192.168.1.22 minikube.pegasusio.io pegasusio.io
 #
@@ -15,25 +13,28 @@ echo '---   GUI'
 echo '---------------------------------------------------------------------------------'
 echo '---------------------------------------------------------------------------------'
 
-askForK8SApiServerIP () {
-  clear
-  echo "What is the public IP Address through which your Kubernetes API server (your AWS VM) is reachable ? (type and press enter to validate)"
-  read MINIKUBE_PUBLIC_IP_ANSWER
+clear
+echo "What is the public IP Address through which your Kubernetes API server (your AWS VM) is reachable ? (type and press enter to validate)"
+read MINIKUBE_PUBLIC_IP_ANSWER
 
 
-  if [ "x${MINIKUBE_PUBLIC_IP_ANSWER}" == "x" ]; then
-    echo "You must provide the IP Address of your Kubernetes API server, or this script cannot configure kubectl for you"
-    exit 2
-  fi;
-  export MINIKUBE_PUBLIC_IP=${MINIKUBE_PUBLIC_IP_ANSWER}
-}
-
-
-# If first argument provided, then the scrip is silent
-if [ "x${MINIKUBE_PUBLIC_IP}" == "x" ]; then
-  askForK8SApiServerIP
+if [ "x${MINIKUBE_PUBLIC_IP_ANSWER}" == "x" ]; then
+  echo "You must provide the IP Address of your Kubernetes API server, or this script cannot configure kubectl for you"
+  exit 2
 fi;
+export MINIKUBE_PUBLIC_IP=${MINIKUBE_PUBLIC_IP_ANSWER}
 
+
+clear
+echo "What hostname would you like to your Kubernetes API server ? "
+echo "(type and press <E>nter to validate, defaults to [${MINIKUBE_HOST}] if you just press <E>nter)"
+read MINIKUBE_HOST_ANSWER
+
+if [ "x${MINIKUBE_HOST_ANSWER}" == "x" ]; then
+  echo "defaulting [MINIKUBE_HOST] to [${MINIKUBE_HOST}] "
+else
+  export MINIKUBE_HOST=${MINIKUBE_HOST_ANSWER}
+fi;
 
 
 echo "---------------------------------------------------------------------------------"
@@ -71,6 +72,8 @@ echo '---   Content of [/etc/hosts] : '
 echo '---------------------------------------------------------------------------------'
 
 sudo cat /etc/hosts
+echo "Press <E>nter to proceed"
+read
 
 # ---
 #
@@ -92,7 +95,9 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VER
   && chmod +x kubectl
 
 # alsofor the minikube binary to be there :
-sudo mv ./kubectl /usr/local/bin
+# sudo mv ./kubectl /usr/local/bin
+sudo mv ./kubectl /usr/bin
+
 
 
 
