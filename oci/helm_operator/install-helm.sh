@@ -8,7 +8,7 @@ echo "Remember : Kubectl must be installed where you want to install Helm"
 # I privately mirror it on git@gitlab.com:second-bureau/bellerophon/helm/helm.git
 # You should also reference your own private mirror of this repo, in your automation recipes
 # because then you will remove any external service build time and runtime dependency from your CI/CD factory, your pipelines run faster, with more reliability.
-export HELM_VERSION=${HELM_VERSION:-'2.16.4'}
+export HELM_VERSION=${HELM_VERSION:-'2.16.5'}
 # ---
 # can be :
 # => 'darwin' (mac os)
