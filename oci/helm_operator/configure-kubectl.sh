@@ -3,39 +3,8 @@
 set -x
 
 export MINIKUBE_HOST=${MINIKUBE_HOST:-'minikube.pegasusio.io'}
-export MINIKUBE_PUBLIC_IP='127.0.0.1'
-
-# --- 192.168.1.22 minikube.pegasusio.io pegasusio.io
-#
-echo '---------------------------------------------------------------------------------'
-echo '---------------------------------------------------------------------------------'
-echo '---   GUI'
-echo '---------------------------------------------------------------------------------'
-echo '---------------------------------------------------------------------------------'
-
-clear
-echo "What is the public IP Address through which your Kubernetes API server (your AWS VM) is reachable ? (type and press enter to validate)"
-read MINIKUBE_PUBLIC_IP_ANSWER
-
-
-if [ "x${MINIKUBE_PUBLIC_IP_ANSWER}" == "x" ]; then
-  echo "You must provide the IP Address of your Kubernetes API server, or this script cannot configure kubectl for you"
-  exit 2
-fi;
-export MINIKUBE_PUBLIC_IP=${MINIKUBE_PUBLIC_IP_ANSWER}
-
-
-clear
-echo "What hostname would you like to your Kubernetes API server ? "
-echo "(type and press <E>nter to validate, defaults to [${MINIKUBE_HOST}] if you just press <E>nter)"
-read MINIKUBE_HOST_ANSWER
-
-if [ "x${MINIKUBE_HOST_ANSWER}" == "x" ]; then
-  echo "defaulting [MINIKUBE_HOST] to [${MINIKUBE_HOST}] "
-else
-  export MINIKUBE_HOST=${MINIKUBE_HOST_ANSWER}
-fi;
-
+# export MINIKUBE_PUBLIC_IP='127.0.0.1'
+export MINIKUBE_PUBLIC_IP=$(cat ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/public_elastic_ip)
 
 echo "---------------------------------------------------------------------------------"
 echo '---   Env sum up : '
@@ -43,7 +12,6 @@ echo "--------------------------------------------------------------------------
 echo "--- MINIKUBE_HOST=[${MINIKUBE_HOST}]"
 echo "--- MINIKUBE_PUBLIC_IP=[${MINIKUBE_PUBLIC_IP}]"
 echo "---------------------------------------------------------------------------------"
-
 
 # ---
 #
@@ -70,10 +38,23 @@ rm ./etc.hosts.first
 echo '---------------------------------------------------------------------------------'
 echo '---   Content of [/etc/hosts] : '
 echo '---------------------------------------------------------------------------------'
-
 sudo cat /etc/hosts
-echo "Press <E>nter to proceed"
-read
+echo '---------------------------------------------------------------------------------'
+
+
+echo '---------------------------------------------------------------------------------'
+echo '---   Retrieving KUBECONFIG minikube context : '
+echo '---------------------------------------------------------------------------------'
+scp -r -i ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/creshAWSSSHkey.pem ec2-user@${MINIKUBE_PUBLIC_IP}:/home/ec2-user/.kube ~/
+scp -r -i ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/creshAWSSSHkey.pem ec2-user@${MINIKUBE_PUBLIC_IP}:/home/ec2-user/.minikube ~/
+
+ls -allh ~/
+ls -allh ~/.kube
+ls -allh ~/.minikube
+
+echo '---------------------------------------------------------------------------------'
+
+
 
 # ---
 #
