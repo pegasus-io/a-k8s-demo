@@ -127,7 +127,7 @@ installHelm () {
   echo '-----------------------------------------------------------------------'
   ls -allh ${HELM_INSTALLATION_HOME}/
   echo '-----------------------------------------------------------------------'
-  sudo mv ${HELM_INSTALLATION_HOME}/helm /usr/bin/
+  sudo mv ${HELM_INSTALLATION_HOME}/${HELM_OS}-${HELM_CPU_ARCH}/helm /usr/bin/
   ln -s /usr/bin/helm /usr/local/bin/helm
 }
 
