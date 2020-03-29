@@ -80,11 +80,12 @@ export HELM_CHECKSUMS_FILE_DWLD_URI="https://get.helm.sh/helm-v${HELM_VERSION}-$
 
 checkIntegrityUsingHelmChecksums () {
 
-  cat helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz.sha256 | grep ${HELM_OS} | grep ${HELM_CPU_ARCH} | tee ./helm.integrity.checksum
+  # cat helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz.sha256 | grep ${HELM_OS} | grep ${HELM_CPU_ARCH} | tee ./helm.integrity.checksum
+  echo "helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz.sha256 $(cat helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz.sha256)" | tee ./helm.integrity.checksum
   echo "------------------------------------------------------------------------"
-  echo " [$0#checkIntegrityUsingHelmChecksums ()] Contenu de [./helm_${HELM_VERSION}_SHA256SUMS]   "
+  echo " [$0#checkIntegrityUsingHelmChecksums ()] Contenu de [./helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz.sha256]   "
   echo "------------------------------------------------------------------------"
-  cat ./helm_${HELM_VERSION}_SHA256SUMS
+  cat ./helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz.sha256
   echo "------------------------------------------------------------------------"
   sha256sum -c ./helm.integrity.checksum
   if [ "$?" == "0" ]; then
@@ -93,7 +94,7 @@ checkIntegrityUsingHelmChecksums () {
   else
     echo "Integrity check failed for the downloaded helm version ${HELM_VERSION} package for ${HELM_OS} OS on ${HELM_CPU_ARCH} cpu"
     echo "check yourself the integrity breach running the following command : "
-    echo "   zip -T $(pwd)/helm_${HELM_VERSION}_${HELM_OS}_${HELM_CPU_ARCH}.zip"
+    echo "   sha256sum -c $(pwd)/helm.integrity.checksum"
     exit 5
   fi;
 }
@@ -126,7 +127,8 @@ installHelm () {
   echo '-----------------------------------------------------------------------'
   ls -allh ${HELM_INSTALLATION_HOME}/
   echo '-----------------------------------------------------------------------'
-  ln -s ${HELM_INSTALLATION_HOME}/helm /usr/local/bin/helm
+  sudo mv ${HELM_INSTALLATION_HOME}/helm /usr/bin/
+  ln -s /usr/bin/helm /usr/local/bin/helm
 }
 
 # ----------------------------------------------------------------------------
@@ -140,15 +142,13 @@ echo " Je suis ici [$(pwd)] et les fichiers présents sont : "
 echo '------------------------------------------------------------'
 ls -allh .
 echo '------------------------------------------------------------'
-echo " y a til [./helm_${HELM_VERSION}_${HELM_OS}_${HELM_CPU_ARCH}.zip] ?"
+echo " y a til [./helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz] ?"
 echo '------------------------------------------------------------'
-echo " test d'existence de [./helm_${HELM_VERSION}_${HELM_OS}_${HELM_CPU_ARCH}.zip] : "
+echo " test d'existence de [./helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz] : "
 echo '------------------------------------------------------------'
-ls -allh ./helm_${HELM_VERSION}_${HELM_OS}_${HELM_CPU_ARCH}.zip
+ls -allh ./helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz
 echo '------------------------------------------------------------'
-echo " execution de [zip -T ./helm_${HELM_VERSION}_${HELM_OS}_${HELM_CPU_ARCH}.zip] : "
-echo '------------------------------------------------------------'
-echo ''
+
 # zip -T /go/helm_0.12.24_linux_amd64.zip
 # zip -T ./helm_${HELM_VERSION}_${HELM_OS}_${HELM_CPU_ARCH}.zip
 
