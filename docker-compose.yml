@@ -51,7 +51,10 @@ services:
       - BUMBLEBEE_GIT_SSH_COMMAND=${BUMBLEBEE_GIT_SSH_COMMAND}
       # Where Bumblebee will find its aws credentials inside container
       - BUMBLEBEE_AWS_CREDENTIALS_FILE=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/credentials
+      # just to dsplay nice litlle output message in the docker logs :
+      - BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS=${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}
     volumes:
+      - beesecrets:/kubeonebee/beesecrets:rw
       - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}:/kubeonebee/.secrets:rw
 #
 # ----------- HELM OPS to test Helm Chart deployment of
@@ -66,51 +69,49 @@ services:
 #
 # ----------- ANSIBLE OPS to test the Ansible playbook which will
 #             be executed after the terraform apply by https://runatlantis.io, by the
-#             Terraform Ansible Provider Plugin
+#             Terraform Ansible Provisioner
 #
 #             This ansible playbook will execute :
 #               => The kubeone command to spawn the K8S Cluster on AWS
 #               => The Helm Chart deploying the NodeJS Express TypeScript App to the K8S Cluster on AWS
 #
-  ansible_terraprovider:
-    # image: jblass3ll3.world/a-k8s-demo/helm_operator:0.0.1
-    # From docker.io
-    image: pegasusio/creshtest_helm_operator:0.0.1
-    environment:
-      - SSH_URI_TO_HELM_CHART=$SSH_URI_TO_HELM_CHART
+#   ansible_terraprovisioner:
+#     # image: jblass3ll3.world/a-k8s-demo/helm_operator:0.0.1
+#     # From docker.io
+#     image: pegasusio/creshtest_helm_operator:0.0.1
+#     environment:
+#       - SSH_URI_TO_HELM_CHART=$SSH_URI_TO_HELM_CHART
 
 
 #
 # ----------- AWS CLI OPS : to perform various live tests on the provisioned AWS infra
-  awscli-op1:
+  awscli_op1:
+    container_name: 'awscli_bee'
     # image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
     image: pegasusio/creshtest_aws-cli-v2:0.0.1
     environment:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
-    command: sh -c "aws autoscaling describe-auto-scaling-groups | jq -r '.AutoScalingGroups[] | select(.AutoScalingGroupName | startswith(\"${STACK_NAME}-NodeAsg\")).AutoScalingGroupName'"
+    # command: sh -c "aws autoscaling describe-auto-scaling-groups | jq -r '.AutoScalingGroups[] | select(.AutoScalingGroupName | startswith(\"${STACK_NAME}-NodeAsg\")).AutoScalingGroupName'"
     volumes:
-      - $PWD/aws-cli/operator1:/aws/playground:rw
+      - beesecrets:/aws/share:rw
+      # - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}:/aws/.secrets:rw
+      - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}/.aws/credentials:/home/beeio/.aws/credentials:rw
+    restart: always
+    stdin_open: true
+    tty: true
+    # The healthcheck is important for the orchestration : it allows this recipe to wait until an EC2 Key Pair is generated and ready.
+    healthcheck:
+      test: ["CMD", "/bin/bash", '-c', '/aws/healthcheck.sh || exit 1']
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  awscli-op2:
-    # image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
-    image: pegasusio/creshtest_aws-cli-v2:0.0.1
-    environment:
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
-    command: sh -c "aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names $ASG_NAME | jq '.AutoScalingGroups[0].DesiredCapacity'"
-    volumes:
-      - $PWD/aws-cli/operator2:/aws/playground:rw
-
-  awscli-op3:
-    # image: jblass3ll3.world/a-k8s-demo/aws-cli-v2:0.0.1
-    image: pegasusio/creshtest_aws-cli-v2:0.0.1
-    environment:
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
-    command: sh -c "aws autoscaling update-auto-scaling-group --auto-scaling-group-name $ASG_NAME --desired-capacity $ASG_DESIRED_CAPACITY"
-    volumes:
-      - $PWD/aws-cli/operator3:/aws/playground:rw
+volumes:
+  beesecrets:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind,rw"
+      device: "$PWD/beecli"

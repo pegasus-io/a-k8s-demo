@@ -13,7 +13,7 @@ echo '--------------------------------------------------------------------------
 grep -E --color 'vmx|svm' /proc/cpuinfo
 echo '---------------------------------------------------------------------------------'
 echo " Has [$(hostname)] virtualization capabilities ?"
-egrep -q 'vmx|svm' /proc/cpuinfo && echo yes || echo no
+grep -E --color 'vmx|svm' /proc/cpuinfo && echo yes || echo no
 echo '---------------------------------------------------------------------------------'
 
 
@@ -22,12 +22,30 @@ export MINIKUBE_VERSION_TAG=latest
 export MINIKUBE_VERSION=${MINIKUBE_VERSION:-'1.8.2'}
 export MINIKUBE_VERSION_TAG="v${MINIKUBE_VERSION}"
 
-curl -Lo minikube https://storage.googleapis.com/minikube/releases/${MINIKUBE_VERSION_TAG}/minikube-linux-amd64 \
-  && chmod +x minikube
+
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/${MINIKUBE_VERSION_TAG}/minikube-linux-amd64
+
+chmod +x minikube
 
 # alsofor the minikube binary to be there :
-sudo mv ./minikube /usr/local/bin
+# sudo mv ./minikube /usr/local/bin
+# If I added to /usr/local/bin, then, on some systems, the root
+# user does not have '/usr/local/bin' in PATH, but has '/usr/bin'
+# This would have one bad consequence : sudo minikube   => command not found
+# --- I personally experienced that on AWS Amazon Linux, a CentOS / RHEL based distrib.
+#     plus this is not a bad idea in production, (to wipe out /usr/local/bin from root. local means local to the user ? to somthg else ? )
+# ---
+sudo mv ./minikube /usr/bin
+
+# export URI_DE_CE_REPO=https://github.com/pegasus-io/a-k8s-demo.git
+# export THIS_RECIPES_RELEASE=feature/aws-provisioning
+# git clone "$URI_DE_CE_REPO" .
+# git checkout $THIS_RECIPES_RELEASE
+chmod +x ./oci/kubeone_operator/ansible.minikube/kubectl/*.sh
+./oci/kubeone_operator/ansible.minikube/kubectl/install-kubectl-on-minikube.sh
+
 minikube version
+
 # --- #
 # sets the none driver as the default : we don't have to use the '--vm-driver' option again.
 # --- #
@@ -47,6 +65,16 @@ export API_SERVER_IPSLICE='[192.168.1.22]'
 export API_SERVER_IPSLICE="192.168.1.22"
 export API_SERVER_IPSLICE="${MINI_K8S_API_SERVER_IP}"
 
+# ------------------------------------------------------------------------------------------------------------
+# ❗  To use kubectl or minikube commands as your own user, you may need to relocate them. For example, to overwrite your own settings, run:
+#
+#     ▪ sudo mv /root/.kube /root/.minikube $HOME
+#     ▪ sudo chown -R $USER $HOME/.kube $HOME/.minikube
+#
+# 💡  This can also be done automatically by setting the env var CHANGE_MINIKUBE_NONE_USER=true
+# ------------------------------------------------------------------------------------------------------------
+
+export CHANGE_MINIKUBE_NONE_USER=true
 
 # ------
 # sudo minikube start --apiserver-ips 127.0.0.1 --apiserver-name localhost

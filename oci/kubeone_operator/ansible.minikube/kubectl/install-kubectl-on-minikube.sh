@@ -94,7 +94,10 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VER
   && chmod +x kubectl
 
 # alsofor the minikube binary to be there :
-sudo mv ./kubectl /usr/local/bin
+# sudo mv ./kubectl /usr/local/bin
+# I need a global install wause i'll have to sudo minikube, to deploy K8s dashboard
+sudo mv ./kubectl /usr/bin
+
 kubectl version --client
 
 
@@ -139,5 +142,15 @@ echo "     minikube dashboard "
 echo ''
 
 
+sudo cp -fR /root/.minikube ~/
+sudo cp -fR /root/.kube ~/
 
+export CURRENTUSER=$USER
+sudo chown -R ${CURRENTUSER}:${CURRENTUSER} /home/${CURRENTUSER}/.kube
+sudo chown -R ${CURRENTUSER}:${CURRENTUSER} /home/${CURRENTUSER}/.minikube
+
+unset CURRENTUSER
 # sudo kubectl version
+
+# finally deploying Kubernetes dashboard
+sudo minikube dashboard
