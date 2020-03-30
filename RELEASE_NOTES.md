@@ -101,6 +101,14 @@ docker exec -it kubeone_gitops_operator bash
 #
 ```
 
+* After playing with terraform, maybe you want to deploy your NodeJS Express App , using `Helm` :
+
+```bash
+# --- #
+
+```
+
+
 
 * And to tear it all down :
 
