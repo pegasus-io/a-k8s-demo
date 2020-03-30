@@ -111,14 +111,18 @@ export KUBECTL_CLIENT_KEY_FILENAME=$(echo ${KUBECTL_CLIENT_KEY_PATH}|awk -F '/' 
 
 mkdir -p ~/.kube
 
-sudo cp /root/.kube/config ~/.kube
-sudo cp ${KUBECTL_MINIKUBE_CA_CERT_PATH} ~/.kube
-sudo cp ${KUBECTL_CLIENT_CERT_PATH} ~/.kube
-sudo cp ${KUBECTL_CLIENT_KEY_PATH} ~/.kube
+sudo cp -fR /root/.kube/ ~/
+sudo chown -R ec2-user:ec2-user ~/.kube
+# sudo cp -fR ${KUBECTL_MINIKUBE_CA_CERT_PATH} ~/.kube
+# sudo cp -fR ${KUBECTL_CLIENT_CERT_PATH} ~/.kube
+# sudo cp -fR ${KUBECTL_CLIENT_KEY_PATH} ~/.kube
 
 # ---
 # Adding the minikube profile to the non root operator
 sudo cp -fR /root/.minikube ~/
+sudo chown -R ec2-user:ec2-user ~/.minikube
+
+
 
 export CURRENTUSER=$USER
 sudo chown -R ${CURRENTUSER}:${CURRENTUSER} /home/${CURRENTUSER}/.kube
