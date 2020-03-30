@@ -21,7 +21,8 @@ In this little exeriment, we will :
 # You choose your method, SSH or HTTPS
 export SSH_URI_TO_THIS_REPO=git@github.com:pegasus-io/a-k8s-demo.git
 export URI_DE_CE_REPO=https://github.com/pegasus-io/a-k8s-demo.git
-export THIS_RECIPES_RELEASE=0.0.1
+export THIS_RECIPES_RELEASE=0.0.3
+export THIS_RECIPES_RELEASE="feature/helm-operator"
 git clone "$URI_DE_CE_REPO" .
 git checkout $THIS_RECIPES_RELEASE
 chmod +x ./load.pipeline.sh
@@ -29,10 +30,58 @@ chmod +x ./load.pipeline.sh
 
 ```
 
-* To terraform plan the k8s cluster, execute, in the same shell session, and the same directory, the command :
+* To terraform the k8s cluster, execute, in the same shell session, and the same directory, the command :
 
 ```bash
 ./run.pipeline.sh
+```
+* Then, to install minikube on the freshly terraformed `AWS ec2` instance, proceed with the two following steps :
+  * excute this on the AWS VM, to install `git` and `docker` :
+
+```bash
+# ---
+# - git : to operate as a gitops
+# - docker installation : this install is VERY bad, it does not install a specific verson of docker, just latest, so time dependent
+sudo yum install -y git docker
+
+export CURRENT_USER_ATREYOU=$(whoami)
+sudo usermod -aG docker ${CURRENT_USER_ATREYOU}
+unset CURRENT_USER_ATREYOU
+
+sudo systemctl enable docker.service
+sudo systemctl daemon-reload
+sudo systemctl restart docker.service
+
+sudo yum update -y
+
+```
+  * then execute this, to install `minikube` :
+
+```bash
+# This will soon be an ansible playbook, which is going to be executed as Terraform provisioner, using the Terraform Ansible Provisioner.
+export OPS_HOME="${HOME}/minikube"
+export URI_DE_CE_REPO=https://github.com/pegasus-io/a-k8s-demo.git
+export THIS_RECIPES_RELEASE=feature/helm-operator
+git clone "$URI_DE_CE_REPO" ${OPS_HOME}
+cd ${OPS_HOME}
+git checkout $THIS_RECIPES_RELEASE
+chmod +x ./oci/kubeone_operator/ansible.minikube/*.sh
+./oci/kubeone_operator/ansible.minikube/install-minikube.sh
+
+```
+
+* Then you will install `kubectl` on your everyday laptop, of course a GNU/Linux, ar on worst case, a darwin :
+
+```bash
+export OPS_HOME="${HOME}/.kctl"
+export URI_DE_CE_REPO=https://github.com/pegasus-io/a-k8s-demo.git
+export THIS_RECIPES_RELEASE="feature/helm-operator"
+git clone "$URI_DE_CE_REPO" ${OPS_HOME}
+cd ${OPS_HOME}
+git checkout $THIS_RECIPES_RELEASE
+chmod +x ./oci/kubeone_operator/ansible.minikube/kubectl/*.sh
+./oci/kubeone_operator/ansible.minikube/kubectl/install-kubectl.sh
+
 ```
 
 * You can after that, if you feel like, pay a visit inside the factory :
@@ -40,12 +89,51 @@ chmod +x ./load.pipeline.sh
 ```bash
 docker exec -it kubeone_gitops_operator bash
 # to test a few commands, like :
-# 'cd terraformation/ && ./terraform plan'
-# 
+#
+#   terraform init
+#   terraform plan
+#   terraform apply, (maybe terrafom import)
+#   terraform output public_elastic_ip
+#   terraform destroy,
+#
+# Top do so you will have  to :
+# 'cd kubeone/source/examples/terraform/aws'
+#
 ```
 
+* After playing with terraform, maybe you want to deploy your NodeJS Express App , using `Helm` :
 
-* And to tear it all down :
+```bash
+
+kubectl create deployment kubernetes-bootcamp --image=gcr.io/google-samples/kubernetes-bootcamp:v1
+
+export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}')
+echo Name of the Pod: $POD_NAME
+
+kubectl logs $POD_NAME
+
+kubectl exec $POD_NAME -- env
+kubectl exec $POD_NAME -- echo "oh my, i am in kubernetes $(hostname)"
+kubectl exec $POD_NAME -- ls -allh
+kubectl exec $POD_NAME -- cat server.js
+
+# ---
+# Now exposing app to outside world
+
+kubectl expose deployment/kubernetes-bootcamp --type="NodePort" --port 8080
+
+kubectl get services
+kubectl describe services/kubernetes-bootcamp
+export NODE_PORT=$(kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0).nodePort}}')
+echo NODE_PORT=${NODE_PORT}
+echo "Now you can visit your app at http://${YOUR_K8S_CLUSTER_IP}:${NODE_PORT}"
+```
+
+* And be my guest and see mine on AWS : http://15.236.98.183:31162/
+
+
+
+* And to tear it all down **first terraform destroy** and then :
 
 ```bash
 

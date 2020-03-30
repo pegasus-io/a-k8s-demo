@@ -7,9 +7,13 @@
 set -x
 
 echo "Entrée dans [$0]"
-cd $BUMBLEBEE_HOME_INSIDE_CONTAINER
-./init-iaac.sh || exit 11
-./install-kubectl.sh || exit 12
-./install-helm.sh || exit 12
+
+# ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-git-flow.sh || exit 10
+# ./install-kubectl.sh || exit 12
+# ./install-helm.sh || exit 12
+${BUMBLEBEE_HOME_INSIDE_CONTAINER}/init-iaac.sh || exit 11
+${BUMBLEBEE_HOME_INSIDE_CONTAINER}/configure-kubectl.sh || exit 12
+
+
 
 exec "${SHELL}"

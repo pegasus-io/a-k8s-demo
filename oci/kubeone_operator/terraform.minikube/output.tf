@@ -42,12 +42,18 @@ output "public_dns" {
   description = "List of public DNS names assigned to the instances. For EC2-VPC, this is only available if you've enabled DNS hostnames for your VPC"
   value       = aws_instance.creshVM.public_dns
 }
-
-output "public_ip" {
+output "instance_ips" {
   description = "List of public IP addresses assigned to the instances, if applicable"
   value       = aws_instance.creshVM.public_ip
 }
-
+output "public_elastic_ip" {
+  description = "The public Elastic IP address assigned to the single instance (you can use that to ssh into it)"
+  # value       = aws_instance.creshVM.public_ip
+  value = aws_eip.eip.public_ip
+}
+# output "elastic_ip" {
+#   value = aws_eip.eip.public_ip
+# }
 output "ipv6_addresses" {
   description = "List of assigned IPv6 addresses of instances"
   value       = aws_instance.creshVM.ipv6_addresses

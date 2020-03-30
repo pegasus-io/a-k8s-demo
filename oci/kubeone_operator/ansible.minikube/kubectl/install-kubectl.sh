@@ -95,7 +95,9 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VER
   && chmod +x kubectl
 
 # alsofor the minikube binary to be there :
-sudo mv ./kubectl /usr/local/bin
+# sudo mv ./kubectl /usr/local/bin
+sudo mv ./kubectl /usr/bin
+
 
 
 

@@ -55,8 +55,8 @@ ENV COMMIT_MESSAGE=$TAG_MESSAGE
 # ---------------------------------------------------
 #
 
-ARG BUMBLEBEE_HOME_INSIDE_CONTAINER=/kubeonebee
-ENV BUMBLEBEE_HOME_INSIDE_CONTAINER=/kubeonebee
+ARG BUMBLEBEE_HOME_INSIDE_CONTAINER=/helmbee
+ENV BUMBLEBEE_HOME_INSIDE_CONTAINER=/helmbee
 
 
 # ---
@@ -109,7 +109,7 @@ ENV SSH_URI_TO_ATLANTIS_WATCHED_GIT=$SSH_URI_TO_ATLANTIS_WATCHED_GIT
 #
 ENV SSH_URI_TO_ANSIBLE_HELM_OPERATOR=$SSH_URI_TO_ANSIBLE_HELM_OPERATOR
 # --- --------------------------
-#  -- KUBEONE KUBEONE_VERSION
+#  -- KUBEONE HELM_VERSION
 # --- --------------------------
 
 # ---
@@ -119,8 +119,8 @@ ENV SSH_URI_TO_ANSIBLE_HELM_OPERATOR=$SSH_URI_TO_ANSIBLE_HELM_OPERATOR
 # You should also reference your own private mirror of this repo, in your automation recipes
 # because then you will remove any external service build time and runtime dependency from
 # your CI/CD factory, your pipelines run faster, with more reliability.
-ARG KUBEONE_VERSION=${KUBEONE_VERSION:-'0.11.0'}
-ENV KUBEONE_VERSION=${KUBEONE_VERSION:-'0.11.0'}
+ARG HELM_VERSION=${HELM_VERSION:-'2.16.5'}
+ENV HELM_VERSION=${HELM_VERSION:-'2.16.5'}
 
 # ---
 # can be :
@@ -128,15 +128,15 @@ ENV KUBEONE_VERSION=${KUBEONE_VERSION:-'0.11.0'}
 # => 'linux' (for any GNU/Linux distrib.)
 # Kubeone does not support Windows
 #
-ARG KUBEONE_OS=${KUBEONE_OS:-'linux'}
-ARG KUBEONE_CPUARCH=${KUBEONE_CPUARCH:-'amd64'}
+ARG HELM_OS=${HELM_OS:-'linux'}
+ARG HELM_CPU_ARCH=${HELM_CPU_ARCH:-'amd64'}
 
 # ---
 # Where KUBEONE Is isntalled on the system, for
 # all users in the kubeone group, the beeio user
 # that executes the terraform init/plan/apply
 #
-ARG KUBEONE_INSTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/installation/${KUBEONE_VERSION}
+ARG HELM_INSTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone/installation/${HELM_VERSION}
 
 # ---
 # Can be a commit hash, a branch name, or a tag (be it a release or not).
@@ -160,10 +160,6 @@ ARG HELM_OS=${HELM_OS:-'linux'}
 ARG HELM_CPU_ARCH=${HELM_CPU_ARCH:-'amd64'}
 
 ARG HELM_INSTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/helm/installation/${HELM_VERSION}
-
-ENV HELM_LIBS_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/helm/libs/${HELM_VERSION}
-
-
 
 
 ARG GITFLOW_VERSION=000
@@ -192,24 +188,13 @@ RUN mkdir -p ${BUMBLEBEE_WORKSPACE_INSIDE_CONTAINER}
 # ----------------------------------------------------------------------------
 
 COPY create-bee-user.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
-COPY install-git-flow.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/
 COPY init-iaac.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
-COPY init-aws.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
-COPY install-kubeone.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
-COPY install-terraform.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
-COPY install-terraform-clean-syntax.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
-COPY kubeone-prepare.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
-COPY kubeone-boot-atlantis.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
+COPY install-git-flow.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/
+COPY install-helm.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/
+COPY install-kubectl.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/
 
 COPY run.sh ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 
-RUN mkdir -p ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation
-COPY terraform.minikube/main.tf ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation
-COPY terraform.minikube/variables.tf ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation
-COPY terraform.minikube/versions.tf ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation
-COPY terraform.minikube/output.tf ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation
-COPY terraform.minikube/terraform.tfvars ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation
-COPY atlantis.yml ${BUMBLEBEE_HOME_INSIDE_CONTAINER}
 
 RUN chmod +x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/*.sh
 
@@ -228,17 +213,18 @@ RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/create-bee-user.sh
 RUN echo "Je suis [$(whoami)]" && cd ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/ && ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-git-flow.sh
 
 
+# ---------------------------------------------------------
+# Now installing the git-flow AVH Ed.
+# ---------------------------------------------------------
+#
+RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-git-flow.sh
 
 # ---------------------------------------------------------
-# Now installing KUBEONE
+# Now installing HELM
 # ---------------------------------------------------------
 # creates a kubeone linux user group
-RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-kubeone.sh
-# ---------------------------------------------------------
-# Now installing TERRAFORM
-# ---------------------------------------------------------
-# creates a terraform linux user group
-RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-terraform.sh
+RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-kubectl.sh
+RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-helm.sh
 
 
 # [create-bee-user.sh] creates a user 'beeio' and its group, 'bumblebee' group
@@ -246,23 +232,25 @@ RUN ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/install-terraform.sh
 # --> the kubeone group : only those in this group will be allowed to execute the kubeone executable.
 # --> the terraform group : only those in this group will be allowed to execute the kubeone executable.
 # And we add 'beeio' robot user to both groups.
-RUN usermod -aG kubeone ${BUMBLEBEE_LX_USERNAME}
-RUN usermod -aG terraform ${BUMBLEBEE_LX_USERNAME}
+RUN usermod -aG helm ${BUMBLEBEE_LX_USERNAME}
+RUN usermod -aG kube ${BUMBLEBEE_LX_USERNAME}
 
 # RUN # NON DANS LE SCRIPT INSTALL KUBEONE # chown :kubeone -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/kubeone
 # RUN # NON DANS LE SCRIPT INSTALL TERRAFORM # chown :terraform -R ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform
 
 # ----------------------------------------------------------------------------
-VOLUME /kubeonebee/.secrets
+VOLUME /helmbee/.beesecrets
+VOLUME /helmbee/.secrets
 
-WORKDIR /kubeonebee
-# HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "/kubeonebee/pipeline-step.healthcheck.sh" ]
+# ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/beesecrets/public_elastic_ip
+WORKDIR /helmbee
+# HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "/helmbee/pipeline-step.healthcheck.sh" ]
 
 RUN chmod a+x ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/run.sh
-RUN chmod a+rwx -R /kubeonebee/
+RUN chmod a+rwx -R /helmbee/
 USER ${BUMBLEBEE_LX_USERNAME}
 
-ENTRYPOINT ["/kubeonebee/run.sh"]
+ENTRYPOINT ["/helmbee/run.sh"]
 
 #
 # I want bash inside, not just /bin/sh, because

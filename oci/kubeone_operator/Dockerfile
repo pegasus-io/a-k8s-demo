@@ -163,7 +163,7 @@ ARG TERRAFORM_INSTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform/ins
 
 ENV TERRAFORM_LIBS_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraform/libs/${TERRAFORM_VERSION}
 
-
+ENV BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS=${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS:-'./whereyoursecretsareoutsidecontainers/'}
 
 
 ARG GITFLOW_VERSION=000
@@ -183,7 +183,7 @@ USER root
 # => [curl wget] : utilities to download dependencies as raw files,without any [git clone]
 RUN apk update && apk add gnupg bash curl git wget curl wget openssh-server openssh-client
 RUN mkdir -p ${BUMBLEBEE_WORKSPACE_INSIDE_CONTAINER}
-
+RUN mkdir -p ${BUMBLEBEE_WORKSPACE_INSIDE_CONTAINER}/beesecrets
 # RUN mkdir -p ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets
 
 

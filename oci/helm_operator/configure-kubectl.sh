@@ -3,7 +3,8 @@
 set -x
 
 export MINIKUBE_HOST=${MINIKUBE_HOST:-'minikube.pegasusio.io'}
-export MINIKUBE_PUBLIC_IP='127.0.0.1'
+# export MINIKUBE_PUBLIC_IP='127.0.0.1'
+export MINIKUBE_PUBLIC_IP=$(cat ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/public_elastic_ip)
 
 echo "---------------------------------------------------------------------------------"
 echo '---   Env sum up : '
@@ -11,7 +12,6 @@ echo "--------------------------------------------------------------------------
 echo "--- MINIKUBE_HOST=[${MINIKUBE_HOST}]"
 echo "--- MINIKUBE_PUBLIC_IP=[${MINIKUBE_PUBLIC_IP}]"
 echo "---------------------------------------------------------------------------------"
-
 
 # ---
 #
@@ -38,8 +38,24 @@ rm ./etc.hosts.first
 echo '---------------------------------------------------------------------------------'
 echo '---   Content of [/etc/hosts] : '
 echo '---------------------------------------------------------------------------------'
-
 sudo cat /etc/hosts
+echo '---------------------------------------------------------------------------------'
+
+
+echo '---------------------------------------------------------------------------------'
+echo '---   Retrieving KUBECONFIG minikube context : '
+echo '---------------------------------------------------------------------------------'
+scp -r -i ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/creshAWSSSHkey.pem ec2-user@${MINIKUBE_PUBLIC_IP}:/home/ec2-user/.kube ~/
+scp -r -i ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/creshAWSSSHkey.pem ec2-user@${MINIKUBE_PUBLIC_IP}:/home/ec2-user/.minikube ~/
+sed -i "s#/home/ec2-user#/home/${USER}#" ~/.kube/config
+
+ls -allh ~/
+ls -allh ~/.kube
+ls -allh ~/.minikube
+
+echo '---------------------------------------------------------------------------------'
+
+
 
 # ---
 #
@@ -122,6 +138,6 @@ echo '--------------------------------------------------------------------------
 # kubectl proxy
 echo '---------------------------------------------------------------------------------'
 # TODO create helm user group, and give ownership
-groupadd kube
+# groupadd kube
 # Adding
 # usermod -aG kube ${BUMBLEBEE_LX_USERNAME}

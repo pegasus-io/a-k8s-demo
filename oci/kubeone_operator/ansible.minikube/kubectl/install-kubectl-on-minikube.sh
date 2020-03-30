@@ -94,7 +94,10 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VER
   && chmod +x kubectl
 
 # alsofor the minikube binary to be there :
-sudo mv ./kubectl /usr/local/bin
+# sudo mv ./kubectl /usr/local/bin
+# I need a global install wause i'll have to sudo minikube, to deploy K8s dashboard
+sudo mv ./kubectl /usr/bin
+
 kubectl version --client
 
 
@@ -106,25 +109,25 @@ export KUBECTL_CLIENT_CERT_FILENAME=$(echo ${KUBECTL_CLIENT_CERT_PATH}|awk -F '/
 export KUBECTL_CLIENT_KEY_PATH=$(sudo cat /root/.kube/config|grep client-key| awk '{print $2}')
 export KUBECTL_CLIENT_KEY_FILENAME=$(echo ${KUBECTL_CLIENT_KEY_PATH}|awk -F '/' '{print $NF}')
 
-mkdir -p ~/.kube
 
-sudo cp /root/.kube/config ~/.kube
-sudo cp ${KUBECTL_MINIKUBE_CA_CERT_PATH} ~/.kube
-sudo cp ${KUBECTL_CLIENT_CERT_PATH} ~/.kube
-sudo cp ${KUBECTL_CLIENT_KEY_PATH} ~/.kube
-
+sudo cp -fR /root/.kube/ ~/
 # ---
 # Adding the minikube profile to the non root operator
 sudo cp -fR /root/.minikube ~/
 
+
 export CURRENTUSER=$USER
 sudo chown -R ${CURRENTUSER}:${CURRENTUSER} /home/${CURRENTUSER}/.kube
 sudo chown -R ${CURRENTUSER}:${CURRENTUSER} /home/${CURRENTUSER}/.minikube
+sudo chmod -R o+rw /home/${CURRENTUSER}/.kube
+sudo chmod -R o+rw /home/${CURRENTUSER}/.minikube
 unset CURRENTUSER
 
-sed -i "s#certificate-authority:.*#certificate-authority: ${KUBECTL_MINIKUBE_CA_CERT_FILENAME}#g" ~/.kube/config
-sed -i "s#client-certificate:.*#client-certificate: ${KUBECTL_CLIENT_CERT_FILENAME}#g" ~/.kube/config
-sed -i "s#client-key:.*#client-key: ${KUBECTL_CLIENT_KEY_FILENAME}#g" ~/.kube/config
+
+sed -i "s#/root#/home/${USER}#g" ~/.kube/config
+# sed -i "s#certificate-authority:.*#certificate-authority: ${KUBECTL_MINIKUBE_CA_CERT_FILENAME}#g" ~/.kube/config
+# sed -i "s#client-certificate:.*#client-certificate: ${KUBECTL_CLIENT_CERT_FILENAME}#g" ~/.kube/config
+# sed -i "s#client-key:.*#client-key: ${KUBECTL_CLIENT_KEY_FILENAME}#g" ~/.kube/config
 
 
 sed -i "s#server:.*#server: https://${MINIKUBE_HOST}:8443#g" ~/.kube/config
@@ -139,5 +142,5 @@ echo "     minikube dashboard "
 echo ''
 
 
-
-# sudo kubectl version
+# finally deploying Kubernetes dashboard
+sudo minikube dashboard

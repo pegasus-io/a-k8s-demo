@@ -92,14 +92,18 @@ cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/terraform.tfvars .
 # enregistrée sous AWS avec le nom 'creshKeyPair'
 # et donc on retrouve la réf 'creshKeyPair' dans le main.tf
 # ---
-# Le code de géénration d'une nouvelle clef est inutilisé, il
-# est laissé simplement pour ddes travaux ultérieurs.
+# https://docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-keypairs.html
 # ---
-aws ec2 create-key-pair --key-name creshKeyPair --query 'KeyMaterial' --output text > ./aws.creshkey.pem
+# Le code de génération d'une nouvelle clef est inutilisé, il
+# est laissé simplement pour des travaux ultérieurs.
+# ---
+# aws ec2 create-key-pair --key-name creshKeyPair --query 'KeyMaterial' --output text > ./aws.creshkey.pem
 
 echo "$(ssh-keygen -y -f ./aws.creshkey.pem) bumblebee@pegasusio.io" > ./aws.creshkey.pub
-cp ./aws.creshkey.pem ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/
-cp ./aws.creshkey.pub ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/
+# cp ./aws.creshkey.pem ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/
+# cp ./aws.creshkey.pub ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/
+# chmod 600 ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/aws.creshkey.pem
+# chmod 644 ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/aws.creshkey.pub
 
 # export FUSA_PUBKEY=$(cat ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.ssh/${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}.pub)
 export FUSA_PUBKEY=$(cat ./aws.creshkey.pub)
@@ -108,6 +112,10 @@ echo ''
 echo "DEBUG FUSA_PUBKEY=[${FUSA_PUBKEY}]"
 echo ''
 sed -i "s#EC2_FUSA_SSH_AUTH_PUBKEY_JINJA2_VAR#${FUSA_PUBKEY}#g" ./terraform.tfvars
+
+export EC2_AMAZON_LINUX_2_AMI_ID=$(cat ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/beesecrets/amazon.linux.ami.id)
+sed -i "s#EC2_AMAZON_LINUX_2_AMI_ID_JINJA2_VAR#${EC2_AMAZON_LINUX_2_AMI_ID}#g" ./terraform.tfvars
+
 rm -f ./versions.tfvars
 cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/versions.tfvars .
 
@@ -123,11 +131,11 @@ echo '+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-
 echo '+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+'
 
 
-
 # echo " # --- running init in [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace] " | tee -a ./kubeone.prepare.terraform.init.logs
 echo " # --- running init in [$(pwd)] " | tee -a ./kubeone.prepare.terraform.init.logs
 
 terraform init | tee -a ./kubeone.prepare.terraform.init.logs
+
 # and to test them in the dry run :
 echo '------------------------------------------------------------------------'
 echo '---  Now checking bashrc env before terraform plan '
@@ -145,3 +153,37 @@ terraform plan -out=k8s.cresh.provision.plan.terraplan | tee -a ./kubeone.prepar
 
 kubeone config print > kubeone-config.yaml
 kubeone config print --full > kubeone-config.full.yaml
+
+echo '------------------------------------------------------------------------'
+echo '---  Now terraforming '
+echo '------------------------------------------------------------------------'
+terraform apply -auto-approve || exit 33
+
+terraform output public_elastic_ip > ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/beesecrets/public_elastic_ip
+
+export PUBLIC_EIP_OF_AWS_INSTANCE="$(terraform output public_elastic_ip)"
+echo '------------------------------------------------------------------------'
+echo "---  You can now SSH into your VM using ip address [${PUBLIC_EIP_OF_AWS_INSTANCE}] "
+echo "---  Using the following commands : "
+echo "---  "
+echo "---  # [inside this container] : "
+echo "---  "
+echo "---  ssh -i ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/beesecrets/creshAWSSSHkey.pem ec2-user@${PUBLIC_EIP_OF_AWS_INSTANCE}"
+echo "---  "
+echo "---  # [outside containers on docker host] : "
+echo "---  "
+echo "---  chmod 600 ./beecli/creshAWSSSHkey.pem"
+echo "---  ssh -i ./beecli/creshAWSSSHkey.pem ec2-user@${PUBLIC_EIP_OF_AWS_INSTANCE}"
+echo "---  "
+echo '------------------------------------------------------------------------'
+echo "---  "
+echo "---  Finally, to tear down your whole infrastructure, execute : "
+echo "---  "
+echo '------------------------------------------------------------------------'
+echo "     cd $(pwd) && terraform destroy -auto-approve "
+echo '------------------------------------------------------------------------'
+#
+# sudo ping4 -c 4 ${PUBLIC_EIP_OF_AWS_INSTANCE}
+# sudo ping -c 4 ${PUBLIC_EIP_OF_AWS_INSTANCE}
+# ssh -Tvai ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/aws.creshkey.pem ec2-user@${PUBLIC_EIP_OF_AWS_INSTANCE}
+# -----------------------------------------------------------------------------
