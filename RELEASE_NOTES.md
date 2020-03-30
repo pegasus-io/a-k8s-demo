@@ -22,6 +22,7 @@ In this little exeriment, we will :
 export SSH_URI_TO_THIS_REPO=git@github.com:pegasus-io/a-k8s-demo.git
 export URI_DE_CE_REPO=https://github.com/pegasus-io/a-k8s-demo.git
 export THIS_RECIPES_RELEASE=0.0.3
+export THIS_RECIPES_RELEASE="feature/helm-operator"
 git clone "$URI_DE_CE_REPO" .
 git checkout $THIS_RECIPES_RELEASE
 chmod +x ./load.pipeline.sh
@@ -53,13 +54,13 @@ sudo systemctl restart docker.service
 
 sudo yum update -y
 ```
-  * then execute this, to install `minikube` : 
+  * then execute this, to install `minikube` :
 
 ```bash
 # This will soon be an ansible playbook, which is going to be executed as Terraform provisioner, using the Terraform Ansible Provisioner.
 export OPS_HOME="${HOME}/minikube"
 export URI_DE_CE_REPO=https://github.com/pegasus-io/a-k8s-demo.git
-export THIS_RECIPES_RELEASE=feature/aws-provisioning
+export THIS_RECIPES_RELEASE=feature/helm-operator
 git clone "$URI_DE_CE_REPO" ${OPS_HOME}
 cd ${OPS_HOME}
 git checkout $THIS_RECIPES_RELEASE
@@ -73,7 +74,7 @@ chmod +x ./oci/kubeone_operator/ansible.minikube/*.sh
 ```bash
 export OPS_HOME="${HOME}/.kctl"
 export URI_DE_CE_REPO=https://github.com/pegasus-io/a-k8s-demo.git
-export THIS_RECIPES_RELEASE=feature/aws-provisioning
+export THIS_RECIPES_RELEASE="feature/helm-operator"
 git clone "$URI_DE_CE_REPO" ${OPS_HOME}
 cd ${OPS_HOME}
 git checkout $THIS_RECIPES_RELEASE
