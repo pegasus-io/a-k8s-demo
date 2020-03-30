@@ -47,6 +47,7 @@ echo '---   Retrieving KUBECONFIG minikube context : '
 echo '---------------------------------------------------------------------------------'
 scp -r -i ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/creshAWSSSHkey.pem ec2-user@${MINIKUBE_PUBLIC_IP}:/home/ec2-user/.kube ~/
 scp -r -i ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/creshAWSSSHkey.pem ec2-user@${MINIKUBE_PUBLIC_IP}:/home/ec2-user/.minikube ~/
+sed -i "s#/home/ec2-user#/home/${USER}#" ~/.kube/config
 
 ls -allh ~/
 ls -allh ~/.kube
