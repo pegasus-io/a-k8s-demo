@@ -27,7 +27,7 @@ curl -Lo minikube https://storage.googleapis.com/minikube/releases/${MINIKUBE_VE
 
 chmod +x minikube
 
-# alsofor the minikube binary to be there :
+# also for the minikube binary to be there :
 # sudo mv ./minikube /usr/local/bin
 # If I added to /usr/local/bin, then, on some systems, the root
 # user does not have '/usr/local/bin' in PATH, but has '/usr/bin'
