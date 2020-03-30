@@ -88,7 +88,7 @@ services:
       - BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS=${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}
     volumes:
       - beesecrets:/helmbee/.secrets:rw
-      - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}:/kubeonebee/.secrets:rw
+      - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}:/helmbee/.secrets:rw
 #
 # ----------- ANSIBLE OPS to test the Ansible playbook which will
 #             be executed after the terraform apply by https://runatlantis.io, by the
