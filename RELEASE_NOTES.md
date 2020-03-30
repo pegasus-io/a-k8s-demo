@@ -104,13 +104,36 @@ docker exec -it kubeone_gitops_operator bash
 * After playing with terraform, maybe you want to deploy your NodeJS Express App , using `Helm` :
 
 ```bash
-# --- #
 
+kubectl create deployment kubernetes-bootcamp --image=gcr.io/google-samples/kubernetes-bootcamp:v1
+
+export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}')
+echo Name of the Pod: $POD_NAME
+
+kubectl logs $POD_NAME
+
+kubectl exec $POD_NAME -- env
+kubectl exec $POD_NAME -- echo "oh my, i am in kubernetes $(hostname)"
+kubectl exec $POD_NAME -- ls -allh
+kubectl exec $POD_NAME -- cat server.js
+
+# ---
+# Now exposing app to outside world
+
+kubectl expose deployment/kubernetes-bootcamp --type="NodePort" --port 8080
+
+kubectl get services
+kubectl describe services/kubernetes-bootcamp
+export NODE_PORT=$(kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0).nodePort}}')
+echo NODE_PORT=${NODE_PORT}
+echo "Now you can visit your app at http://${YOUR_K8S_CLUSTER_IP}:${NODE_PORT}"
 ```
 
+* And be my guest and see mine on AWS : http://15.236.98.183:31162/
 
 
-* And to tear it all down :
+
+* And to tear it all down **first terraform destroy** and then :
 
 ```bash
 
