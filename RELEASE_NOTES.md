@@ -131,9 +131,38 @@ echo "Now you can visit your app at http://${YOUR_K8S_CLUSTER_IP}:${NODE_PORT}"
 
 * And be my guest and see mine on AWS : http://15.236.98.183:31162/
 
+* To deploy the other example app (Node + Mongo), docker login, and execute the following :
 
+```bash
+export OPS_HOME=~/.letsgo.k8S
+# --- #
+# Your username or organizationname on hub.docker.com / docker.io
+# mine is pegasusio
+# --- #
+export YOUR_USERNAME_OR_ORG_NAME=pegasusio
+git clone https://github.com/pegasus-io/example-nodeapp ${OPS_HOME}
+cd ${OPS_HOME}
+docker build -t pegasusio/nodeapp.js:0.0.3 .
+# you docker logged
+docker push pegasusio/nodeapp.js:0.0.3
 
-* And to tear it all down **first terraform destroy** and then :
+kubectl apply -f kube/
+
+export NODE_PORT=$(kubectl get services/nodeapp -o go-template='{{(index .spec.ports 0).nodePort}}')
+echo NODE_PORT=${NODE_PORT}
+
+kubectl get services
+kubectl describe services/nodeapp
+
+echo "now your app is available on http://\${YOU_K8S_CLUSTER_IP}:${NODE_PORT}"
+
+kubectl scale --replicas=2 deployment/nodeapp
+
+kubectl get pods -l app=nodeapp --watch
+
+```
+
+* And to tear it all down, **first terraform destroy**, and then :
 
 ```bash
 
