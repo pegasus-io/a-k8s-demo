@@ -114,6 +114,7 @@ mkdir -p ~/.kube
 sudo cp -fR /root/.kube/ ~/
 sudo chown -R ec2-user:ec2-user ~/.kube
 sudo chmod -R o+rw ~/.kube
+sed -i "s#/root#/home/ec2-user#g" ~/.kube/config
 # sudo cp -fR ${KUBECTL_MINIKUBE_CA_CERT_PATH} ~/.kube
 # sudo cp -fR ${KUBECTL_CLIENT_CERT_PATH} ~/.kube
 # sudo cp -fR ${KUBECTL_CLIENT_KEY_PATH} ~/.kube
