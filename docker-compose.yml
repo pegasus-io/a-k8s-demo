@@ -87,7 +87,7 @@ services:
       # just to dsplay nice litlle output message in the docker logs :
       - BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS=${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}
     volumes:
-      - beesecrets:/helmbee/.secrets:rw
+      - beesecrets:/helmbee/.beesecrets:rw
       - ${BUMBLEBEE_SECRETS_VAULT_OUTSIDE_CONTAINERS}:/helmbee/.secrets:rw
 #
 # ----------- ANSIBLE OPS to test the Ansible playbook which will
