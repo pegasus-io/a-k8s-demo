@@ -1,14 +1,14 @@
 #/bin/bash
 
 
-echo "Remember : Kubectl must be installed where you wnat to install Helm"
+echo "Remember : Kubectl must be installed where you want to install Helm"
 # ---
 # Can be a commit hash, a branch name, or a tag (be it a release or not).
 # from this git repo : https://github.com/helm/helm
 # I privately mirror it on git@gitlab.com:second-bureau/bellerophon/helm/helm.git
 # You should also reference your own private mirror of this repo, in your automation recipes
 # because then you will remove any external service build time and runtime dependency from your CI/CD factory, your pipelines run faster, with more reliability.
-export HELM_VERSION=${HELM_VERSION:-'2.16.4'}
+export HELM_VERSION=${HELM_VERSION:-'2.16.5'}
 # ---
 # can be :
 # => 'darwin' (mac os)
@@ -27,6 +27,7 @@ export HELM_CPU_ARCH=${HELM_CPU_ARCH:-'amd64'}
 
 export HELM_PKG_DWLD_URI="https://get.helm.sh/helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz"
 
+
 export HELM_CHECKSUMS_FILE_DWLD_URI="https://get.helm.sh/helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz.sha256"
 # Signature of the HELM_CHECKSUMS_FILE_DWLD_URI, to verify the signature of the checksum file.
 # export HELM_CHECKSUMS_FILE_SIGNATURE_DWLD_URI="https://releases.helm.com/helm/${HELM_VERSION}/helm_${HELM_VERSION}_SHA256SUMS.sig"
@@ -37,7 +38,7 @@ export HELM_CHECKSUMS_FILE_DWLD_URI="https://get.helm.sh/helm-v${HELM_VERSION}-$
 
 # echo '---------------------------------------------------------------'
 # echo '---------------------------------------------------------------'
-# echo ' Commandes GPG dans le conteneur kubeone#./install-helm.sh'
+# echo ' Commandes GPG dans le conteneur helm_operator#./install-helm.sh'
 # echo "----------------------- [$(pwd)] "
 # echo '---------------------------------------------------------------'
 # echo '---------------------------------------------------------------'
@@ -79,11 +80,12 @@ export HELM_CHECKSUMS_FILE_DWLD_URI="https://get.helm.sh/helm-v${HELM_VERSION}-$
 
 checkIntegrityUsingHelmChecksums () {
 
-  cat helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz.sha256 | grep ${HELM_OS} | grep ${HELM_CPU_ARCH} | tee ./helm.integrity.checksum
+  # cat helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz.sha256 | grep ${HELM_OS} | grep ${HELM_CPU_ARCH} | tee ./helm.integrity.checksum
+  echo "helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz.sha256 $(cat helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz.sha256)" | tee ./helm.integrity.checksum
   echo "------------------------------------------------------------------------"
-  echo " [$0#checkIntegrityUsingHelmChecksums ()] Contenu de [./helm_${HELM_VERSION}_SHA256SUMS]   "
+  echo " [$0#checkIntegrityUsingHelmChecksums ()] Contenu de [./helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz.sha256]   "
   echo "------------------------------------------------------------------------"
-  cat ./helm_${HELM_VERSION}_SHA256SUMS
+  cat ./helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz.sha256
   echo "------------------------------------------------------------------------"
   sha256sum -c ./helm.integrity.checksum
   if [ "$?" == "0" ]; then
@@ -92,19 +94,23 @@ checkIntegrityUsingHelmChecksums () {
   else
     echo "Integrity check failed for the downloaded helm version ${HELM_VERSION} package for ${HELM_OS} OS on ${HELM_CPU_ARCH} cpu"
     echo "check yourself the integrity breach running the following command : "
-    echo "   zip -T $(pwd)/helm_${HELM_VERSION}_${HELM_OS}_${HELM_CPU_ARCH}.zip"
+    echo "   sha256sum -c $(pwd)/helm.integrity.checksum"
     exit 5
   fi;
 }
 
+echo '-----------------------------------------------------------------------'
 # ---
 # That's where we 'll install Terraform on the nix system' filesystem
 # export HELM_INTALLATION_HOME=${BUMBLEBEE_HOME_INSIDE_CONTAINER}/helm/installation/${HELM_VERSION}
 echo " ENV CHECK - HELM_INTALLATION_HOME=[${BUMBLEBEE_HOME_INSIDE_CONTAINER}/helm/installation/${HELM_VERSION}]"
 # ---
 # Downloading Terraform executable
+echo '-----------------------------------------------------------------------'
 
 curl -LO "${HELM_PKG_DWLD_URI}"
+
+curl -LO "${HELM_CHECKSUMS_FILE_DWLD_URI}"
 
 ls -allh
 
@@ -112,20 +118,23 @@ installHelm () {
   # TODO create helm user group, and give ownership
   groupadd helm
   # Adding
-  usermod -aG helm ${BUMBLEBEE_LX_USERNAME}
+  # usermod -aG helm ${BUMBLEBEE_LX_USERNAME}
   mkdir -p ${HELM_INSTALLATION_HOME}/
-  tar -zxvf ./helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz -d ${HELM_INSTALLATION_HOME}/
+  tar -zxvf ./helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz -C ${HELM_INSTALLATION_HOME}/
   echo '-----------------------------------------------------------------------'
   echo "Le contenu de [HELM_INSTALLATION_HOME=[${HELM_INSTALLATION_HOME}]]"
   echo " juste après le dezippe : "
   echo '-----------------------------------------------------------------------'
   ls -allh ${HELM_INSTALLATION_HOME}/
   echo '-----------------------------------------------------------------------'
-  ln -s ${HELM_INSTALLATION_HOME}/helm /usr/local/bin/helm
+  sudo mv ${HELM_INSTALLATION_HOME}/${HELM_OS}-${HELM_CPU_ARCH}/helm /usr/bin/
+  ln -s /usr/bin/helm /usr/local/bin/helm
 }
 
+# ----------------------------------------------------------------------------
 # installHelm
 # helm --version
+# ----------------------------------------------------------------------------
 
 # chmod a+rwx ./helm_${HELM_VERSION}_${HELM_OS}_${HELM_CPU_ARCH}.zip
 echo ''
@@ -133,15 +142,13 @@ echo " Je suis ici [$(pwd)] et les fichiers présents sont : "
 echo '------------------------------------------------------------'
 ls -allh .
 echo '------------------------------------------------------------'
-echo " y a til [./helm_${HELM_VERSION}_${HELM_OS}_${HELM_CPU_ARCH}.zip] ?"
+echo " y a til [./helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz] ?"
 echo '------------------------------------------------------------'
-echo " test d'existence de [./helm_${HELM_VERSION}_${HELM_OS}_${HELM_CPU_ARCH}.zip] : "
+echo " test d'existence de [./helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz] : "
 echo '------------------------------------------------------------'
-ls -allh ./helm_${HELM_VERSION}_${HELM_OS}_${HELM_CPU_ARCH}.zip
+ls -allh ./helm-v${HELM_VERSION}-${HELM_OS}-${HELM_CPU_ARCH}.tar.gz
 echo '------------------------------------------------------------'
-echo " execution de [zip -T ./helm_${HELM_VERSION}_${HELM_OS}_${HELM_CPU_ARCH}.zip] : "
-echo '------------------------------------------------------------'
-echo ''
+
 # zip -T /go/helm_0.12.24_linux_amd64.zip
 # zip -T ./helm_${HELM_VERSION}_${HELM_OS}_${HELM_CPU_ARCH}.zip
 
@@ -149,8 +156,11 @@ echo ''
 if [ "$?" == "0" ]; then
   # echo "Successfully checked integrity of the downloaded helm version ${HELM_VERSION} package for ${HELM_OS} OS on ${HELM_CPU_ARCH} cpu"
   echo "Skipped checking integrity of the downloaded helm version ${HELM_VERSION} package for ${HELM_OS} OS on ${HELM_CPU_ARCH} cpu"
-  echo "Proceeding installation"
-  checkIntegrityUsingHelmChecksums
+  echo "skipping integrity checks because of https://github.com/helm/helm/issues/7838 (and I don't want to build from source at installation time, it is wrong pattern)"
+  echo "Proceeding with [Helm] installation"
+  # ---
+  # skipping integrity checks because of https://github.com/helm/helm/issues/7838 (and I don't want to build from source at installation time, it is wrong pattern)
+  # checkIntegrityUsingHelmChecksums
   installHelm
 else
   echo "Integrity check failed for the downloaded helm version ${HELM_VERSION} package for ${HELM_OS} OS on ${HELM_CPU_ARCH} cpu"
@@ -159,4 +169,10 @@ else
   exit 3
 fi;
 
-helm --version
+echo '------------------------------------------------------------'
+helm --help
+echo '------------------------------------------------------------'
+echo '--- HELM INSTALLATION COMPLETE'
+echo '------------------------------------------------------------'
+helm version
+echo '------------------------------------------------------------'

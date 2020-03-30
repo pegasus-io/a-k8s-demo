@@ -8,7 +8,7 @@ set -x
 # check that there is no need for virtualizaion to run
 # minikube with the '--vm-driver=none' option
 echo '---------------------------------------------------------------------------------'
-echo '---   VIRUTALIZATION CAPABILITIES OF CONTAINERIZATION HOST [$(hostname)] :'
+echo '---   VIRTUALIZATION CAPABILITIES OF CONTAINERIZATION HOST [$(hostname)] :'
 echo '---------------------------------------------------------------------------------'
 grep -E --color 'vmx|svm' /proc/cpuinfo
 echo '---------------------------------------------------------------------------------'
@@ -27,7 +27,7 @@ curl -Lo minikube https://storage.googleapis.com/minikube/releases/${MINIKUBE_VE
 
 chmod +x minikube
 
-# alsofor the minikube binary to be there :
+# also for the minikube binary to be there :
 # sudo mv ./minikube /usr/local/bin
 # If I added to /usr/local/bin, then, on some systems, the root
 # user does not have '/usr/local/bin' in PATH, but has '/usr/bin'
@@ -81,3 +81,12 @@ export CHANGE_MINIKUBE_NONE_USER=true
 sudo minikube start --apiserver-ips ${API_SERVER_IPSLICE} --apiserver-name minikube.pegasusio.io
 # ❗  The 'none' driver does not respect the --cpus flag
 # ---
+
+echo '---------------------------------------------------------------------------------'
+echo '---   Now configuring kubectl : '
+echo '---------------------------------------------------------------------------------'
+
+./oci/kubeone_operator/ansible.minikube/kubectl/configure-kubectl-on-minikube.sh
+
+# finally deploying Kubernetes dashboard
+sudo minikube dashboard

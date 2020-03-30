@@ -97,13 +97,13 @@ cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/terraform.tfvars .
 # Le code de génération d'une nouvelle clef est inutilisé, il
 # est laissé simplement pour des travaux ultérieurs.
 # ---
-aws ec2 create-key-pair --key-name creshKeyPair --query 'KeyMaterial' --output text > ./aws.creshkey.pem
+# aws ec2 create-key-pair --key-name creshKeyPair --query 'KeyMaterial' --output text > ./aws.creshkey.pem
 
 echo "$(ssh-keygen -y -f ./aws.creshkey.pem) bumblebee@pegasusio.io" > ./aws.creshkey.pub
-cp ./aws.creshkey.pem ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/
-cp ./aws.creshkey.pub ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/
-chmod 600 ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/aws.creshkey.pem
-chmod 644 ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/aws.creshkey.pub
+# cp ./aws.creshkey.pem ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/
+# cp ./aws.creshkey.pub ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/
+# chmod 600 ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/aws.creshkey.pem
+# chmod 644 ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.aws/aws.creshkey.pub
 
 # export FUSA_PUBKEY=$(cat ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/.secrets/.ssh/${BUMBLEBEE_SSH_PRIVATE_KEY_FILENAME}.pub)
 export FUSA_PUBKEY=$(cat ./aws.creshkey.pub)
@@ -112,6 +112,10 @@ echo ''
 echo "DEBUG FUSA_PUBKEY=[${FUSA_PUBKEY}]"
 echo ''
 sed -i "s#EC2_FUSA_SSH_AUTH_PUBKEY_JINJA2_VAR#${FUSA_PUBKEY}#g" ./terraform.tfvars
+
+export EC2_AMAZON_LINUX_2_AMI_ID=$(cat ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/beesecrets/amazon.linux.ami.id)
+sed -i "s#EC2_AMAZON_LINUX_2_AMI_ID_JINJA2_VAR#${EC2_AMAZON_LINUX_2_AMI_ID}#g" ./terraform.tfvars
+
 rm -f ./versions.tfvars
 cp ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/terraformation/versions.tfvars .
 
@@ -125,7 +129,6 @@ ls -allh $(pwd)/terraform.tfvars
 cat $(pwd)/terraform.tfvars
 echo '+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+'
 echo '+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+'
-
 
 
 # echo " # --- running init in [${BUMBLEBEE_HOME_INSIDE_CONTAINER}/workspace] " | tee -a ./kubeone.prepare.terraform.init.logs
@@ -156,6 +159,8 @@ echo '---  Now terraforming '
 echo '------------------------------------------------------------------------'
 terraform apply -auto-approve || exit 33
 
+terraform output public_elastic_ip > ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/beesecrets/public_elastic_ip
+
 export PUBLIC_EIP_OF_AWS_INSTANCE="$(terraform output public_elastic_ip)"
 echo '------------------------------------------------------------------------'
 echo "---  You can now SSH into your VM using ip address [${PUBLIC_EIP_OF_AWS_INSTANCE}] "
@@ -167,6 +172,7 @@ echo "---  ssh -i ${BUMBLEBEE_HOME_INSIDE_CONTAINER}/beesecrets/creshAWSSSHkey.p
 echo "---  "
 echo "---  # [outside containers on docker host] : "
 echo "---  "
+echo "---  chmod 600 ./beecli/creshAWSSSHkey.pem"
 echo "---  ssh -i ./beecli/creshAWSSSHkey.pem ec2-user@${PUBLIC_EIP_OF_AWS_INSTANCE}"
 echo "---  "
 echo '------------------------------------------------------------------------'
