@@ -82,6 +82,10 @@ sudo minikube start --apiserver-ips ${API_SERVER_IPSLICE} --apiserver-name minik
 # ❗  The 'none' driver does not respect the --cpus flag
 # ---
 
+echo '---------------------------------------------------------------------------------'
+echo '---   Now configuring kubectl : '
+echo '---------------------------------------------------------------------------------'
+
 ./oci/kubeone_operator/ansible.minikube/kubectl/configure-kubectl-on-minikube.sh
 
 # finally deploying Kubernetes dashboard
