@@ -156,8 +156,10 @@ kubectl describe services/nodeapp
 
 echo "now your app is available on http://\${YOU_K8S_CLUSTER_IP}:${NODE_PORT}"
 
-kubectl scale --replicas=2 deployment/nodeapp
-
+echo "Let's scale it out to 25 Replicas : "
+kubectl scale --replicas=25 deployment/nodeapp
+echo "Pods will multiply, when hits frow on app : "
+kubectl get pods -l app=mongo
 kubectl get pods -l app=nodeapp --watch
 
 ```
