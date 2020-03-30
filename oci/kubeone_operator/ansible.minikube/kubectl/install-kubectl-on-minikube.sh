@@ -113,6 +113,7 @@ mkdir -p ~/.kube
 
 sudo cp -fR /root/.kube/ ~/
 sudo chown -R ec2-user:ec2-user ~/.kube
+sudo chmod -R o+rw ~/.kube
 # sudo cp -fR ${KUBECTL_MINIKUBE_CA_CERT_PATH} ~/.kube
 # sudo cp -fR ${KUBECTL_CLIENT_CERT_PATH} ~/.kube
 # sudo cp -fR ${KUBECTL_CLIENT_KEY_PATH} ~/.kube
@@ -121,6 +122,7 @@ sudo chown -R ec2-user:ec2-user ~/.kube
 # Adding the minikube profile to the non root operator
 sudo cp -fR /root/.minikube ~/
 sudo chown -R ec2-user:ec2-user ~/.minikube
+sudo chmod -R o+rw ~/.minikube
 
 
 
