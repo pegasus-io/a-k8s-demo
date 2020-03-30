@@ -8,7 +8,7 @@ set -x
 # check that there is no need for virtualizaion to run
 # minikube with the '--vm-driver=none' option
 echo '---------------------------------------------------------------------------------'
-echo '---   VIRUTALIZATION CAPABILITIES OF CONTAINERIZATION HOST [$(hostname)] :'
+echo '---   VIRTUALIZATION CAPABILITIES OF CONTAINERIZATION HOST [$(hostname)] :'
 echo '---------------------------------------------------------------------------------'
 grep -E --color 'vmx|svm' /proc/cpuinfo
 echo '---------------------------------------------------------------------------------'
