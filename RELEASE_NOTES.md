@@ -53,6 +53,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker.service
 
 sudo yum update -y
+
 ```
   * then execute this, to install `minikube` :
 

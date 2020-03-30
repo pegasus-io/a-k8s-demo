@@ -81,3 +81,8 @@ export CHANGE_MINIKUBE_NONE_USER=true
 sudo minikube start --apiserver-ips ${API_SERVER_IPSLICE} --apiserver-name minikube.pegasusio.io
 # ❗  The 'none' driver does not respect the --cpus flag
 # ---
+
+./oci/kubeone_operator/ansible.minikube/kubectl/configure-kubectl-on-minikube.sh
+
+# finally deploying Kubernetes dashboard
+sudo minikube dashboard
