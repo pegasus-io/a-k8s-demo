@@ -100,7 +100,7 @@ sudo mv ./kubectl /usr/bin
 
 kubectl version --client
 
-
+exit 0
 
 export KUBECTL_MINIKUBE_CA_CERT_PATH=$(sudo cat /root/.kube/config|grep certificate-authority| awk '{print $2}')
 export KUBECTL_MINIKUBE_CA_CERT_FILENAME=$(echo ${KUBECTL_MINIKUBE_CA_CERT_PATH}|awk -F '/' '{print $NF}')
